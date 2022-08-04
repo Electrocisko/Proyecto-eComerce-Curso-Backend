@@ -30,4 +30,27 @@ router.post("/products", upLoader.single("file"), async (req, res) => {
   });
 });
 
+router.delete("/products/:prodId", async (req, res) => {
+    let productID = req.params.prodId;
+    if (isNaN(productID))
+      return res.status(400).send("El id tiene que ser numerico");
+    await useProductsManager.deleteById(parseInt(productID));
+    res.send({
+      message: "Producto Eliminado",
+    });
+  });
+
+
+router.put("/products/:prodId", async (req, res) => {
+    let products = await useProductsManager.getAll();
+    let productID = req.params.prodId;
+    if (isNaN(productID))
+      return res.status(400).send("El id tiene que ser numerico");
+      let modifiedProduct = req.body;
+    await useProductsManager.updateProduct(modifiedProduct);
+    res.send({
+      message: "Producto Modificado con PUT",
+    });
+  });
+
 export default router;

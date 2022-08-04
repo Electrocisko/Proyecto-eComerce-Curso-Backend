@@ -60,6 +60,30 @@ class ProductsManager {
     }
   };
 
+  // Metodo que borra un producto por id
+  deleteById = async (id) => {
+    let productToDelete = await this.getById(id); // Busco el objeto por id
+    if (productToDelete === null) {
+      console.log("El producto no esta en la lista");
+    } else {
+      let productsList = await this.getAll(); // recupero los datos
+      let indice = await productsList.findIndex((item) => item.id === id); //Busco el indice del objeto por id
+      productsList.splice(indice, 1); // Elimino del array el objeto y actualizo el archivo
+      await fs.promises.writeFile(
+        path,
+        JSON.stringify(productsList, null, "\t")
+      );
+    }
+  };
+
+
+
+
+  
+
+  updateProduct = async (obj) => {
+    console.log('update obj',obj)
+  };
 
 
 
