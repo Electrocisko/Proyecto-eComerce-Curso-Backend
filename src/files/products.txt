@@ -1,0 +1,20 @@
+[
+	{
+		"title": "Papa Fritas",
+		"price": "200",
+		"thumbnail": "1658424218728-fritas.png",
+		"id": 1
+	},
+	{
+		"title": "Mostaza",
+		"price": "300",
+		"thumbnail": "1658424245052-aderezo.png",
+		"id": 2
+	},
+	{
+		"title": "Pollo",
+		"price": "1200",
+		"thumbnail": "1659379073987-arroz.png",
+		"id": 3
+	}
+]
