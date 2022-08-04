@@ -4,7 +4,6 @@ import __dirname from './utils.js';
 import productsRouter from "./routes/products.router.js";
 
 
-
 const app = express();
 const PORT = process.env.PORT || 8080;
 

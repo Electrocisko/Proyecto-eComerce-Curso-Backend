@@ -16,5 +16,11 @@
 		"price": "1200",
 		"thumbnail": "1659379073987-arroz.png",
 		"id": 3
+	},
+	{
+		"title": "Probando si graba",
+		"price": "2023",
+		"thumbnail": "1659641316111-aderezo.png",
+		"id": 4
 	}
 ]
