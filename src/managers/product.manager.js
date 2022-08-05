@@ -1,5 +1,6 @@
 import fs from "fs";
 import __dirname from "../utils.js";
+import {nanoid} from 'nanoid'; // instale nanoid para generar Ids aleatorios
 
 let path = __dirname + "/files/products.txt";
 
@@ -36,24 +37,16 @@ class ProductsManager {
   save = async (newProduct, idProd) => {
     try {
       let productsList = await this.getAll();
-      if (productsList.length === 0) {
-        newProduct.id = 1;
-        productsList.push(newProduct);
-        await fs.promises.writeFile(
-          path,
-          JSON.stringify(productsList, null, "\t")
-        );
-      } else {
         // Ternario si recibe segundo parametro o no.
         idProd === undefined
-          ? (newProduct.id = productsList.length + 1)
+          ? (newProduct.id = nanoid(5)) //Utilizo nanoid con 5 caracteres
           : (newProduct.id = idProd);
         productsList.push(newProduct);
         await fs.promises.writeFile(
           path,
           JSON.stringify(productsList, null, "\t")
         );
-      }
+      
       return newProduct.id;
     } catch (error) {
       console.log("no se pudo grabar", error);
@@ -75,17 +68,6 @@ class ProductsManager {
       );
     }
   };
-
-
-
-
-  
-
-  updateProduct = async (obj) => {
-    console.log('update obj',obj)
-  };
-
-
 
 
 }
