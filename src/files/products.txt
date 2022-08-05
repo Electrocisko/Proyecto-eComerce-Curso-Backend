@@ -9,6 +9,12 @@
 		"title": "Pollo",
 		"price": "1200",
 		"thumbnail": "1659379073987-arroz.png",
+		"id": 2
+	},
+	{
+		"title": "Hamburguesa",
+		"price": "500",
+		"thumbnail": "1659709181779-hamburguesa.png",
 		"id": 3
 	}
 ]

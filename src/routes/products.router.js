@@ -41,16 +41,25 @@ router.delete("/products/:prodId", async (req, res) => {
   });
 
 
-router.put("/products/:prodId", async (req, res) => {
-    let products = await useProductsManager.getAll();
+router.put("/products/:prodId",upLoader.single("file"), async (req, res) => {
     let productID = req.params.prodId;
     if (isNaN(productID))
       return res.status(400).send("El id tiene que ser numerico");
       let modifiedProduct = req.body;
-    await useProductsManager.updateProduct(modifiedProduct);
+      modifiedProduct.thumbnail = req.file.filename;
+    let existsProduct = useProductsManager.getById;
+    if (existsProduct === null ) {return res.status(400).send("Producto inexistente")};
+    await useProductsManager.deleteById(parseInt(productID));
+    await useProductsManager.save(modifiedProduct,parseInt(productID));
     res.send({
       message: "Producto Modificado con PUT",
     });
   });
+
+
+
+
+
+
 
 export default router;
