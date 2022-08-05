@@ -23,6 +23,7 @@ router.get("/products/:prodId", async (req, res) => {
 router.post("/products", upLoader.single("thumbnail"), async (req, res) => {
   let newProduct = req.body;
   newProduct.thumbnail = req.file.filename;
+  newProduct.timestamp = Date.now();
   let productID = await useProductsManager.save(newProduct);
   res.send({
     message: "Producto adherido",
@@ -47,6 +48,7 @@ router.put("/products/:prodId",upLoader.single("thumbnail"), async (req, res) =>
       return res.status(400).send("El id tiene que ser numerico");
       let modifiedProduct = req.body;
       modifiedProduct.thumbnail = req.file.filename;
+      modifiedProduct.timestamp = Date.now();
     let existsProduct = useProductsManager.getById;
     if (existsProduct === null ) {return res.status(400).send("Producto inexistente")};
     await useProductsManager.deleteById(parseInt(productID));

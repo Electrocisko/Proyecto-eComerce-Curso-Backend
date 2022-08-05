@@ -1,42 +1,42 @@
 [
 	{
-		"timestamp": "05/08/2022",
 		"name": "Casa de Fantasia",
 		"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-		"code": "hdhehee",
+		"code": "CDF",
 		"price": "850",
-		"stock": "10",
-		"thumbnail": "1659718298538-casita.jpg",
+		"stock": "8",
+		"thumbnail": "1659719999606-casita.jpg",
+		"timestamp": 1659719999611,
 		"id": 1
 	},
 	{
-		"timestamp": "05/08/2022",
 		"name": "Azulejo Delft",
 		"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-		"code": "tejel-delft",
+		"code": "AD",
 		"price": "850",
-		"stock": "10",
-		"thumbnail": "1659718813883-azulejo-delft.jpg",
+		"stock": "6",
+		"thumbnail": "1659720083857-azulejo-delft.jpg",
+		"timestamp": 1659720083858,
 		"id": 2
 	},
 	{
-		"timestamp": "05/08/2022",
 		"name": "Bombonera",
 		"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-		"code": "tafel-delft",
+		"code": "BBN",
 		"price": "1300",
 		"stock": "10",
-		"thumbnail": "1659719013427-Bombonera.jpg",
+		"thumbnail": "1659720161940-Bombonera.jpg",
+		"timestamp": 1659720161942,
 		"id": 3
 	},
 	{
-		"timestamp": "05/08/2022",
 		"name": "Cremera",
 		"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
-		"code": "tafel-delft2xh",
+		"code": "CMA",
 		"price": "2100",
 		"stock": "8",
-		"thumbnail": "1659719226048-cremera.jpg",
+		"thumbnail": "1659720217231-cremera.jpg",
+		"timestamp": 1659720217232,
 		"id": 4
 	}
 ]
