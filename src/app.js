@@ -13,6 +13,7 @@ app.use("/", express.static(__dirname + "/public"));
 app.use("/api", productsRouter);
 
 
+
 const server = app.listen(PORT, () => {
     console.log(
       `Servidor escuchando en http://localhost:${server.address().port}`
