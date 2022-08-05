@@ -20,7 +20,7 @@ router.get("/products/:prodId", async (req, res) => {
     : res.end('{ "error" : "producto inexistente"}');
 });
 
-router.post("/products", upLoader.single("file"), async (req, res) => {
+router.post("/products", upLoader.single("thumbnail"), async (req, res) => {
   let newProduct = req.body;
   newProduct.thumbnail = req.file.filename;
   let productID = await useProductsManager.save(newProduct);
@@ -41,7 +41,7 @@ router.delete("/products/:prodId", async (req, res) => {
   });
 
 
-router.put("/products/:prodId",upLoader.single("file"), async (req, res) => {
+router.put("/products/:prodId",upLoader.single("thumbnail"), async (req, res) => {
     let productID = req.params.prodId;
     if (isNaN(productID))
       return res.status(400).send("El id tiene que ser numerico");

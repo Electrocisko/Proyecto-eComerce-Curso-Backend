@@ -1,20 +1,42 @@
 [
 	{
-		"title": "Papa Fritas",
-		"price": "200",
-		"thumbnail": "1658424218728-fritas.png",
+		"timestamp": "05/08/2022",
+		"name": "Casa de Fantasia",
+		"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+		"code": "hdhehee",
+		"price": "850",
+		"stock": "10",
+		"thumbnail": "1659718298538-casita.jpg",
 		"id": 1
 	},
 	{
-		"title": "Pollo",
-		"price": "1200",
-		"thumbnail": "1659379073987-arroz.png",
+		"timestamp": "05/08/2022",
+		"name": "Azulejo Delft",
+		"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+		"code": "tejel-delft",
+		"price": "850",
+		"stock": "10",
+		"thumbnail": "1659718813883-azulejo-delft.jpg",
 		"id": 2
 	},
 	{
-		"title": "Hamburguesa",
-		"price": "500",
-		"thumbnail": "1659709181779-hamburguesa.png",
+		"timestamp": "05/08/2022",
+		"name": "Bombonera",
+		"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+		"code": "tafel-delft",
+		"price": "1300",
+		"stock": "10",
+		"thumbnail": "1659719013427-Bombonera.jpg",
 		"id": 3
+	},
+	{
+		"timestamp": "05/08/2022",
+		"name": "Cremera",
+		"description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+		"code": "tafel-delft2xh",
+		"price": "2100",
+		"stock": "8",
+		"thumbnail": "1659719226048-cremera.jpg",
+		"id": 4
 	}
 ]
