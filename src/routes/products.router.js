@@ -13,9 +13,7 @@ router.get("/products", async (req, res) => {
 
 router.get("/products/:prodId", async (req, res) => {
   let productId = req.params.prodId;
-  if (isNaN(productId))
-    return res.status(400).send("El id tiene que ser numerico");
-  let product = await useProductsManager.getById(parseInt(productId));
+  let product = await useProductsManager.getById(productId);
   product !== null
     ? res.end(JSON.stringify(product))
     : res.end('{ "error" : "producto inexistente"}');
@@ -62,8 +60,6 @@ router.put(
         .send("No tiene los permisos necesario para esta operacion");
     }
     let productID = req.params.prodId;
-    if (isNaN(productID))
-      return res.status(400).send("El id tiene que ser numerico");
     let modifiedProduct = req.body;
     modifiedProduct.thumbnail = req.file.filename;
     modifiedProduct.timestamp = Date.now();
@@ -71,8 +67,8 @@ router.put(
     if (existsProduct === null) {
       return res.status(400).send("Producto inexistente");
     }
-    await useProductsManager.deleteById(parseInt(productID));
-    await useProductsManager.save(modifiedProduct, parseInt(productID));
+    await useProductsManager.deleteById(productID);
+    await useProductsManager.save(modifiedProduct, productID);
     res.send({
       message: "Producto Modificado con PUT",
     });
