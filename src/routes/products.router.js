@@ -11,8 +11,8 @@ router.get("/products", async (req, res) => {
   res.end(allProducts);
 });
 
-router.get("/products/:prodId", async (req, res) => {
-  let productId = req.params.prodId;
+router.get("/products/:pid", async (req, res) => {
+  let productId = req.params.pid;
   let product = await useProductsManager.getById(productId);
   product !== null
     ? res.end(JSON.stringify(product))
@@ -35,23 +35,21 @@ router.post("/products", upLoader.single("thumbnail"), async (req, res) => {
   });
 });
 
-router.delete("/products/:prodId", async (req, res) => {
+router.delete("/products/:pid", async (req, res) => {
   if (admin !== true) {
     return res
       .status(403)
       .send("No tiene los permisos necesario para esta operacion");
   }
-  let productID = req.params.prodId;
-  if (isNaN(productID))
-    return res.status(400).send("El id tiene que ser numerico");
-  await useProductsManager.deleteById(parseInt(productID));
+  let productID = req.params.pid;
+  await useProductsManager.deleteById(productID);
   res.send({
     message: "Producto Eliminado",
   });
 });
 
 router.put(
-  "/products/:prodId",
+  "/products/:pid",
   upLoader.single("thumbnail"),
   async (req, res) => {
     if (admin !== true) {
@@ -59,7 +57,7 @@ router.put(
         .status(403)
         .send("No tiene los permisos necesario para esta operacion");
     }
-    let productID = req.params.prodId;
+    let productID = req.params.pid;
     let modifiedProduct = req.body;
     modifiedProduct.thumbnail = req.file.filename;
     modifiedProduct.timestamp = Date.now();
