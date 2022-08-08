@@ -6,12 +6,12 @@ const router = Router();
 let useProductsManager = new ProductsManager();
 let admin = true; // validate the user
 
-router.get("/products", async (req, res) => {
+router.get("/", async (req, res) => {
   let allProducts = JSON.stringify(await useProductsManager.getAll());
   res.end(allProducts);
 });
 
-router.get("/products/:pid", async (req, res) => {
+router.get("/:pid", async (req, res) => {
   let productId = req.params.pid;
   let product = await useProductsManager.getById(productId);
   product !== null
@@ -19,7 +19,7 @@ router.get("/products/:pid", async (req, res) => {
     : res.end('{ "error" : "producto inexistente"}');
 });
 
-router.post("/products", upLoader.single("thumbnail"), async (req, res) => {
+router.post("/", upLoader.single("thumbnail"), async (req, res) => {
   if (admin !== true) {
     return res
       .status(403)
@@ -35,7 +35,7 @@ router.post("/products", upLoader.single("thumbnail"), async (req, res) => {
   });
 });
 
-router.delete("/products/:pid", async (req, res) => {
+router.delete("/:pid", async (req, res) => {
   if (admin !== true) {
     return res
       .status(403)
@@ -48,29 +48,25 @@ router.delete("/products/:pid", async (req, res) => {
   });
 });
 
-router.put(
-  "/products/:pid",
-  upLoader.single("thumbnail"),
-  async (req, res) => {
-    if (admin !== true) {
-      return res
-        .status(403)
-        .send("No tiene los permisos necesario para esta operacion");
-    }
-    let productID = req.params.pid;
-    let modifiedProduct = req.body;
-    modifiedProduct.thumbnail = req.file.filename;
-    modifiedProduct.timestamp = Date.now();
-    let existsProduct = useProductsManager.getById;
-    if (existsProduct === null) {
-      return res.status(400).send("Producto inexistente");
-    }
-    await useProductsManager.deleteById(productID);
-    await useProductsManager.save(modifiedProduct, productID);
-    res.send({
-      message: "Producto Modificado con PUT",
-    });
+router.put("/:pid", upLoader.single("thumbnail"), async (req, res) => {
+  if (admin !== true) {
+    return res
+      .status(403)
+      .send("No tiene los permisos necesario para esta operacion");
   }
-);
+  let productID = req.params.pid;
+  let modifiedProduct = req.body;
+  modifiedProduct.thumbnail = req.file.filename;
+  modifiedProduct.timestamp = Date.now();
+  let existsProduct = useProductsManager.getById;
+  if (existsProduct === null) {
+    return res.status(400).send("Producto inexistente");
+  }
+  await useProductsManager.deleteById(productID);
+  await useProductsManager.save(modifiedProduct, productID);
+  res.send({
+    message: "Producto Modificado con PUT",
+  });
+});
 
 export default router;

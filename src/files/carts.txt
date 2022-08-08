@@ -11,24 +11,6 @@
 				"quantity": 3
 			},
 			{
-				"product": "WA-wi",
-				"quantity": 2
-			},
-			{
-				"product": "PtDgT",
-				"quantity": 2
-			}
-		],
-		"timestamp": 1659805287846,
-		"id": "ALjTqK"
-	},
-	{
-		"products": [
-			{
-				"product": "Mb5Zk",
-				"quantity": 3
-			},
-			{
 				"product": "3NbST",
 				"quantity": 6
 			},
@@ -62,5 +44,19 @@
 		],
 		"timestamp": 1659976584234,
 		"id": "YStwEV"
+	},
+	{
+		"products": [
+			{
+				"product": "Mb5Zk",
+				"quantity": 3
+			},
+			{
+				"product": "WA-wi",
+				"quantity": 2
+			}
+		],
+		"timestamp": 1659805287846,
+		"id": "ALjTqK"
 	}
 ]

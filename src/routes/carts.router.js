@@ -7,13 +7,13 @@ let useCartManager = new CartManager();
 let useProductsManager = new ProductsManager();
 let admin = true; // validate the user
 
-router.get("/carts", async (req, res) => {
+router.get("/", async (req, res) => {
   let allCarts = JSON.stringify(await useCartManager.getAll());
   res.end(allCarts);
 });
 
 // Agrega un carrito y devuelve el id
-router.post("/carts", async (req, res) => {
+router.post("/", async (req, res) => {
   if (admin !== true) {
     return res
       .status(403)
@@ -32,7 +32,7 @@ router.post("/carts", async (req, res) => {
 });
 
 ///////// para borrar carrito
-router.delete("/carts/:cid", async (req, res) => {
+router.delete("/:cid", async (req, res) => {
   if (admin !== true) {
     return res
       .status(403)
@@ -46,7 +46,7 @@ router.delete("/carts/:cid", async (req, res) => {
 });
 
 ///////////Para obtener productos del carrito
-router.get("/carts/:cid/products", async (req, res) => {
+router.get("/:cid/products", async (req, res) => {
   if (admin !== true) {
     return res
       .status(403)
@@ -76,7 +76,7 @@ router.get("/carts/:cid/products", async (req, res) => {
 });
 
 ////////////////// Para incorporar productos al carrito por su id del producto
-router.post("/carts/:cid/products", async (req, res) => {
+router.post("/:cid/products", async (req, res) => {
   if (admin !== true) {
     return res
       .status(403)
@@ -116,7 +116,7 @@ router.post("/carts/:cid/products", async (req, res) => {
 });
 
 ////////////////Para borrar productos del carrito////////////
-router.delete("/carts/:cid/products/:pid", async (req, res) => {
+router.delete("/:cid/products/:pid", async (req, res) => {
   let productID = req.params.pid;
   let cartID = req.params.cid;
   let cart = await useCartManager.getById(cartID);
@@ -135,10 +135,8 @@ router.delete("/carts/:cid/products/:pid", async (req, res) => {
       message: "Error no existe el producto en carrito",
     });
   }
-
   // Aca va la logica de borrar o vaciar.
-
-  productsInCart.splice(indice, 1); // Elemino el producto del array
+  productsInCart.splice(prodIndex, 1); // Elemino el producto del array
   cart.products = productsInCart; // Actualizo el array
   await useCartManager.deleteById(cartID);
   await useCartManager.save(cart, cartID);

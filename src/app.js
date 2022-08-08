@@ -10,8 +10,8 @@ const PORT = process.env.PORT || 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", express.static(__dirname + "/public"));
-app.use("/api", productsRouter);
-app.use("/api", cartsRouter);
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartsRouter);
 
 const server = app.listen(PORT, () => {
     console.log(
