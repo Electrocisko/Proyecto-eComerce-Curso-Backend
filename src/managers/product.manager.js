@@ -1,6 +1,6 @@
 import fs from "fs";
 import __dirname from "../utils.js";
-import {nanoid} from 'nanoid'; // instale nanoid para generar Ids aleatorios
+import { nanoid } from "nanoid"; // instale nanoid para generar Ids aleatorios
 
 let path = __dirname + "/files/products.txt";
 
@@ -20,10 +20,10 @@ class ProductsManager {
     }
   };
 
-   // Metodo que devuelve el product por id o null si no hay coincidencia.
-   getById = async (id) => {
+  // Metodo que devuelve el product por id o null si no hay coincidencia.
+  getById = async (id) => {
     let productsList = await this.getAll();
-    const foundProduct = productsList.find(element => element.id === id);
+    const foundProduct = productsList.find((element) => element.id === id);
     if (foundProduct !== undefined) {
       return foundProduct;
     } else {
@@ -37,16 +37,16 @@ class ProductsManager {
   save = async (newProduct, idProd) => {
     try {
       let productsList = await this.getAll();
-        // Ternario si recibe segundo parametro o no.
-        idProd === undefined
-          ? (newProduct.id = nanoid(5)) //Utilizo nanoid con 5 caracteres
-          : (newProduct.id = idProd);
-        productsList.push(newProduct);
-        await fs.promises.writeFile(
-          path,
-          JSON.stringify(productsList, null, "\t")
-        );
-      
+      // Ternario si recibe segundo parametro o no.
+      idProd === undefined
+        ? (newProduct.id = nanoid(5)) //Utilizo nanoid con 5 caracteres
+        : (newProduct.id = idProd);
+      productsList.push(newProduct);
+      await fs.promises.writeFile(
+        path,
+        JSON.stringify(productsList, null, "\t")
+      );
+
       return newProduct.id;
     } catch (error) {
       console.log("no se pudo grabar", error);
@@ -68,8 +68,6 @@ class ProductsManager {
       );
     }
   };
-
-
 }
 
 export default ProductsManager;

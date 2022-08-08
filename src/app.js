@@ -1,5 +1,5 @@
-import express from 'express';
-import __dirname from './utils.js';
+import express from "express";
+import __dirname from "./utils.js";
 // import viewsRouter from "./routes/views.router.js";
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
@@ -14,11 +14,11 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 
 const server = app.listen(PORT, () => {
-    console.log(
-      `Servidor escuchando en http://localhost:${server.address().port}`
-    );
-  });
-  
-  server.on("Error", (error) => {
-    console.log("Error en el servidor", error);
-  });
+  console.log(
+    `Servidor escuchando en http://localhost:${server.address().port}`
+  );
+});
+
+server.on("Error", (error) => {
+  console.log("Error en el servidor", error);
+});

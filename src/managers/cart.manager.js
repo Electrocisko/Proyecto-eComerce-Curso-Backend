@@ -4,7 +4,6 @@ import fs from "fs";
 
 let path = __dirname + "/files/carts.txt";
 
-// El carrito tiene que tener id, timestamp, un array de productos(solo el id)
 
 class CartManager {
   getAll = async () => {
