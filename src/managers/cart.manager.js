@@ -45,7 +45,6 @@ class CartManager {
   };
 
   deleteById = async (id) => {
-    console.log(id);
     let cartToDelete = await this.getById(id); // Busco el cart por id
     if (cartToDelete === null) {
       console.log("El producto no esta en la lista");

@@ -1,4 +1,4 @@
-import { Router } from "express";
+import e, { Router } from "express";
 import CartManager from "../managers/cart.manager.js";
 import ProductsManager from "../managers/product.manager.js";
 
@@ -21,9 +21,9 @@ router.post("/carts", async (req, res) => {
       .send("No tiene los permisos necesario para esta operacion");
   }
   let newCart = req.body;
-  if (newCart.carts === undefined) {
-    newCart.carts = [];
-  } //Si se declara sin carts se agrega un array vacio
+  if (newCart.products === undefined) {
+    newCart.products = [];
+  } //Si desde el body no se envia ningun array de productos, se agrega un array vacio
   newCart.timestamp = Date.now();
   let newCartId = await useCartManager.save(newCart);
   res.send({
@@ -46,7 +46,8 @@ router.delete("/carts/:cid", async (req, res) => {
     message: "carito Eliminado",
   });
 });
-///////////PAra obtener productos del carrito
+
+///////////Para obtener productos del carrito
 router.get("/carts/:cid/products", async (req, res) => {
   if (admin !== true) {
     return res
@@ -56,7 +57,7 @@ router.get("/carts/:cid/products", async (req, res) => {
   let cartID = req.params.cid;
   let cart = await useCartManager.getById(cartID);
   if (cart === null) {
-    return res.end('{ "error" : "producto inexistente"}');
+    return res.end('{ "error" : "carrito inexistente"}');
   }
   //Falta que devuelva detalle del objeto
   res.send({
@@ -74,12 +75,26 @@ router.post("/carts/:cid/products", async (req, res) => {
   let cartID = req.params.cid;
   let cart = await useCartManager.getById(cartID);
   if (cart === null) {
-    return res.end('{ "error" : "producto inexistente"}');
+    return res.end('{ "error" : "Carrito inexistente"}');
   }
   let newProduct = req.body;
+  console.log('newproduct',newProduct) //Cheque interno de desarollo
   let existProduct = await useProductsManager.getById(newProduct.product);
-  console.log('exist?',existProduct)
-  cart.products.push(newProduct); //Actualizo el cart con el producto agregado
+  console.log(newProduct.product)
+  if (existProduct === null) { return res.status(400).send('{"error": "Producto inexsistente')}
+  let productsInCart = cart.products;
+  const prodIndex = productsInCart.findIndex(
+    (item) => item.product === newProduct.product
+  );
+  if (prodIndex === -1){ // Si no hay productos se agrega directo
+    productsInCart.push(newProduct); //Actualizo el cart con el producto agregado
+  }
+  else {
+    let newCuantity = productsInCart[prodIndex].quantity + newProduct.quantity;
+    newProduct.quantity = newCuantity;
+    productsInCart.splice(prodIndex,1); // Elimino el viejo objeto y
+    productsInCart.push(newProduct);// pusheo el nuevo objeto actualizado
+  }
   await useCartManager.deleteById(cartID);
   await useCartManager.save(cart, cartID);
   res.send({
@@ -100,14 +115,17 @@ router.delete("/carts/:cid/products/:pid", async (req, res) => {
   }
   // Tengo que obtener el array de productos del carro
   let productsInCart = cart.products;
-  let indice = await productsInCart.findIndex(
+  let prodIndex = await productsInCart.findIndex(
     (item) => item.product === productID
   );
-  if (indice === -1) {
+  if (prodIndex === -1) {
     return res.send({
       message: "Error no existe el producto en carrito",
     });
   }
+
+// Aca va la logica de borrar o vaciar.
+
   productsInCart.splice(indice, 1); // Elemino el producto del array
   cart.products = productsInCart; // Actualizo el array
   await useCartManager.deleteById(cartID);

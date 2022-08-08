@@ -23,9 +23,9 @@ class ProductsManager {
    // Metodo que devuelve el product por id o null si no hay coincidencia.
    getById = async (id) => {
     let productsList = await this.getAll();
-    let product = productsList.find((item) => item.id === id);
-    if (product !== undefined) {
-      return product;
+    const foundProduct = productsList.find(element => element.id === id);
+    if (foundProduct !== undefined) {
+      return foundProduct;
     } else {
       return null;
     }
