@@ -33,7 +33,7 @@ class CartManager {
     }
   };
 
-  // Metodo que devuelve el product por id o null si no hay coincidencia.
+  // Metodo que devuelve el cart por id o null si no hay coincidencia.
   getById = async (id) => {
     let cartsList = await this.getAll();
     let cart = cartsList.find((item) => item.id === id);

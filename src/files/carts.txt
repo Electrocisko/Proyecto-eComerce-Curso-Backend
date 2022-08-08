@@ -58,14 +58,6 @@
 			{
 				"product": "bv5WJ",
 				"quantity": 35
-			},
-			{
-				"product": "Mb5Zk",
-				"quantity": 5
-			},
-			{
-				"product": "WA-wi",
-				"quantity": 5
 			}
 		],
 		"timestamp": 1659976584234,
