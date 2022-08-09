@@ -49,6 +49,9 @@ router.get("/:cid/products", async (req, res) => {
       if (element.product === item.id) {
         showList.push({
           product: item.name,
+          productId: item.id,
+          price: item.price,
+          stock: item.stock,
           cuantity: element.quantity,
         });
       }

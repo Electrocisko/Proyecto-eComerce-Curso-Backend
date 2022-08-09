@@ -4,7 +4,6 @@ import fs from "fs";
 
 let path = __dirname + "/files/carts.txt";
 
-
 class CartManager {
   getAll = async () => {
     try {
@@ -16,7 +15,7 @@ class CartManager {
         return data;
       }
     } catch (error) {
-      console.log("No se pudo acceder", error);
+      console.log("could not access", error);
     }
   };
 
@@ -28,11 +27,11 @@ class CartManager {
       await fs.promises.writeFile(path, JSON.stringify(cartsList, null, "\t"));
       return newCart.id;
     } catch (error) {
-      console.log("no se pudo grabar", error);
+      console.log("could not record", error);
     }
   };
 
-  // Metodo que devuelve el cart por id o null si no hay coincidencia.
+  // Method that returns the cart by id or null if there is no match.
   getById = async (id) => {
     let cartsList = await this.getAll();
     let cart = cartsList.find((item) => item.id === id);
@@ -44,13 +43,13 @@ class CartManager {
   };
 
   deleteById = async (id) => {
-    let cartToDelete = await this.getById(id); // Busco el cart por id
+    let cartToDelete = await this.getById(id); // I look for the cart by id
     if (cartToDelete === null) {
-      console.log("El producto no esta en la lista");
+      console.log("The product is not in the list");
     } else {
-      let cartsList = await this.getAll(); // recupero los datos
-      let indice = await cartsList.findIndex((item) => item.id === id); //Busco el indice del objeto por id
-      cartsList.splice(indice, 1); // Elimino del array el objeto y actualizo el archivo
+      let cartsList = await this.getAll(); // I recover the data
+      let indice = await cartsList.findIndex((item) => item.id === id); //I look for the index of the object by id
+      cartsList.splice(indice, 1); // I remove the object from the array and update the file
       await fs.promises.writeFile(path, JSON.stringify(cartsList, null, "\t"));
     }
   };

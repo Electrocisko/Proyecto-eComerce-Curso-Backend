@@ -1,11 +1,10 @@
 import fs from "fs";
 import __dirname from "../utils.js";
-import { nanoid } from "nanoid"; // instale nanoid para generar Ids aleatorios
+import { nanoid } from "nanoid"; // nanoid to generate random Ids
 
 let path = __dirname + "/files/products.txt";
 
 class ProductsManager {
-  // Metodo que devuelve todos
   getAll = async () => {
     try {
       if (fs.existsSync(path)) {
@@ -20,7 +19,6 @@ class ProductsManager {
     }
   };
 
-  // Metodo que devuelve el product por id o null si no hay coincidencia.
   getById = async (id) => {
     let productsList = await this.getAll();
     const foundProduct = productsList.find((element) => element.id === id);
@@ -31,15 +29,11 @@ class ProductsManager {
     }
   };
 
-  // Metodo que recibe un newProduct y lo graba en el archivo.
-  //Modifique el metodo para que reciba un segundo parametro
-  //Si recibe el segundo parametro se utiliza este para darle el id.
   save = async (newProduct, idProd) => {
     try {
       let productsList = await this.getAll();
-      // Ternario si recibe segundo parametro o no.
       idProd === undefined
-        ? (newProduct.id = nanoid(5)) //Utilizo nanoid con 5 caracteres
+        ? (newProduct.id = nanoid(5))
         : (newProduct.id = idProd);
       productsList.push(newProduct);
       await fs.promises.writeFile(
@@ -53,15 +47,14 @@ class ProductsManager {
     }
   };
 
-  // Metodo que borra un producto por id
   deleteById = async (id) => {
-    let productToDelete = await this.getById(id); // Busco el objeto por id
+    let productToDelete = await this.getById(id);
     if (productToDelete === null) {
       console.log("El producto no esta en la lista");
     } else {
-      let productsList = await this.getAll(); // recupero los datos
-      let indice = await productsList.findIndex((item) => item.id === id); //Busco el indice del objeto por id
-      productsList.splice(indice, 1); // Elimino del array el objeto y actualizo el archivo
+      let productsList = await this.getAll();
+      let indice = await productsList.findIndex((item) => item.id === id);
+      productsList.splice(indice, 1);
       await fs.promises.writeFile(
         path,
         JSON.stringify(productsList, null, "\t")
