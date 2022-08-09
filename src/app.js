@@ -19,7 +19,7 @@ app.use("/api/products", productsRouter);
 
 app.use(function(req,res,next){ // Midelware para devolver error 404 a las rutas que no existen
   res.status(404).send({
-    message: 'Error Ruta no implementada'
+    message: 'Error route not implemented'
   });
 })
 

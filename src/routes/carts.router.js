@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
   res.end(allCarts);
 });
 
-// Agrega un carrito y devuelve el id
+// Add a cart and return the id
 router.post("/", async (req, res) => {
   let newCart = {
     products: [],
@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
   });
 });
 
-///////// para borrar carrito
+///////// to delete cart
 router.delete("/:cid", async (req, res) => {
   let cartID = req.params.cid;
   await useCartManager.deleteById(cartID);
@@ -34,7 +34,7 @@ router.delete("/:cid", async (req, res) => {
   });
 });
 
-///////////Para obtener productos del carrito
+///////////To get products from the cart
 router.get("/:cid/products", async (req, res) => {
   let cartID = req.params.cid;
   let cart = await useCartManager.getById(cartID);
@@ -43,7 +43,7 @@ router.get("/:cid/products", async (req, res) => {
   }
   let allProducts = await useProductsManager.getAll();
   let showList = [];
-  // Aca comparo los dos arrays y creo otro nuevo  llamado showList con los productos coincidentes.
+  // Here I compare the two arrays and create a new one called showList with the matching products.
   allProducts.map((item) => {
     cart.products.forEach((element) => {
       if (element.product === item.id) {
@@ -59,30 +59,30 @@ router.get("/:cid/products", async (req, res) => {
   });
 });
 
-////////////////// Para incorporar productos al carrito por su id del producto
+////////////////// To add products to the cart by their product id
 router.post("/:cid/products", async (req, res) => {
   let cartID = req.params.cid;
   let cart = await useCartManager.getById(cartID);
   if (cart === null) {
-    return res.status(400).send('{ "error" : "Carrito inexistente"}');
+    return res.status(400).send('{ "error" : "non-existent cart"}');
   }
   let newProduct = req.body;
   let existProduct = await useProductsManager.getById(newProduct.product);
   if (existProduct === null) {
-    return res.status(400).send('{"error": "Producto inexsistente');
+    return res.status(400).send('{"error": "non-existent product');
   }
   let productsInCart = cart.products;
   const prodIndex = productsInCart.findIndex(
     (item) => item.product === newProduct.product
   );
   if (prodIndex === -1) {
-    // Si no hay productos se agrega directo
-    productsInCart.push(newProduct); //Actualizo el cart con el producto agregado
+    // If there are no products, it is added directly
+    productsInCart.push(newProduct); //I update the cart with the added product
   } else {
     let newCuantity = productsInCart[prodIndex].quantity + newProduct.quantity;
     newProduct.quantity = newCuantity;
-    productsInCart.splice(prodIndex, 1); // Elimino el viejo objeto y
-    productsInCart.push(newProduct); // pusheo el nuevo objeto actualizado
+    productsInCart.splice(prodIndex, 1); // I delete the old object and
+    productsInCart.push(newProduct); // I push the new updated object
   }
   await useCartManager.deleteById(cartID);
   await useCartManager.save(cart, cartID);
@@ -92,7 +92,7 @@ router.post("/:cid/products", async (req, res) => {
   });
 });
 
-////////////////Para borrar productos del carrito////////////
+////////////////To delete products from the cart////////////
 router.delete("/:cid/products/:pid", async (req, res) => {
   let productID = req.params.pid;
   let cartID = req.params.cid;
@@ -102,7 +102,7 @@ router.delete("/:cid/products/:pid", async (req, res) => {
       message: "No existe el carrito con ese id",
     });
   }
-  // Tengo que obtener el array de productos del carro
+  //I have to get the array of products from the cart
   let productsInCart = cart.products;
   let prodIndex = await productsInCart.findIndex(
     (item) => item.product === productID
@@ -112,14 +112,13 @@ router.delete("/:cid/products/:pid", async (req, res) => {
       message: "Error no existe el producto en carrito",
     });
   }
-  // Aca va la logica de borrar o vaciar.
-  productsInCart.splice(prodIndex, 1); // Elemino el producto del array
-  cart.products = productsInCart; // Actualizo el array
+  productsInCart.splice(prodIndex, 1); // remove the product from the array
+  cart.products = productsInCart; // I update the array
   await useCartManager.deleteById(cartID);
   await useCartManager.save(cart, cartID);
   res.status(202).send({
     cartId: cartID,
-    message: "Producto borrado",
+    message: "deleted product",
   });
 });
 

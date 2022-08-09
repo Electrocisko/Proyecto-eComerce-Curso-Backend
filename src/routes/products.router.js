@@ -11,7 +11,7 @@ function checkAdmin(req, res, next) {
     next();
   } else {
     res.status(401).send({
-      message: "No tiene autorizacion"
+      message: "Does not have authorization"
     });
   }
 }
@@ -26,7 +26,7 @@ router.get("/:pid", checkAdmin, async (req, res) => {
   let product = await useProductsManager.getById(productId);
   product !== null
     ? res.status(200).send(JSON.stringify(product))
-    : res.status(400).send('{ "error" : "producto inexistente"}');
+    : res.status(400).send('{ "error" : "nonexistent product"}');
 });
 
 router.post("/", checkAdmin,upLoader.single("thumbnail"), async (req, res) => {
@@ -35,7 +35,7 @@ router.post("/", checkAdmin,upLoader.single("thumbnail"), async (req, res) => {
   newProduct.timestamp = Date.now();
   let productID = await useProductsManager.save(newProduct);
   res.status(201).send({
-    message: "Producto adherido",
+    message: "Adhered product",
     id: productID,
   });
 });
@@ -44,7 +44,7 @@ router.delete("/:pid",checkAdmin, async (req, res) => {
   let productID = req.params.pid;
   await useProductsManager.deleteById(productID);
   res.status(202).send({
-    message: "Producto Eliminado",
+    message: "Removed product",
   });
 });
 
@@ -55,12 +55,12 @@ router.put("/:pid", checkAdmin, upLoader.single("thumbnail"), async (req, res) =
   modifiedProduct.timestamp = Date.now();
   let existsProduct = useProductsManager.getById;
   if (existsProduct === null) {
-    return res.status(400).send("Producto inexistente");
+    return res.status(400).send("nonexistent product");
   }
   await useProductsManager.deleteById(productID);
   await useProductsManager.save(modifiedProduct, productID);
   res.status(200).send({
-    message: "Producto Modificado con PUT",
+    message: "Modified product",
   });
 });
 
