@@ -70,11 +70,12 @@ router.post("/:cid/products", async (req, res) => {
     return res.status(400).send('{ "error" : "non-existent cart"}');
   }
   let newProduct = req.body;
+  if (newProduct.quantity === undefined) {newProduct.quantity = 1} //if the amount is not sent by body, it is taken as one
   let existProduct = await useProductsManager.getById(newProduct.product);
   if (existProduct === null) {
     return res.status(400).send('{"error": "non-existent product');
   }
-  let productsInCart = cart.products;
+  let productsInCart = cart.products; // the array from products in cart
   const prodIndex = productsInCart.findIndex(
     (item) => item.product === newProduct.product
   );
