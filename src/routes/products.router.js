@@ -6,54 +6,49 @@ const router = Router();
 let useProductsManager = new ProductsManager();
 let admin = true; // validate the user
 
+function checkAdmin(req, res, next) {
+  if (admin === true) {
+    next();
+  } else {
+    res.status(401).send({
+      message: "No tiene autorizacion"
+    });
+  }
+}
+
 router.get("/", async (req, res) => {
   let allProducts = JSON.stringify(await useProductsManager.getAll());
-  res.end(allProducts);
+  res.status(200).send(allProducts);
 });
 
-router.get("/:pid", async (req, res) => {
+router.get("/:pid", checkAdmin, async (req, res) => {
   let productId = req.params.pid;
   let product = await useProductsManager.getById(productId);
   product !== null
-    ? res.end(JSON.stringify(product))
-    : res.end('{ "error" : "producto inexistente"}');
+    ? res.status(200).send(JSON.stringify(product))
+    : res.status(400).send('{ "error" : "producto inexistente"}');
 });
 
-router.post("/", upLoader.single("thumbnail"), async (req, res) => {
-  if (admin !== true) {
-    return res
-      .status(403)
-      .send("No tiene los permisos necesario para esta operacion");
-  }
+router.post("/", checkAdmin,upLoader.single("thumbnail"), async (req, res) => {
   let newProduct = req.body;
   newProduct.thumbnail = req.file.filename;
   newProduct.timestamp = Date.now();
   let productID = await useProductsManager.save(newProduct);
-  res.send({
+  res.status(201).send({
     message: "Producto adherido",
     id: productID,
   });
 });
 
-router.delete("/:pid", async (req, res) => {
-  if (admin !== true) {
-    return res
-      .status(403)
-      .send("No tiene los permisos necesario para esta operacion");
-  }
+router.delete("/:pid",checkAdmin, async (req, res) => {
   let productID = req.params.pid;
   await useProductsManager.deleteById(productID);
-  res.send({
+  res.status(202).send({
     message: "Producto Eliminado",
   });
 });
 
-router.put("/:pid", upLoader.single("thumbnail"), async (req, res) => {
-  if (admin !== true) {
-    return res
-      .status(403)
-      .send("No tiene los permisos necesario para esta operacion");
-  }
+router.put("/:pid", checkAdmin, upLoader.single("thumbnail"), async (req, res) => {
   let productID = req.params.pid;
   let modifiedProduct = req.body;
   modifiedProduct.thumbnail = req.file.filename;
@@ -64,7 +59,7 @@ router.put("/:pid", upLoader.single("thumbnail"), async (req, res) => {
   }
   await useProductsManager.deleteById(productID);
   await useProductsManager.save(modifiedProduct, productID);
-  res.send({
+  res.status(200).send({
     message: "Producto Modificado con PUT",
   });
 });

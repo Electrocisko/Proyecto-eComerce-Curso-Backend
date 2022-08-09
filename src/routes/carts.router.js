@@ -5,7 +5,6 @@ import ProductsManager from "../managers/product.manager.js";
 const router = Router();
 let useCartManager = new CartManager();
 let useProductsManager = new ProductsManager();
-let admin = true; // validate the user
 
 router.get("/", async (req, res) => {
   let allCarts = JSON.stringify(await useCartManager.getAll());
@@ -14,18 +13,13 @@ router.get("/", async (req, res) => {
 
 // Agrega un carrito y devuelve el id
 router.post("/", async (req, res) => {
-  if (admin !== true) {
-    return res
-      .status(403)
-      .send("No tiene los permisos necesario para esta operacion");
-  }
-  let newCart = req.body;
-  if (newCart.products === undefined) {
-    newCart.products = [];
-  } //Si desde el body no se envia ningun array de productos, se agrega un array vacio
+  let newCart = {
+    products: [],
+  };
+  newCart.products = [];
   newCart.timestamp = Date.now();
   let newCartId = await useCartManager.save(newCart);
-  res.send({
+  res.status(201).send({
     message: "Carrito agregado",
     id: newCartId,
   });
@@ -33,36 +27,26 @@ router.post("/", async (req, res) => {
 
 ///////// para borrar carrito
 router.delete("/:cid", async (req, res) => {
-  if (admin !== true) {
-    return res
-      .status(403)
-      .send("No tiene los permisos necesario para esta operacion");
-  }
   let cartID = req.params.cid;
   await useCartManager.deleteById(cartID);
-  res.send({
+  res.status(202).send({
     message: "carito Eliminado",
   });
 });
 
 ///////////Para obtener productos del carrito
 router.get("/:cid/products", async (req, res) => {
-  if (admin !== true) {
-    return res
-      .status(403)
-      .send("No tiene los permisos necesario para esta operacion");
-  }
   let cartID = req.params.cid;
   let cart = await useCartManager.getById(cartID);
   if (cart === null) {
-    return res.end('{ "error" : "carrito inexistente"}');
+    return res.status(400).send('{ "error" : "carrito inexistente"}');
   }
   let allProducts = await useProductsManager.getAll();
   let showList = [];
-  // Aca comparo los dos arrays y creo otro nuevo  llamado showList con los productos coincidentes, con dos atributos, el nombre y la cantidad
+  // Aca comparo los dos arrays y creo otro nuevo  llamado showList con los productos coincidentes.
   allProducts.map((item) => {
     cart.products.forEach((element) => {
-      if (element.product === item.id) { 
+      if (element.product === item.id) {
         showList.push({
           product: item.name,
           cuantity: element.quantity,
@@ -70,27 +54,20 @@ router.get("/:cid/products", async (req, res) => {
       }
     });
   });
-  res.send({
+  res.status(200).send({
     products: showList,
   });
 });
 
 ////////////////// Para incorporar productos al carrito por su id del producto
 router.post("/:cid/products", async (req, res) => {
-  if (admin !== true) {
-    return res
-      .status(403)
-      .send("No tiene los permisos necesario para esta operacion");
-  }
   let cartID = req.params.cid;
   let cart = await useCartManager.getById(cartID);
   if (cart === null) {
-    return res.end('{ "error" : "Carrito inexistente"}');
+    return res.status(400).send('{ "error" : "Carrito inexistente"}');
   }
   let newProduct = req.body;
-  console.log("newproduct", newProduct); //Cheque interno de desarollo
   let existProduct = await useProductsManager.getById(newProduct.product);
-  //console.log(newProduct.product);
   if (existProduct === null) {
     return res.status(400).send('{"error": "Producto inexsistente');
   }
@@ -109,7 +86,7 @@ router.post("/:cid/products", async (req, res) => {
   }
   await useCartManager.deleteById(cartID);
   await useCartManager.save(cart, cartID);
-  res.send({
+  res.status(201).send({
     cartId: cartID,
     products: cart.products,
   });
@@ -121,7 +98,7 @@ router.delete("/:cid/products/:pid", async (req, res) => {
   let cartID = req.params.cid;
   let cart = await useCartManager.getById(cartID);
   if (cart === null) {
-    return res.send({
+    return res.status(400).send({
       message: "No existe el carrito con ese id",
     });
   }
@@ -131,7 +108,7 @@ router.delete("/:cid/products/:pid", async (req, res) => {
     (item) => item.product === productID
   );
   if (prodIndex === -1) {
-    return res.send({
+    return res.status(400).send({
       message: "Error no existe el producto en carrito",
     });
   }
@@ -140,11 +117,10 @@ router.delete("/:cid/products/:pid", async (req, res) => {
   cart.products = productsInCart; // Actualizo el array
   await useCartManager.deleteById(cartID);
   await useCartManager.save(cart, cartID);
-  res.send({
+  res.status(202).send({
     cartId: cartID,
     message: "Producto borrado",
   });
 });
 
-////////////////////////////////////////////////////////////////
 export default router;
