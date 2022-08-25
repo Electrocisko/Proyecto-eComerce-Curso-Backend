@@ -1,4 +1,4 @@
-const persistence = "MEMORY";
+const persistence = "LOCALFILE";
 
 let productsService;
 
@@ -8,8 +8,8 @@ switch(persistence){
         productsService = new MemProduct();
         break;
     case "LOCALFILE":
-        const {default:FileProduct} = await import('./FileDAO');
-        productsService = new MongoUser();
+        const {default:FileProduct} = await import('./FileDAO/FileProducts.js');
+        productsService = new FileProduct();
         break;
 }
 

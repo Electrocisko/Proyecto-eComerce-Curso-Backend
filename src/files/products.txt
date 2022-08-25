@@ -48,5 +48,15 @@
 		"thumbnail": "1659738597200-azulejo-vermeer.jpg",
 		"timestamp": 1659738597201,
 		"id": "PtDgT"
+	},
+	{
+		"name": "Cremera",
+		"description": "Cremera autentico Delft Blue",
+		"code": "CREMA",
+		"price": "1200",
+		"stock": "10",
+		"thumbnail": "1661458714002-cremera.jpg",
+		"timestamp": 1661458714005,
+		"id": "cvG0b0v1Lr"
 	}
 ]

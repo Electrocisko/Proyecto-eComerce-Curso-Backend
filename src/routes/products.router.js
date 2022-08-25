@@ -17,14 +17,13 @@ function checkAdmin(req, res, next) {
   }
 }
 
-// router.get("/", async (req, res) => {
-//   let allProducts = JSON.stringify(await useProductsManager.getAll());
-//   res.status(200).send(allProducts);
-// });
-
 router.get("/", async (req, res) => {
+try {
   let allProducts = await productsService.getAll();
   res.status(200).send(allProducts);
+} catch (error) {
+  console.log(error);
+}
 });
 
 router.get("/:pid", checkAdmin, async (req, res) => {
@@ -35,28 +34,21 @@ router.get("/:pid", checkAdmin, async (req, res) => {
     : res.status(400).send('{ "error" : "nonexistent product"}');
 });
 
-// router.post("/", checkAdmin,upLoader.single("thumbnail"), async (req, res) => {
-//   let newProduct = req.body;
-//   newProduct.thumbnail = req.file.filename;
-//   newProduct.timestamp = Date.now();
-//   let productID = await useProductsManager.save(newProduct);
-//   res.status(201).send({
-//     message: "Adhered product",
-//     id: productID,
-//   });
-// });
 
-router.post('/', async (req,res) => {
-  let newProduct = req.body;
-  let productId = await productsService.save(newProduct);
-  res.status(201).send({
-    message: "Adhered product",
-    id: productId,
-  })
+router.post('/',checkAdmin,upLoader.single("thumbnail"), async (req,res) => {
+  try {
+    let newProduct = req.body;
+    newProduct.thumbnail = req.file.filename;
+    newProduct.timestamp = Date.now();
+    let product = await productsService.save(newProduct);
+    res.status(201).send({
+      message: "Adhered product",
+      Product: product,
+    })
+  } catch (error) {
+    console.log(error);
+  }
 })
-
-
-
 
 
 router.delete("/:pid",checkAdmin, async (req, res) => {

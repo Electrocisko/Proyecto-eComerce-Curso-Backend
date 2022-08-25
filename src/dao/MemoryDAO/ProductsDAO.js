@@ -1,3 +1,15 @@
 import MemoryContainer from "./MemoryContainer.js";
 
-export default class ProductsDAO extends MemoryContainer{};
+let id = 0;
+export default class ProductsDAO extends MemoryContainer{
+
+    save = (element) =>{
+        id++;
+        element.id = id;
+        this.data.push(element);
+        return element;
+    }
+};
+
+
+

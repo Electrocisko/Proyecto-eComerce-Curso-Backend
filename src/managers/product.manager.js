@@ -33,7 +33,7 @@ class ProductsManager {
     try {
       let productsList = await this.getAll();
       idProd === undefined
-        ? (newProduct.id = nanoid(5))
+        ? (newProduct.id = nanoid(10))
         : (newProduct.id = idProd);
       productsList.push(newProduct);
       await fs.promises.writeFile(
