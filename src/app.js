@@ -10,7 +10,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/", express.static(__dirname + "/public"));
 app.use("/api/carts", cartsRouter);
-
 app.use("/api/products", productsRouter);
 
 app.use(function (req, res, next) {

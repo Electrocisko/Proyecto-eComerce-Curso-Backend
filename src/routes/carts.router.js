@@ -1,4 +1,4 @@
-import e, { Router } from "express";
+import  { Router } from "express";
 import CartManager from "../managers/cart.manager.js";
 import ProductsManager from "../managers/product.manager.js";
 
@@ -16,7 +16,6 @@ router.post("/", async (req, res) => {
   let newCart = {
     products: [],
   };
-  newCart.products = [];
   newCart.timestamp = Date.now();
   let newCartId = await useCartManager.save(newCart);
   res.status(201).send({
