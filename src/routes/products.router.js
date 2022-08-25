@@ -1,6 +1,7 @@
 import { Router } from "express";
 import ProductsManager from "../managers/product.manager.js";
 import { upLoader } from "../utils.js";
+import productsService from "../dao/index.js";
 
 const router = Router();
 let useProductsManager = new ProductsManager();
@@ -16,8 +17,13 @@ function checkAdmin(req, res, next) {
   }
 }
 
+// router.get("/", async (req, res) => {
+//   let allProducts = JSON.stringify(await useProductsManager.getAll());
+//   res.status(200).send(allProducts);
+// });
+
 router.get("/", async (req, res) => {
-  let allProducts = JSON.stringify(await useProductsManager.getAll());
+  let allProducts = await productsService.getAll();
   res.status(200).send(allProducts);
 });
 
@@ -29,16 +35,29 @@ router.get("/:pid", checkAdmin, async (req, res) => {
     : res.status(400).send('{ "error" : "nonexistent product"}');
 });
 
-router.post("/", checkAdmin,upLoader.single("thumbnail"), async (req, res) => {
+// router.post("/", checkAdmin,upLoader.single("thumbnail"), async (req, res) => {
+//   let newProduct = req.body;
+//   newProduct.thumbnail = req.file.filename;
+//   newProduct.timestamp = Date.now();
+//   let productID = await useProductsManager.save(newProduct);
+//   res.status(201).send({
+//     message: "Adhered product",
+//     id: productID,
+//   });
+// });
+
+router.post('/', async (req,res) => {
   let newProduct = req.body;
-  newProduct.thumbnail = req.file.filename;
-  newProduct.timestamp = Date.now();
-  let productID = await useProductsManager.save(newProduct);
+  let productId = await productsService.save(newProduct);
   res.status(201).send({
     message: "Adhered product",
-    id: productID,
-  });
-});
+    id: productId,
+  })
+})
+
+
+
+
 
 router.delete("/:pid",checkAdmin, async (req, res) => {
   let productID = req.params.pid;
