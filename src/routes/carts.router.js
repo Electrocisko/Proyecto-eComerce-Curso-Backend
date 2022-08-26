@@ -3,10 +3,7 @@ import CartManager from "../managers/cart.manager.js";
 import ProductsManager from "../managers/product.manager.js";
 import services from "../dao/index.js";
 
-
 const router = Router();
-let useCartManager = new CartManager();
-let useProductsManager = new ProductsManager();
 
 router.get("/", async (req, res) => {
   let allCarts = JSON.stringify(await services.cartsService.getAll());
@@ -19,30 +16,30 @@ router.post("/", async (req, res) => {
     products: [],
   };
   newCart.timestamp = Date.now();
-  let newCartId = await useCartManager.save(newCart);
+  let cart = await services.cartsService.save(newCart);
   res.status(201).send({
     message: "Carrito agregado",
-    id: newCartId,
+    Cart: cart,
   });
 });
 
 ///////// to delete cart
 router.delete("/:cid", async (req, res) => {
-  let cartID = req.params.cid;
-  await useCartManager.deleteById(cartID);
+  let cartID = parseInt(req.params.cid);
+  let cartDelete =  await services.cartsService.deleteById(cartID);
   res.status(202).send({
-    message: "carito Eliminado",
+    'Product Removed': cartDelete,
   });
 });
 
 ///////////To get products from the cart
 router.get("/:cid/products", async (req, res) => {
-  let cartID = req.params.cid;
-  let cart = await useCartManager.getById(cartID);
+  let cartID = parseInt(req.params.cid);
+  let cart = await services.cartsService.getById(cartID);
   if (cart === null) {
     return res.status(400).send('{ "error" : "carrito inexistente"}');
   }
-  let allProducts = await useProductsManager.getAll();
+  let allProducts = await services.productsService.getAll();
   let showList = [];
   // Here I compare the two arrays and create a new one called showList with the matching products.
   allProducts.map((item) => {
@@ -65,14 +62,14 @@ router.get("/:cid/products", async (req, res) => {
 
 ////////////////// To add products to the cart by their product id
 router.post("/:cid/products", async (req, res) => {
-  let cartID = req.params.cid;
-  let cart = await useCartManager.getById(cartID);
+  let cartID = parseInt(req.params.cid);
+  let cart = await services.cartsService.getById(cartID);
   if (cart === null) {
     return res.status(400).send('{ "error" : "non-existent cart"}');
   }
   let newProduct = req.body;
   if (newProduct.quantity === undefined) {newProduct.quantity = 1} //if the amount is not sent by body, it is taken as one
-  let existProduct = await useProductsManager.getById(newProduct.product);
+  let existProduct = await services.productsService.getById(newProduct.product);
   if (existProduct === null) {
     return res.status(400).send('{"error": "non-existent product');
   }
@@ -89,8 +86,8 @@ router.post("/:cid/products", async (req, res) => {
     productsInCart.splice(prodIndex, 1); // I delete the old object and
     productsInCart.push(newProduct); // I push the new updated object
   }
-  await useCartManager.deleteById(cartID);
-  await useCartManager.save(cart, cartID);
+  await services.cartsService.deleteById(cartID);
+  await services.cartsService.save(cart, cartID);
   res.status(201).send({
     cartId: cartID,
     products: cart.products,
@@ -99,9 +96,9 @@ router.post("/:cid/products", async (req, res) => {
 
 ////////////////To delete products from the cart////////////
 router.delete("/:cid/products/:pid", async (req, res) => {
-  let productID = req.params.pid;
-  let cartID = req.params.cid;
-  let cart = await useCartManager.getById(cartID);
+  let productID = parseInt(req.params.pid);
+  let cartID = parseInt(req.params.cid);
+  let cart = await services.cartsService.getById(cartID);
   if (cart === null) {
     return res.status(400).send({
       message: "No existe el carrito con ese id",
@@ -119,8 +116,8 @@ router.delete("/:cid/products/:pid", async (req, res) => {
   }
   productsInCart.splice(prodIndex, 1); // remove the product from the array
   cart.products = productsInCart; // I update the array
-  await useCartManager.deleteById(cartID);
-  await useCartManager.save(cart, cartID);
+  await services.cartsService.deleteById(cartID);
+  await services.cartsService.save(cart, cartID);
   res.status(202).send({
     cartId: cartID,
     message: "deleted product",
