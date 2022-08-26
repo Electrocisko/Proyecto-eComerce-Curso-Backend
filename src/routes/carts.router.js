@@ -1,13 +1,15 @@
 import  { Router } from "express";
 import CartManager from "../managers/cart.manager.js";
 import ProductsManager from "../managers/product.manager.js";
+import services from "../dao/index.js";
+
 
 const router = Router();
 let useCartManager = new CartManager();
 let useProductsManager = new ProductsManager();
 
 router.get("/", async (req, res) => {
-  let allCarts = JSON.stringify(await useCartManager.getAll());
+  let allCarts = JSON.stringify(await services.cartsService.getAll());
   res.end(allCarts);
 });
 
