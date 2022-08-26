@@ -28,12 +28,11 @@ try {
 
 router.get("/:pid", checkAdmin, async (req, res) => {
   let productId = req.params.pid;
-  let product = await useProductsManager.getById(productId);
+  let product = await productsService.getById(productId);
   product !== null
     ? res.status(200).send(JSON.stringify(product))
-    : res.status(400).send('{ "error" : "nonexistent product"}');
+    : res.status(400).send('{ "error" : "non existent product"}');
 });
-
 
 router.post('/',checkAdmin,upLoader.single("thumbnail"), async (req,res) => {
   try {
@@ -50,12 +49,11 @@ router.post('/',checkAdmin,upLoader.single("thumbnail"), async (req,res) => {
   }
 })
 
-
 router.delete("/:pid",checkAdmin, async (req, res) => {
   let productID = req.params.pid;
-  await useProductsManager.deleteById(productID);
+  let productDeleted = await productsService.deleteById(productID);
   res.status(202).send({
-    message: "Removed product",
+    'Product Removed': productDeleted,
   });
 });
 
@@ -64,12 +62,12 @@ router.put("/:pid", checkAdmin, upLoader.single("thumbnail"), async (req, res) =
   let modifiedProduct = req.body;
   modifiedProduct.thumbnail = req.file.filename;
   modifiedProduct.timestamp = Date.now();
-  let existsProduct = useProductsManager.getById;
+  let existsProduct = productsService.getById;
   if (existsProduct === null) {
     return res.status(400).send("nonexistent product");
   }
-  await useProductsManager.deleteById(productID);
-  await useProductsManager.save(modifiedProduct, productID);
+  await productsService.deleteById(productID);
+  await productsService.save(modifiedProduct, productID);
   res.status(200).send({
     message: "Modified product",
   });
