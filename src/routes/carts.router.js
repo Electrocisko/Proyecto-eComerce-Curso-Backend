@@ -1,12 +1,11 @@
 import  { Router } from "express";
-import CartManager from "../managers/cart.manager.js";
-import ProductsManager from "../managers/product.manager.js";
 import services from "../dao/index.js";
 
 const router = Router();
+let nameFile = '/files/carts.txt'
 
 router.get("/", async (req, res) => {
-  let allCarts = JSON.stringify(await services.cartsService.getAll());
+  let allCarts = JSON.stringify(await services.cartsService.getAll(nameFile));
   res.end(allCarts);
 });
 

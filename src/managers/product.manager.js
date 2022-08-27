@@ -20,7 +20,6 @@ class ProductsManager {
   };
 
   getById = async (id) => {
-    console.log('first')
     let productsList = await this.getAll();
     const foundProduct = productsList.find((element) => element.id === id);
     if (foundProduct !== undefined) {
