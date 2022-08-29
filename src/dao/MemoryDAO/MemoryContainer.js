@@ -35,7 +35,7 @@ export default class MemoryContainer {
     }
   };
 
-  update = async (id, modifiedItem) => {
+  update = async (id,path, modifiedItem) => {
     let modified = false;
     let product = await this.getById(id);
     if (product === null) {
