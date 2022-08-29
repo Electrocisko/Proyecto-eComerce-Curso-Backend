@@ -24,18 +24,32 @@ export default class MemoryContainer {
 
   deleteById = async (id) => {
     let dataToDelete = this.getById(id);
-    let deleted= true;
+    let deleted = true;
     if (dataToDelete === null) {
-      return deleted = false
+      return (deleted = false);
     } else {
-        this.data = this.getAll();
-        let index = this.data.findIndex((item) => item.id === parseInt(id));
-        this.data.splice(index, 1);
-        return deleted;
+      this.data = this.getAll();
+      let index = this.data.findIndex((item) => item.id === parseInt(id));
+      this.data.splice(index, 1);
+      return deleted;
     }
   };
 
-
-
-  
+  update = async (id, modifiedItem) => {
+    let modified = false;
+    let product = await this.getById(id);
+    if (product === null) {
+      return (modified)
+    } else {
+      modified = true;
+      for (const key in product) {
+        for (const item in modifiedItem) {
+          if (key === item) {
+            product[key] = modifiedItem[item];
+          }
+        }
+      }
+      return product;
+    }
+  };
 }

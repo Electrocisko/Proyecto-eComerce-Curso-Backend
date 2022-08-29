@@ -44,7 +44,9 @@ router.post('/',checkAdmin,upLoader.single("thumbnail"), async (req,res) => {
       Product: product,
     })
   } catch (error) {
-    console.log(error);
+    res.send({
+      message: 'Datos ingresados no validos o incompletos'
+    })
   }
 })
 
@@ -56,20 +58,16 @@ router.delete("/:pid",checkAdmin, async (req, res) => {
   });
 });
 
-router.put("/:pid", checkAdmin, upLoader.single("thumbnail"), async (req, res) => {
+router.put('/:pid',checkAdmin, upLoader.single('thumbnail'), async (req,res) => {
   let productID = req.params.pid;
   let modifiedProduct = req.body;
-  modifiedProduct.thumbnail = req.file.filename;
-  modifiedProduct.timestamp = Date.now();
-  let existsProduct = services.productsService.getById(productID,nameFile);
-  if (existsProduct === null) {
-    return res.status(400).send("non existent product");
-  }
-  await services.productsService.deleteById(productID,nameFile);
-  await services.productsService.save(modifiedProduct, nameFile,productID);
+  let results = await services.productsService.update(productID,nameFile,modifiedProduct);
+  console.log('results', results);
   res.status(200).send({
-    message: "Modified product",
-  });
-});
+       message: "Modified product",
+       status: results
+      });
+})
+
 
 export default router;

@@ -1,8 +1,11 @@
-import  { Router } from "express";
+import { Router } from "express";
 import services from "../dao/index.js";
 
+let typeOfPersistence = services.persistence;
+console.log(typeOfPersistence);
+
 const router = Router();
-let nameFile = '/files/carts.txt'
+let nameFile = "/files/carts.txt";
 
 router.get("/", async (req, res) => {
   let allCarts = JSON.stringify(await services.cartsService.getAll(nameFile));
@@ -15,7 +18,7 @@ router.post("/", async (req, res) => {
     products: [],
   };
   newCart.timestamp = Date.now();
-  let cart = await services.cartsService.save(newCart);
+  let cart = await services.cartsService.save(newCart, nameFile);
   res.status(201).send({
     message: "Carrito agregado",
     Cart: cart,
@@ -24,21 +27,27 @@ router.post("/", async (req, res) => {
 
 ///////// to delete cart
 router.delete("/:cid", async (req, res) => {
-  let cartID = parseInt(req.params.cid);
-  let cartDelete =  await services.cartsService.deleteById(cartID);
+  //let cartID = parseInt(req.params.cid); OJOJOJOJOJOJOJOJOJOJOJOJOJOJOJOJOJO
+  let cartID = req.params.cid;
+  let cartDelete = await services.cartsService.deleteById(cartID, nameFile);
   res.status(202).send({
-    'Product Removed': cartDelete,
+    "Product Removed": cartDelete,
   });
 });
 
 ///////////To get products from the cart
 router.get("/:cid/products", async (req, res) => {
   let cartID = parseInt(req.params.cid);
-  let cart = await services.cartsService.getById(cartID);
+  if (typeOfPersistence === "localfile") {
+    cartID = req.params.cid;
+  }
+  let cart = await services.cartsService.getById(cartID, nameFile);
   if (cart === null) {
     return res.status(400).send('{ "error" : "carrito inexistente"}');
   }
-  let allProducts = await services.productsService.getAll();
+  let allProducts = await services.productsService.getAll(
+    "/files/products.txt"
+  );
   let showList = [];
   // Here I compare the two arrays and create a new one called showList with the matching products.
   allProducts.map((item) => {
@@ -59,34 +68,42 @@ router.get("/:cid/products", async (req, res) => {
   });
 });
 
-////////////////// To add products to the cart by their product id
+// ////////////////// To add products to the cart by their product id
 router.post("/:cid/products", async (req, res) => {
   let cartID = parseInt(req.params.cid);
-  let cart = await services.cartsService.getById(cartID);
+  if (typeOfPersistence === "localfile") {
+    cartID = req.params.cid;
+  }
+  let cart = await services.cartsService.getById(cartID, nameFile);
+  let addProduct = req.body;
   if (cart === null) {
     return res.status(400).send('{ "error" : "non-existent cart"}');
   }
-  let newProduct = req.body;
-  if (newProduct.quantity === undefined) {newProduct.quantity = 1} //if the amount is not sent by body, it is taken as one
-  let existProduct = await services.productsService.getById(newProduct.product);
+  if (addProduct.quantity === undefined) {
+    addProduct.quantity = 1;
+  } //if the amount is not sent by body, it is taken as one
+  let existProduct = await services.productsService.getById(
+    addProduct.product,
+    "/files/products.txt"
+  ); ///////////
   if (existProduct === null) {
     return res.status(400).send('{"error": "non-existent product');
   }
   let productsInCart = cart.products; // the array from products in cart
   const prodIndex = productsInCart.findIndex(
-    (item) => item.product === newProduct.product
+    (item) => item.product === addProduct.product
   );
   if (prodIndex === -1) {
     // If there are no products, it is added directly
-    productsInCart.push(newProduct); //I update the cart with the added product
+    productsInCart.push(addProduct); //I update the cart with the added product
   } else {
-    let newCuantity = productsInCart[prodIndex].quantity + newProduct.quantity;
-    newProduct.quantity = newCuantity;
+    let newCuantity = productsInCart[prodIndex].quantity + addProduct.quantity;
+    addProduct.quantity = newCuantity;
     productsInCart.splice(prodIndex, 1); // I delete the old object and
-    productsInCart.push(newProduct); // I push the new updated object
+    productsInCart.push(addProduct); // I push the new updated object
   }
-  await services.cartsService.deleteById(cartID);
-  await services.cartsService.save(cart, cartID);
+  await services.cartsService.deleteById(cartID, nameFile);
+  await services.cartsService.save(cart, nameFile, cartID);
   res.status(201).send({
     cartId: cartID,
     products: cart.products,
@@ -97,7 +114,12 @@ router.post("/:cid/products", async (req, res) => {
 router.delete("/:cid/products/:pid", async (req, res) => {
   let productID = parseInt(req.params.pid);
   let cartID = parseInt(req.params.cid);
-  let cart = await services.cartsService.getById(cartID);
+  if (typeOfPersistence === "localfile") {
+    cartID = req.params.cid;
+    productID = req.params.pid;
+  }
+
+  let cart = await services.cartsService.getById(cartID,nameFile);
   if (cart === null) {
     return res.status(400).send({
       message: "No existe el carrito con ese id",
@@ -115,8 +137,8 @@ router.delete("/:cid/products/:pid", async (req, res) => {
   }
   productsInCart.splice(prodIndex, 1); // remove the product from the array
   cart.products = productsInCart; // I update the array
-  await services.cartsService.deleteById(cartID);
-  await services.cartsService.save(cart, cartID);
+  await services.cartsService.deleteById(cartID,nameFile);
+  await services.cartsService.save(cart,nameFile, cartID);
   res.status(202).send({
     cartId: cartID,
     message: "deleted product",
