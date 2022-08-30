@@ -37,7 +37,7 @@ export default class MongoDBContainer {
     return result;
   };
 
-  update = async (id, modifiedProduct) => {
+  update = async (id, path,modifiedProduct) => {
     let result = false;
     if (!ObjectId.isValid(id)) {
       return result;

@@ -44,6 +44,7 @@ router.post('/',checkAdmin,upLoader.single("thumbnail"), async (req,res) => {
       Product: product,
     })
   } catch (error) {
+    console.log(error)
     res.send({
       message: 'Datos ingresados no validos o incompletos'
     })

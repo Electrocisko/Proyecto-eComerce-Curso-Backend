@@ -37,112 +37,202 @@ router.delete("/:cid", async (req, res) => {
 
 ///////////To get products from the cart
 router.get("/:cid/products", async (req, res) => {
-  let cartID = parseInt(req.params.cid);
-  if (typeOfPersistence === "localfile") {
-    cartID = req.params.cid;
-  }
-  let cart = await services.cartsService.getById(cartID, nameFile);
-  if (cart === null) {
-    return res.status(400).send('{ "error" : "carrito inexistente"}');
-  }
-  let allProducts = await services.productsService.getAll(
-    "/files/products.txt"
-  );
-  let showList = [];
-  // Here I compare the two arrays and create a new one called showList with the matching products.
-  allProducts.map((item) => {
-    cart.products.forEach((element) => {
-      if (element.product === item.id) {
-        showList.push({
-          product: item.name,
-          productId: item.id,
-          price: item.price,
-          stock: item.stock,
-          cuantity: element.quantity,
-        });
-      }
+  if (typeOfPersistence === "mongodb") {
+    let cartId = req.params.cid;
+    let result = await services.cartsService.getById(cartId);
+    if (result === null) {
+      return res.status(400).send('{ "error" : "non-existent cart"}');
+    }
+    res.send({
+      document: result,
     });
-  });
-  res.status(200).send({
-    products: showList,
-  });
+  } else {
+    let cartID = parseInt(req.params.cid);
+    if (typeOfPersistence === "localfile") {
+      cartID = req.params.cid;
+    }
+    let cart = await services.cartsService.getById(cartID, nameFile);
+    if (cart === null) {
+      return res.status(400).send('{ "error" : "carrito inexistente"}');
+    }
+    let allProducts = await services.productsService.getAll(
+      "/files/products.txt"
+    );
+    let showList = [];
+    // Here I compare the two arrays and create a new one called showList with the matching products.
+    allProducts.map((item) => {
+      cart.products.forEach((element) => {
+        if (element.product === item.id) {
+          showList.push({
+            product: item.name,
+            productId: item.id,
+            price: item.price,
+            stock: item.stock,
+            cuantity: element.quantity,
+          });
+        }
+      });
+    });
+    res.status(200).send({
+      products: showList,
+    });
+  }
 });
 
 // ////////////////// To add products to the cart by their product id
+
 router.post("/:cid/products", async (req, res) => {
-  let cartID = parseInt(req.params.cid);
-  if (typeOfPersistence === "localfile") {
-    cartID = req.params.cid;
-  }
-  let cart = await services.cartsService.getById(cartID, nameFile);
-  let addProduct = req.body;
-  if (cart === null) {
-    return res.status(400).send('{ "error" : "non-existent cart"}');
-  }
-  if (addProduct.quantity === undefined) {
-    addProduct.quantity = 1;
-  } //if the amount is not sent by body, it is taken as one
-  let existProduct = await services.productsService.getById(
-    addProduct.product,
-    "/files/products.txt"
-  ); ///////////
-  if (existProduct === null) {
-    return res.status(400).send('{"error": "non-existent product');
-  }
-  let productsInCart = cart.products; // the array from products in cart
-  const prodIndex = productsInCart.findIndex(
-    (item) => item.product === addProduct.product
-  );
-  if (prodIndex === -1) {
-    // If there are no products, it is added directly
-    productsInCart.push(addProduct); //I update the cart with the added product
+  if (typeOfPersistence === "mongodb") {
+    let cartID = req.params.cid;
+    let addProduct = req.body;
+    let cart = await services.cartsService.getById(cartID);
+    if (cart === null) {
+      return res.status(400).send('{ "error" : "non-existent cart"}');
+    }
+    let existProduct = await services.productsService.getById(
+      addProduct.product
+    );
+    if (existProduct === null) {
+      return res.status(400).send('{"error": "non-existent product');
+    }
+    let productsInCart = cart[0].products; // the array from products in cart
+    const prodIndex = productsInCart.findIndex(
+      (item) => item.product === addProduct.product
+    );
+    if (prodIndex === -1) {
+      // If there are no products, it is added directly
+      productsInCart.push(addProduct); //I update the cart with the added product
+    } else {
+      let newCuantity =
+        productsInCart[prodIndex].quantity + addProduct.quantity;
+      addProduct.quantity = newCuantity;
+      productsInCart.splice(prodIndex, 1); // I delete the old object and
+      productsInCart.push(addProduct); // I push the new updated object
+    }
+    let newData = {
+      products: productsInCart,
+    };
+    let updateCart = await services.cartsService.update(
+      cartID,
+      nameFile,
+      newData
+    );
+    res.status(201).send({
+      cartId: cartID,
+      products: newData,
+    });
   } else {
-    let newCuantity = productsInCart[prodIndex].quantity + addProduct.quantity;
-    addProduct.quantity = newCuantity;
-    productsInCart.splice(prodIndex, 1); // I delete the old object and
-    productsInCart.push(addProduct); // I push the new updated object
+    let cartID = parseInt(req.params.cid);
+    if (typeOfPersistence === "localfile") {
+      cartID = req.params.cid;
+    }
+    let cart = await services.cartsService.getById(cartID, nameFile);
+    let addProduct = req.body;
+    if (cart === null) {
+      return res.status(400).send('{ "error" : "non-existent cart"}');
+    }
+    if (addProduct.quantity === undefined) {
+      addProduct.quantity = 1;
+    } //if the amount is not sent by body, it is taken as one
+    let existProduct = await services.productsService.getById(
+      addProduct.product,
+      "/files/products.txt"
+    );
+    if (existProduct === null) {
+      return res.status(400).send('{"error": "non-existent product');
+    }
+    let productsInCart = cart.products; // the array from products in cart
+    const prodIndex = productsInCart.findIndex(
+      (item) => item.product === addProduct.product
+    );
+    if (prodIndex === -1) {
+      // If there are no products, it is added directly
+      productsInCart.push(addProduct); //I update the cart with the added product
+    } else {
+      let newCuantity =
+        productsInCart[prodIndex].quantity + addProduct.quantity;
+      addProduct.quantity = newCuantity;
+      productsInCart.splice(prodIndex, 1); // I delete the old object and
+      productsInCart.push(addProduct); // I push the new updated object
+    }
+    await services.cartsService.deleteById(cartID, nameFile);
+    await services.cartsService.save(cart, nameFile, cartID);
+    res.status(201).send({
+      cartId: cartID,
+      products: cart.products,
+    });
   }
-  await services.cartsService.deleteById(cartID, nameFile);
-  await services.cartsService.save(cart, nameFile, cartID);
-  res.status(201).send({
-    cartId: cartID,
-    products: cart.products,
-  });
 });
 
 ////////////////To delete products from the cart////////////
+
+
 router.delete("/:cid/products/:pid", async (req, res) => {
-  let productID = parseInt(req.params.pid);
-  let cartID = parseInt(req.params.cid);
-  if (typeOfPersistence === "localfile") {
-    cartID = req.params.cid;
-    productID = req.params.pid;
+  if (typeOfPersistence === 'mongodb') {
+    let productID = req.params.pid;
+    let cartID = req.params.cid;
+    let cart = await services.cartsService.getById(cartID);
+       if (cart === null) {
+      return res.status(400).send({
+        message: "No existe el carrito con ese id",
+     });
+   };
+   let productsInCart = cart[0].products; // the array from products in cart
+   let prodIndex = productsInCart.findIndex(
+     (item) => item.product === productID
+   );
+     if (prodIndex === -1) {
+     return res.status(400).send({
+      message: "Error no existe el producto en carrito",
+      });
+    };
+    productsInCart.splice(prodIndex, 1); // remove the product from the array
+    let newData = {
+      products: productsInCart,
+    };
+    let updateCart = await services.cartsService.update(
+      cartID,
+      nameFile,
+      newData
+    );
+    return res.send({
+      message: updateCart
+    })
+  } 
+  else {
+    let productID = parseInt(req.params.pid);
+    let cartID = parseInt(req.params.cid);
+    if (typeOfPersistence === "localfile") {
+      cartID = req.params.cid;
+      productID = req.params.pid;
+    }
+  
+    let cart = await services.cartsService.getById(cartID, nameFile);
+    if (cart === null) {
+      return res.status(400).send({
+        message: "No existe el carrito con ese id",
+      });
+    }
+    //I have to get the array of products from the cart
+    let productsInCart = cart.products;
+    let prodIndex = await productsInCart.findIndex(
+      (item) => item.product === productID
+    );
+    if (prodIndex === -1) {
+      return res.status(400).send({
+        message: "Error no existe el producto en carrito",
+      });
+    }
+    productsInCart.splice(prodIndex, 1); // remove the product from the array
+    cart.products = productsInCart; // I update the array
+    await services.cartsService.deleteById(cartID, nameFile);
+    await services.cartsService.save(cart, nameFile, cartID);
+    res.status(202).send({
+      cartId: cartID,
+      message: "deleted product",
+    });
   }
 
-  let cart = await services.cartsService.getById(cartID,nameFile);
-  if (cart === null) {
-    return res.status(400).send({
-      message: "No existe el carrito con ese id",
-    });
-  }
-  //I have to get the array of products from the cart
-  let productsInCart = cart.products;
-  let prodIndex = await productsInCart.findIndex(
-    (item) => item.product === productID
-  );
-  if (prodIndex === -1) {
-    return res.status(400).send({
-      message: "Error no existe el producto en carrito",
-    });
-  }
-  productsInCart.splice(prodIndex, 1); // remove the product from the array
-  cart.products = productsInCart; // I update the array
-  await services.cartsService.deleteById(cartID,nameFile);
-  await services.cartsService.save(cart,nameFile, cartID);
-  res.status(202).send({
-    cartId: cartID,
-    message: "deleted product",
-  });
 });
 
 export default router;

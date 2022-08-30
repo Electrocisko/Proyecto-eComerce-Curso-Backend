@@ -9,7 +9,7 @@ const productsSchema = mongoose.Schema({
     price:Number,
     stock:Number,
     thumbnail:String,
-    timestamp:Number
+    timestamp:Number,
 })
 
 export default class MongoProducts extends MongoDBContainer{
