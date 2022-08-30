@@ -61,7 +61,9 @@ router.get("/:cid/products", async (req, res) => {
     // Here I compare the two arrays and create a new one called showList with the matching products.
     allProducts.map((item) => {
       cart.products.forEach((element) => {
-        if (element.product === item.id) {
+        //////////////////////////////////////////////////////////////////
+        if (parseInt(element.product) === item.id) { ////MODIFIQUE!!!!!!!!!
+          /////////////////////////////////////////////
           showList.push({
             product: item.name,
             productId: item.id,
@@ -69,7 +71,7 @@ router.get("/:cid/products", async (req, res) => {
             stock: item.stock,
             cuantity: element.quantity,
           });
-        }
+        };
       });
     });
     res.status(200).send({
@@ -88,9 +90,7 @@ router.post("/:cid/products", async (req, res) => {
     if (cart === null) {
       return res.status(400).send('{ "error" : "non-existent cart"}');
     }
-    let existProduct = await services.productsService.getById(
-      addProduct.product
-    );
+    let existProduct = await services.productsService.getById(addProduct.product,nameFile);
     if (existProduct === null) {
       return res.status(400).send('{"error": "non-existent product');
     }
@@ -133,10 +133,7 @@ router.post("/:cid/products", async (req, res) => {
     if (addProduct.quantity === undefined) {
       addProduct.quantity = 1;
     } //if the amount is not sent by body, it is taken as one
-    let existProduct = await services.productsService.getById(
-      addProduct.product,
-      "/files/products.txt"
-    );
+    let existProduct = await services.productsService.getById(addProduct.product,"/files/products.txt");
     if (existProduct === null) {
       return res.status(400).send('{"error": "non-existent product');
     }

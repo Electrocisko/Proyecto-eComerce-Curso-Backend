@@ -27,5 +27,10 @@
 		],
 		"timestamp": 1661795333062,
 		"id": "R7IRvwfOWF"
+	},
+	{
+		"products": [],
+		"timestamp": 1661884237890,
+		"id": "pL5Cp09ac1"
 	}
 ]
