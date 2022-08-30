@@ -2,7 +2,6 @@ import { Router } from "express";
 import services from "../dao/index.js";
 
 let typeOfPersistence = services.persistence;
-console.log(typeOfPersistence);
 
 const router = Router();
 let nameFile = "/files/carts.txt";
@@ -166,26 +165,25 @@ router.post("/:cid/products", async (req, res) => {
 
 ////////////////To delete products from the cart////////////
 
-
 router.delete("/:cid/products/:pid", async (req, res) => {
-  if (typeOfPersistence === 'mongodb') {
+  if (typeOfPersistence === "mongodb") {
     let productID = req.params.pid;
     let cartID = req.params.cid;
     let cart = await services.cartsService.getById(cartID);
-       if (cart === null) {
+    if (cart === null) {
       return res.status(400).send({
         message: "No existe el carrito con ese id",
-     });
-   };
-   let productsInCart = cart[0].products; // the array from products in cart
-   let prodIndex = productsInCart.findIndex(
-     (item) => item.product === productID
-   );
-     if (prodIndex === -1) {
-     return res.status(400).send({
-      message: "Error no existe el producto en carrito",
       });
-    };
+    }
+    let productsInCart = cart[0].products; // the array from products in cart
+    let prodIndex = productsInCart.findIndex(
+      (item) => item.product === productID
+    );
+    if (prodIndex === -1) {
+      return res.status(400).send({
+        message: "Error no existe el producto en carrito",
+      });
+    }
     productsInCart.splice(prodIndex, 1); // remove the product from the array
     let newData = {
       products: productsInCart,
@@ -196,17 +194,16 @@ router.delete("/:cid/products/:pid", async (req, res) => {
       newData
     );
     return res.send({
-      message: updateCart
-    })
-  } 
-  else {
+      message: updateCart,
+    });
+  } else {
     let productID = parseInt(req.params.pid);
     let cartID = parseInt(req.params.cid);
     if (typeOfPersistence === "localfile") {
       cartID = req.params.cid;
       productID = req.params.pid;
     }
-  
+
     let cart = await services.cartsService.getById(cartID, nameFile);
     if (cart === null) {
       return res.status(400).send({
@@ -232,7 +229,6 @@ router.delete("/:cid/products/:pid", async (req, res) => {
       message: "deleted product",
     });
   }
-
 });
 
 export default router;
