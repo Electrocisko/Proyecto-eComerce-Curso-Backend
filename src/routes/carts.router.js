@@ -26,7 +26,6 @@ router.post("/", async (req, res) => {
 
 ///////// to delete cart
 router.delete("/:cid", async (req, res) => {
-  //let cartID = parseInt(req.params.cid); OJOJOJOJOJOJOJOJOJOJOJOJOJOJOJOJOJO
   let cartID = req.params.cid;
   let cartDelete = await services.cartsService.deleteById(cartID, nameFile);
   res.status(202).send({
@@ -46,10 +45,7 @@ router.get("/:cid/products", async (req, res) => {
       document: result,
     });
   } else {
-    let cartID = parseInt(req.params.cid);
-    if (typeOfPersistence === "localfile") {
-      cartID = req.params.cid;
-    }
+    let cartID = req.params.cid;
     let cart = await services.cartsService.getById(cartID, nameFile);
     if (cart === null) {
       return res.status(400).send('{ "error" : "carrito inexistente"}');
@@ -61,9 +57,7 @@ router.get("/:cid/products", async (req, res) => {
     // Here I compare the two arrays and create a new one called showList with the matching products.
     allProducts.map((item) => {
       cart.products.forEach((element) => {
-        //////////////////////////////////////////////////////////////////
-        if (parseInt(element.product) === item.id) { ////MODIFIQUE!!!!!!!!!
-          /////////////////////////////////////////////
+        if (element.product === item.id) { 
           showList.push({
             product: item.name,
             productId: item.id,
@@ -121,10 +115,7 @@ router.post("/:cid/products", async (req, res) => {
       products: newData,
     });
   } else {
-    let cartID = parseInt(req.params.cid);
-    if (typeOfPersistence === "localfile") {
-      cartID = req.params.cid;
-    }
+    let cartID = req.params.cid;
     let cart = await services.cartsService.getById(cartID, nameFile);
     let addProduct = req.body;
     if (cart === null) {
@@ -194,13 +185,8 @@ router.delete("/:cid/products/:pid", async (req, res) => {
       message: updateCart,
     });
   } else {
-    let productID = parseInt(req.params.pid);
-    let cartID = parseInt(req.params.cid);
-    if (typeOfPersistence === "localfile") {
-      cartID = req.params.cid;
-      productID = req.params.pid;
-    }
-
+    let productID = req.params.pid;
+    let cartID = req.params.cid;
     let cart = await services.cartsService.getById(cartID, nameFile);
     if (cart === null) {
       return res.status(400).send({

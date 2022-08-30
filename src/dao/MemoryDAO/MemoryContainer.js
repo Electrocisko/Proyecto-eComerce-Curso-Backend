@@ -1,4 +1,6 @@
-let id = 0;
+import { nanoid } from "nanoid"; // nanoid to generate random Ids
+
+
 export default class MemoryContainer {
   constructor() {
     this.data = [];
@@ -14,7 +16,7 @@ export default class MemoryContainer {
   };
 
   getById = (id) => {
-    const item = this.getAll().find((element) => element.id === parseInt(id));
+    const item = this.getAll().find((element) => element.id === id);
     if (item !== undefined) {
       return item;
     } else {
@@ -29,7 +31,7 @@ export default class MemoryContainer {
       return (deleted = false);
     } else {
       this.data = this.getAll();
-      let index = this.data.findIndex((item) => item.id === parseInt(id));
+      let index = this.data.findIndex((item) => item.id === id);
       this.data.splice(index, 1);
       return deleted;
     }

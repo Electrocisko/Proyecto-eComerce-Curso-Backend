@@ -1,11 +1,10 @@
 import MemoryContainer from "./MemoryContainer.js";
+import { nanoid } from "nanoid"; // nanoid to generate random Ids
 
-let i =0;
 export default class CartsDAO extends MemoryContainer{
 
     save = (element,path,id) =>{
-        i++;
-        id === undefined ? element.id = i : element.id = parseInt(id);
+        id === undefined ? (element.id = nanoid(10)) : (element.id = id);
         this.data.push(element);
         return element;
     }

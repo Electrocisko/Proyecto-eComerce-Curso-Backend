@@ -1,15 +1,5 @@
 [
 	{
-		"name": "Probando Path",
-		"description": "De vermeer",
-		"code": "AZU",
-		"price": "8000",
-		"stock": "2",
-		"thumbnail": "1661537825176-azulejo-delft.jpg",
-		"timestamp": 1661537825180,
-		"id": "CyxKWVPj3r"
-	},
-	{
 		"name": "FUNCA",
 		"description": "De vermeer",
 		"code": "AZU",
@@ -38,5 +28,15 @@
 		"thumbnail": "1661884291415-arroz.png",
 		"timestamp": 1661884291418,
 		"id": "cwp3jLNm0V"
+	},
+	{
+		"name": "Amplificador Onkyo 4k",
+		"description": "amplificador 7.1",
+		"code": "AMP",
+		"price": "450",
+		"stock": "3",
+		"thumbnail": "1661889601520-arroz.png",
+		"timestamp": 1661889601522,
+		"id": "vVRCT47Vfz"
 	}
 ]
