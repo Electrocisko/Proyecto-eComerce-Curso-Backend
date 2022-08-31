@@ -1,72 +1,42 @@
 [
 	{
-		"name": "Amplificador Onkyo Dolby Atmos",
-		"description": "amplificador 7.1",
-		"code": "AMP",
-		"price": "450",
-		"stock": "3",
-		"thumbnail": "1661941933222-arroz.png",
-		"timestamp": 1661941933596,
-		"id": "7AHMVi6Cox"
-	},
-	{
-		"name": "Amplificador Onkyo 5.1 3D",
-		"description": "amplificador ",
-		"code": "AMP",
-		"price": "450",
-		"stock": "3",
-		"thumbnail": "1661941959141-arroz.png",
-		"timestamp": 1661941959167,
-		"id": "Gfq0_UlsR3"
-	},
-	{
-		"name": "Amplificador Yamaha 5.1",
-		"description": "amplificador ",
-		"code": "AMP",
-		"price": "450",
-		"stock": "3",
-		"thumbnail": "1661941973725-arroz.png",
-		"timestamp": 1661941973726,
-		"id": "o2g-lcGE7H"
-	},
-	{
-		"name": "DAC MQA",
-		"description": "DAC decodifica MQA",
-		"code": "DAC",
-		"price": "450",
-		"stock": "3",
-		"thumbnail": "1661968847831-Zen-Air-Dac.webp",
-		"timestamp": 1661968847835,
-		"id": "TiUM9IeraU"
-	},
-	{
-		"name": "Amplificador Phono",
-		"description": "amplificador ",
-		"code": "AMP",
-		"price": "450",
-		"stock": "3",
-		"thumbnail": "1661941980259-arroz.png",
-		"timestamp": 1661941980259,
-		"id": "p22_Ed8QKB"
-	},
-	{
-		"name": "Amplificador Phono",
-		"description": "Amplificador para tocadisco",
-		"code": "DAC",
-		"price": "450",
-		"stock": "3",
-		"thumbnail": "1661970812063-Zen-Air-Dac.webp",
-		"timestamp": 1661970812068,
-		"id": "59qnZBm7Ah"
-	},
-	{
 		"name": "Amplificador 5.1",
 		"description": "Amplificador HDMI",
-		"code": "DAC",
+		"code": "AMP",
 		"price": "450",
 		"stock": "3",
-		"thumbnail": "1661978746491-Zen-Air-Dac.webp",
-		"timestamp": 1661978746495,
-		"id": "QMsCZNSNfp"
+		"thumbnail": "1661980544324-foto generico.webp",
+		"timestamp": 1661980544326,
+		"id": "ZwFLtYtNBE"
+	},
+	{
+		"name": "Amplificador Atmos 7.2",
+		"description": "Amplificador HDMI",
+		"code": "AMPAT",
+		"price": "450",
+		"stock": "3",
+		"thumbnail": "1661980567221-foto generico.webp",
+		"timestamp": 1661980567221,
+		"id": "N8-eogm-XA"
+	},
+	{
+		"name": "Media Player",
+		"description": "Reproductor de audio streaming",
+		"code": "MPLAY",
+		"price": "450",
+		"stock": "3",
+		"thumbnail": "1661980613381-foto generico.webp",
+		"timestamp": 1661980613382,
+		"id": "6zs5zcHBer"
+	},
+	{
+		"name": "Bandeja giradisco",
+		"description": "Tocadisco",
+		"code": "PICKUP",
+		"price": "450",
+		"stock": "3",
+		"thumbnail": "1661980669018-foto generico.webp",
+		"timestamp": 1661980669348,
+		"id": "5RuviHPkUZ"
 	}
 ]

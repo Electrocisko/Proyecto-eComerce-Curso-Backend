@@ -80,7 +80,7 @@ export default class FileContainer {
         }
       }
       let checkDelete = await this.deleteById(id);
-      let saveFile = await this.save(product,id)
+      let saveFile = await this.save(product)
       return checkDelete;
     }
   };
