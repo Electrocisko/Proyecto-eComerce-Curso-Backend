@@ -1,4 +1,4 @@
-const persistence = "memory";
+const persistence = "mongodb";
 let productsService;
 let cartsService;
 

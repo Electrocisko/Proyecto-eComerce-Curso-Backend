@@ -58,5 +58,15 @@
 		"thumbnail": "1661970812063-Zen-Air-Dac.webp",
 		"timestamp": 1661970812068,
 		"id": "59qnZBm7Ah"
+	},
+	{
+		"name": "Amplificador 5.1",
+		"description": "Amplificador HDMI",
+		"code": "DAC",
+		"price": "450",
+		"stock": "3",
+		"thumbnail": "1661978746491-Zen-Air-Dac.webp",
+		"timestamp": 1661978746495,
+		"id": "QMsCZNSNfp"
 	}
 ]

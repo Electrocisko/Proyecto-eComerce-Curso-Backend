@@ -43,7 +43,7 @@ router.delete("/:cid", async (req, res) => {
     let cartID = req.params.cid;
     let cartDelete = await services.cartsService.deleteById(cartID);
     res.status(202).send({
-      "Product Removed": cartDelete,
+      "Cart Removed": cartDelete,
     });
   } catch (error) {
     res.send({
@@ -130,7 +130,7 @@ router.post("/:cid/products", async (req, res) => {
     } else {
       productsInCart = cart.products;
       await services.cartsService.deleteById(cartID);
-      await services.cartsService.save(cart,cartID);
+      await services.cartsService.save(cart);
     }
     const prodIndex = productsInCart.findIndex(
       (item) => item.product === addProduct.product
@@ -153,7 +153,7 @@ router.post("/:cid/products", async (req, res) => {
     } else {
       newData = productsInCart;
       await services.cartsService.deleteById(cartID);
-      await services.cartsService.save(cart,cartID);
+      await services.cartsService.save(cart);
     }
     res.status(201).send({
       cartId: cartID,
@@ -204,7 +204,7 @@ router.delete("/:cid/products/:pid", async (req, res) => {
     );
   } else {
     await services.cartsService.deleteById(cartID);
-    await services.cartsService.save(cart, cartID);
+    await services.cartsService.save(cart);
   }
   res.status(202).send({
     cartId: cartID,
