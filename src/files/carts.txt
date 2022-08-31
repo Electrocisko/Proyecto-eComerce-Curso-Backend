@@ -14,10 +14,6 @@
 			{
 				"product": "7AHMVi6Cox",
 				"quantity": 3
-			},
-			{
-				"product": "OABljKNHEX",
-				"quantity": 7
 			}
 		],
 		"timestamp": 1661942014425,
