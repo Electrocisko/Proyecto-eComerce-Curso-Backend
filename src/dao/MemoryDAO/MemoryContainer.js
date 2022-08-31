@@ -10,7 +10,8 @@ export default class MemoryContainer {
     return this.data;
   };
 
-  save = (element) => {
+  save = (element,path,id) => {
+    id === undefined ? (element.id = nanoid(10)) : (element.id = id);
     this.data.push(element);
     return element;
   };

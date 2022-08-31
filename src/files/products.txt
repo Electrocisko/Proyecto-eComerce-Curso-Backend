@@ -1,42 +1,42 @@
 [
 	{
-		"name": "FUNCA",
-		"description": "De vermeer",
-		"code": "AZU",
-		"price": "8000",
-		"stock": "2",
-		"thumbnail": "1661538852870-azulejo-delft.jpg",
-		"timestamp": 1661538852873,
-		"id": "boSiMvCwPr"
-	},
-	{
-		"name": "Nuevo nombre",
-		"description": "test",
-		"code": "test",
-		"price": "200",
-		"stock": "10",
-		"thumbnail": "1661794869469-azulejo-delft.jpg",
-		"timestamp": 1661794869471,
-		"id": "We1orAlzzq"
-	},
-	{
-		"name": "Dell inspiron",
-		"description": "Notebook",
-		"code": "NTBK",
-		"price": "2000",
-		"stock": "10",
-		"thumbnail": "1661884291415-arroz.png",
-		"timestamp": 1661884291418,
-		"id": "cwp3jLNm0V"
-	},
-	{
-		"name": "Amplificador Onkyo 4k",
+		"name": "Amplificador Onkyo Dolby Atmos",
 		"description": "amplificador 7.1",
 		"code": "AMP",
 		"price": "450",
 		"stock": "3",
-		"thumbnail": "1661889601520-arroz.png",
-		"timestamp": 1661889601522,
-		"id": "vVRCT47Vfz"
+		"thumbnail": "1661941933222-arroz.png",
+		"timestamp": 1661941933596,
+		"id": "7AHMVi6Cox"
+	},
+	{
+		"name": "Amplificador Onkyo 5.1 3D",
+		"description": "amplificador ",
+		"code": "AMP",
+		"price": "450",
+		"stock": "3",
+		"thumbnail": "1661941959141-arroz.png",
+		"timestamp": 1661941959167,
+		"id": "Gfq0_UlsR3"
+	},
+	{
+		"name": "Amplificador Yamaha 5.1",
+		"description": "amplificador ",
+		"code": "AMP",
+		"price": "450",
+		"stock": "3",
+		"thumbnail": "1661941973725-arroz.png",
+		"timestamp": 1661941973726,
+		"id": "o2g-lcGE7H"
+	},
+	{
+		"name": "Amplificador Denon",
+		"description": "amplificador ",
+		"code": "AMP",
+		"price": "450",
+		"stock": "3",
+		"thumbnail": "1661941980259-arroz.png",
+		"timestamp": 1661941980259,
+		"id": "OABljKNHEX"
 	}
 ]

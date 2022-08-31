@@ -7,12 +7,19 @@ const router = Router();
 let nameFile = "/files/carts.txt";
 
 router.get("/", async (req, res) => {
+try {
   let allCarts = JSON.stringify(await services.cartsService.getAll(nameFile));
   res.end(allCarts);
+} catch (error) {
+  res.send({
+    message: error,
+  });
+}
 });
 
 // Add a cart and return the id
 router.post("/", async (req, res) => {
+try {
   let newCart = {
     products: [],
   };
@@ -22,45 +29,46 @@ router.post("/", async (req, res) => {
     message: "Carrito agregado",
     Cart: cart,
   });
+} catch (error) {
+  res.send({
+    message: error,
+  });
+}
 });
 
 ///////// to delete cart
 router.delete("/:cid", async (req, res) => {
+try {
   let cartID = req.params.cid;
   let cartDelete = await services.cartsService.deleteById(cartID, nameFile);
   res.status(202).send({
     "Product Removed": cartDelete,
   });
+} catch (error) {
+  res.send({
+    message: error,
+  });
+}
 });
 
 ///////////To get products from the cart
+
 router.get("/:cid/products", async (req, res) => {
+  let showList = [];
+  let allProducts;
+  let cartID = req.params.cid;
+  let cart = await services.cartsService.getById(cartID, nameFile);
+  if (cart === null) {
+    return res.status(400).send('{ "error" : "non-existent cart"}');
+  }
   if (typeOfPersistence === "mongodb") {
-    let cartId = req.params.cid;
-    let result = await services.cartsService.getById(cartId);
-    if (result === null) {
-      return res.status(400).send('{ "error" : "non-existent cart"}');
-    }
-    res.send({
-      document: result,
-    });
-  } else {
-    let cartID = req.params.cid;
-    let cart = await services.cartsService.getById(cartID, nameFile);
-    if (cart === null) {
-      return res.status(400).send('{ "error" : "carrito inexistente"}');
-    }
-    let allProducts = await services.productsService.getAll(
-      "/files/products.txt"
-    );
-    let showList = [];
-    // Here I compare the two arrays and create a new one called showList with the matching products.
+    allProducts = await services.productsService.getAll();
+    let productsInCart = cart[0].products;
     allProducts.map((item) => {
-      cart.products.forEach((element) => {
-        if (element.product === item.id) { 
+      productsInCart.forEach((element) => {
+        if (element.product === item._id.toString()) { 
           showList.push({
             product: item.name,
-            productId: item.id,
             price: item.price,
             stock: item.stock,
             cuantity: element.quantity,
@@ -68,11 +76,72 @@ router.get("/:cid/products", async (req, res) => {
         };
       });
     });
+
+  } else {
+    allProducts = await services.productsService.getAll(
+      "/files/products.txt"
+    )
+      //Here I compare the two arrays and create a new one called showList with the matching products.
+      allProducts.map((item) => {
+        cart.products.forEach((element) => {
+          if (element.product === item.id) { 
+            showList.push({
+              product: item.name,
+              productId: item.id,
+              price: item.price,
+              stock: item.stock,
+              cuantity: element.quantity,
+            });
+          };
+        });
+      });
+    } 
     res.status(200).send({
       products: showList,
     });
-  }
 });
+
+
+
+// router.get("/:cid/products", async (req, res) => {
+//   if (typeOfPersistence === "mongodb") {
+//     let cartId = req.params.cid;
+//     let result = await services.cartsService.getById(cartId);
+//     if (result === null) {
+//       return res.status(400).send('{ "error" : "non-existent cart"}');
+//     }
+//     res.send({
+//       document: result,
+//     });
+//   } else {
+//     let cartID = req.params.cid;
+//     let cart = await services.cartsService.getById(cartID, nameFile);
+//     if (cart === null) {
+//       return res.status(400).send('{ "error" : "carrito inexistente"}');
+//     }
+//     let allProducts = await services.productsService.getAll(
+//       "/files/products.txt"
+//     );
+//     let showList = [];
+//     // Here I compare the two arrays and create a new one called showList with the matching products.
+//     allProducts.map((item) => {
+//       cart.products.forEach((element) => {
+//         if (element.product === item.id) { 
+//           showList.push({
+//             product: item.name,
+//             productId: item.id,
+//             price: item.price,
+//             stock: item.stock,
+//             cuantity: element.quantity,
+//           });
+//         };
+//       });
+//     });
+//     res.status(200).send({
+//       products: showList,
+//     });
+//   }
+// });
 
 // ////////////////// To add products to the cart by their product id
 

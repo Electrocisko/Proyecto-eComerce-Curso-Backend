@@ -36,7 +36,6 @@ export default class FileContainer {
 
   getById = async (id, path) => {
     let list = await this.getAll(path);
-    //console.log('lista de productos',list)
     const foundItem = list.find((element) => element.id === id);
     if (foundItem !== undefined) {
       return foundItem;
@@ -64,11 +63,7 @@ export default class FileContainer {
 
   update = async (id, path, modifiedItem) => {
     let modified = false;
-    console.log("update file id:", id);
-    console.log("uodate file item", modifiedItem);
     let product = await this.getById(id, path);
-    console.log('product',product)
-
     if (product === null) {
       return modified;
     } else {
@@ -85,5 +80,4 @@ export default class FileContainer {
       return checkDelete;
     }
   };
-
 }
