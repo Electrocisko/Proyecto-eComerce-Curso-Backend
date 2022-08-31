@@ -38,5 +38,15 @@
 		"thumbnail": "1661941980259-arroz.png",
 		"timestamp": 1661941980259,
 		"id": "OABljKNHEX"
+	},
+	{
+		"name": "Juego de te",
+		"description": "Juego de taza con plato Delft Blauw",
+		"code": "JDTZ",
+		"price": "450",
+		"stock": "3",
+		"thumbnail": "1661963163124-taza.jpg",
+		"timestamp": 1661963163125,
+		"id": "qt-jkvH8Z0"
 	}
 ]
