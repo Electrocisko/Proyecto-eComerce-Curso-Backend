@@ -18,5 +18,10 @@
 		],
 		"timestamp": 1661942014425,
 		"id": "enkTl4_zvw"
+	},
+	{
+		"products": [],
+		"timestamp": 1661971988441,
+		"id": "YkgUj5u2mb"
 	}
 ]

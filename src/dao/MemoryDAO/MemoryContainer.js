@@ -10,8 +10,7 @@ export default class MemoryContainer {
     return this.data;
   };
 
-  save = (element,path,id) => {
-    id === undefined ? (element.id = nanoid(10)) : (element.id = id);
+  save = (element) => {
     this.data.push(element);
     return element;
   };
@@ -38,7 +37,7 @@ export default class MemoryContainer {
     }
   };
 
-  update = async (id,path, modifiedItem) => {
+  update = async (id, modifiedItem) => {
     let modified = false;
     let product = await this.getById(id);
     if (product === null) {

@@ -1,4 +1,4 @@
-const persistence = "localfile";
+const persistence = "memory";
 let productsService;
 let cartsService;
 

@@ -1,15 +1,17 @@
 import fs from "fs";
 import __dirname from "../../utils.js";
-import { nanoid } from "nanoid"; // nanoid to generate random Ids
+
 
 export default class FileContainer {
-  getAll = async (path) => {
-    // I send the path now by parameter
+  constructor (path) {
+    this.path = path
+  }
+
+  getAll = async () => {
     try {
-      if (fs.existsSync(__dirname + path)) {
-        let data = await fs.promises.readFile(__dirname + path, "utf-8");
+      if (fs.existsSync(__dirname + this.path)) {
+        let data = await fs.promises.readFile(__dirname + this.path, "utf-8");
         return JSON.parse(data);
-       
       } else {
         let data = [];
         return data;
@@ -19,13 +21,12 @@ export default class FileContainer {
     }
   };
 
-  save = async (item, path, id) => {
+  save = async (item) => {
     try {
-      let list = await this.getAll(path);
-      id === undefined ? (item.id = nanoid(10)) : (item.id = id);
+      let list = await this.getAll();
       list.push(item);
       await fs.promises.writeFile(
-        __dirname + path,
+        __dirname + this.path,
         JSON.stringify(list, null, "\t")
       );
       return item.id;
@@ -34,8 +35,8 @@ export default class FileContainer {
     }
   };
 
-  getById = async (id, path) => {
-    let list = await this.getAll(path);
+  getById = async (id) => {
+    let list = await this.getAll();
     const foundItem = list.find((element) => element.id === id);
     if (foundItem !== undefined) {
       return foundItem;
@@ -44,26 +45,29 @@ export default class FileContainer {
     }
   };
 
-  deleteById = async (id, path) => {
+  deleteById = async (id) => {
     let deleteItem;
-    let toDelete = await this.getById(id, path);
+    let toDelete = await this.getById(id);
     if (toDelete === null) {
       return (deleteItem = false);
     } else {
-      let list = await this.getAll(path);
+      let list = await this.getAll();
       let index = await list.findIndex((item) => item.id === id);
       list.splice(index, 1);
       await fs.promises.writeFile(
-        __dirname + path,
+        __dirname + this.path,
         JSON.stringify(list, null, "\t")
       );
       return (deleteItem = true);
     }
   };
 
-  update = async (id, path, modifiedItem) => {
+
+
+
+  update = async (id, modifiedItem) => {
     let modified = false;
-    let product = await this.getById(id, path);
+    let product = await this.getById(id);
     if (product === null) {
       return modified;
     } else {
@@ -75,8 +79,8 @@ export default class FileContainer {
           }
         }
       }
-      let checkDelete = await this.deleteById(id,path);
-      let saveFile = await this.save(product, path, id)
+      let checkDelete = await this.deleteById(id);
+      let saveFile = await this.save(product,id)
       return checkDelete;
     }
   };

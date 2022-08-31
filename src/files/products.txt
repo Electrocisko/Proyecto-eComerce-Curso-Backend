@@ -30,23 +30,33 @@
 		"id": "o2g-lcGE7H"
 	},
 	{
-		"name": "Amplificador Denon",
+		"name": "DAC MQA",
+		"description": "DAC decodifica MQA",
+		"code": "DAC",
+		"price": "450",
+		"stock": "3",
+		"thumbnail": "1661968847831-Zen-Air-Dac.webp",
+		"timestamp": 1661968847835,
+		"id": "TiUM9IeraU"
+	},
+	{
+		"name": "Amplificador Phono",
 		"description": "amplificador ",
 		"code": "AMP",
 		"price": "450",
 		"stock": "3",
 		"thumbnail": "1661941980259-arroz.png",
 		"timestamp": 1661941980259,
-		"id": "OABljKNHEX"
+		"id": "p22_Ed8QKB"
 	},
 	{
-		"name": "Juego de te",
-		"description": "Juego de taza con plato Delft Blauw",
-		"code": "JDTZ",
+		"name": "Amplificador Phono",
+		"description": "Amplificador para tocadisco",
+		"code": "DAC",
 		"price": "450",
 		"stock": "3",
-		"thumbnail": "1661963163124-taza.jpg",
-		"timestamp": 1661963163125,
-		"id": "qt-jkvH8Z0"
+		"thumbnail": "1661970812063-Zen-Air-Dac.webp",
+		"timestamp": 1661970812068,
+		"id": "59qnZBm7Ah"
 	}
 ]
