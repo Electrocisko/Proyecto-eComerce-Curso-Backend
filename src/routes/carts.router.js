@@ -101,48 +101,6 @@ router.get("/:cid/products", async (req, res) => {
     });
 });
 
-
-
-// router.get("/:cid/products", async (req, res) => {
-//   if (typeOfPersistence === "mongodb") {
-//     let cartId = req.params.cid;
-//     let result = await services.cartsService.getById(cartId);
-//     if (result === null) {
-//       return res.status(400).send('{ "error" : "non-existent cart"}');
-//     }
-//     res.send({
-//       document: result,
-//     });
-//   } else {
-//     let cartID = req.params.cid;
-//     let cart = await services.cartsService.getById(cartID, nameFile);
-//     if (cart === null) {
-//       return res.status(400).send('{ "error" : "carrito inexistente"}');
-//     }
-//     let allProducts = await services.productsService.getAll(
-//       "/files/products.txt"
-//     );
-//     let showList = [];
-//     // Here I compare the two arrays and create a new one called showList with the matching products.
-//     allProducts.map((item) => {
-//       cart.products.forEach((element) => {
-//         if (element.product === item.id) { 
-//           showList.push({
-//             product: item.name,
-//             productId: item.id,
-//             price: item.price,
-//             stock: item.stock,
-//             cuantity: element.quantity,
-//           });
-//         };
-//       });
-//     });
-//     res.status(200).send({
-//       products: showList,
-//     });
-//   }
-// });
-
 // ////////////////// To add products to the cart by their product id
 
 router.post("/:cid/products", async (req, res) => {
