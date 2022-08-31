@@ -24,6 +24,9 @@ export default class MongoDBContainer {
       return null;
     }
     let result = await this.model.find({ _id: id });
+    if(Object.keys(result).length === 0){ 
+      return null
+    }
     return result;
   };
 

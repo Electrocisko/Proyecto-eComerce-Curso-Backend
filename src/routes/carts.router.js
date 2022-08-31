@@ -55,6 +55,7 @@ router.delete("/:cid", async (req, res) => {
 ///////////To get products from the cart
 
 router.get("/:cid/products", async (req, res) => {
+try {
   let showList = [];
   let allProducts;
   let cartID = req.params.cid;
@@ -97,10 +98,16 @@ router.get("/:cid/products", async (req, res) => {
   res.status(200).send({
     products: showList,
   });
+} catch (error) {
+  res.send({
+    Error: error,
+  });
+}
 });
 
 // ////////////////// To add products to the cart by their product id
 router.post("/:cid/products", async (req, res) => {
+try {
   let productsInCart;
   let newData;
   let cartID = req.params.cid;
@@ -158,11 +165,18 @@ router.post("/:cid/products", async (req, res) => {
     cartId: cartID,
     products: newData,
   });
+} catch (error) {
+  res.send({
+    Error: error,
+  });
+}
 });
 
 ////////////////To delete products from the cart////////////
 
 router.delete("/:cid/products/:pid", async (req, res) => {
+
+  ////MONGODB/////////
   if (typeOfPersistence === "mongodb") {
     let productID = req.params.pid;
     let cartID = req.params.cid;
@@ -193,6 +207,8 @@ router.delete("/:cid/products/:pid", async (req, res) => {
     return res.send({
       message: updateCart,
     });
+
+   ////////RESTO//////// 
   } else {
     let productID = req.params.pid;
     let cartID = req.params.cid;
@@ -224,3 +240,71 @@ router.delete("/:cid/products/:pid", async (req, res) => {
 });
 
 export default router;
+
+
+////////////////To delete products from the cart////////////
+
+// router.delete("/:cid/products/:pid", async (req, res) => {
+
+//   ////MONGODB/////////
+//   if (typeOfPersistence === "mongodb") {
+//     let productID = req.params.pid;
+//     let cartID = req.params.cid;
+//     let cart = await services.cartsService.getById(cartID);
+//     if (cart === null) {
+//       return res.status(400).send({
+//         message: "No existe el carrito con ese id",
+//       });
+//     }
+//     let productsInCart = cart[0].products; // the array from products in cart
+//     let prodIndex = productsInCart.findIndex(
+//       (item) => item.product === productID
+//     );
+//     if (prodIndex === -1) {
+//       return res.status(400).send({
+//         message: "Error no existe el producto en carrito",
+//       });
+//     }
+//     productsInCart.splice(prodIndex, 1); // remove the product from the array
+//     let newData = {
+//       products: productsInCart,
+//     };
+//     let updateCart = await services.cartsService.update(
+//       cartID,
+//       nameFile,
+//       newData
+//     );
+//     return res.send({
+//       message: updateCart,
+//     });
+
+//    ////////RESTO//////// 
+//   } else {
+//     let productID = req.params.pid;
+//     let cartID = req.params.cid;
+//     let cart = await services.cartsService.getById(cartID, nameFile);
+//     if (cart === null) {
+//       return res.status(400).send({
+//         message: "No existe el carrito con ese id",
+//       });
+//     }
+//     //I have to get the array of products from the cart
+//     let productsInCart = cart.products;
+//     let prodIndex = await productsInCart.findIndex(
+//       (item) => item.product === productID
+//     );
+//     if (prodIndex === -1) {
+//       return res.status(400).send({
+//         message: "Error no existe el producto en carrito",
+//       });
+//     }
+//     productsInCart.splice(prodIndex, 1); // remove the product from the array
+//     cart.products = productsInCart; // I update the array
+//     await services.cartsService.deleteById(cartID, nameFile);
+//     await services.cartsService.save(cart, nameFile, cartID);
+//     res.status(202).send({
+//       cartId: cartID,
+//       message: "deleted product",
+//     });
+//   }
+// });
