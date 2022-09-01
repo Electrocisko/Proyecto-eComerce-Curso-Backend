@@ -83,6 +83,7 @@ router.put(
     try {
       let productID = req.params.pid;
       let modifiedProduct = req.body;
+      modifiedProduct.thumbnail = req.file.filename;
       let results = await services.productsService.update(
         productID,
         modifiedProduct
