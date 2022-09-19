@@ -47,7 +47,7 @@ router.post("/", checkAdmin, upLoader.single("thumbnail"), async (req, res) => {
     let newProduct = req.body;
     newProduct.thumbnail = req.file.filename;
     newProduct.timestamp = Date.now();
-    newProduct.id = nanoid(10);
+    newProduct.id = nanoid(10); //for the other persistences that are not mongo
     let product = await services.productsService.save(newProduct);
     res.status(201).send({
       message: "Adhered product",
@@ -56,7 +56,7 @@ router.post("/", checkAdmin, upLoader.single("thumbnail"), async (req, res) => {
   } catch (error) {
     console.log(error);
     res.send({
-      message: "Datos ingresados no validos o incompletos",
+      message: "Invalid or incomplete data entered",
     });
   }
 });
