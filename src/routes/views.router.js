@@ -1,5 +1,4 @@
 import { Router } from "express";
-import services from "../dao/index.js";
 
 const router = new Router();
 
@@ -10,6 +9,10 @@ router.get('/register', async (req,res) => {
 router.get('/login', async (req,res) => {
     res.render('login')
 });
+
+router.get('/',async (req,res) => {
+    res.render('index')
+})
 
 export default router;
 
