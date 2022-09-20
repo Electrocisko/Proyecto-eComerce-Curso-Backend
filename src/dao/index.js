@@ -1,6 +1,7 @@
 const persistence = "mongodb";
 let productsService;
 let cartsService;
+let usersService;
 
 switch (persistence) {
   case "memory":
@@ -20,6 +21,8 @@ switch (persistence) {
     productsService = new MongoProduct();
     const { default: MongoCarts } = await import("./MongoDAO/MongoCarts.js");
     cartsService = new MongoCarts();
+    const { default: MongoUser } = await import("./MongoDAO/MongoUsers.js");
+    usersService = new MongoUser();
     break;
 }
 
@@ -27,6 +30,7 @@ const services = {
   productsService,
   cartsService,
   persistence,
+  usersService
 };
 
 export default services;

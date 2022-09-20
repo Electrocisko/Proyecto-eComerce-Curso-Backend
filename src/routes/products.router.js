@@ -75,11 +75,7 @@ router.delete("/:pid", checkAdmin, async (req, res) => {
   }
 });
 
-router.put(
-  "/:pid",
-  checkAdmin,
-  upLoader.single("thumbnail"),
-  async (req, res) => {
+router.put("/:pid",checkAdmin,upLoader.single("thumbnail"),async (req, res) => {
     try {
       let productID = req.params.pid;
       let modifiedProduct = req.body;
