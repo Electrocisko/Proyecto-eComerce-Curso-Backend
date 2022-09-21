@@ -15,21 +15,27 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
+  store:MongoStore.create({
+    mongoUrl:'mongodb+srv://zuchi:xkT3ZDTSXyDv4hB@cluster0.rvl2uyz.mongodb.net/ecommerce?retryWrites=true&w=majority',
+    ttl:600
+  }),
   secret:'clave',
-  resave:true,
-  saveUninitialized:true
+  resave:false,
+  saveUninitialized:false
 }))
 
 app.use("/", express.static(__dirname + "/public"));
 app.use("/api/carts", cartsRouter);
 app.use("/api/products", productsRouter);
 app.use('/api/users', usersRouter );
-app.use('/',viewsRouter);
+
 
 // Template config engine
 app.engine('handlebars', handlebars.engine());
 app.set('views',__dirname+'/views');
 app.set('view engine', 'handlebars');
+
+app.use('/',viewsRouter);
 
 app.use(function (req, res, next) {
   // Midelware to return error 404 to routes that do not exist

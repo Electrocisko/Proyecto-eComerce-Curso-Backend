@@ -37,6 +37,8 @@ router.put('/:userId',async (req,res) => {
 
 router.post('/login',async (req,res) => {
   let result = await services.usersService.getByMail(req.body.email);
+  console.log('users.router linea 40',result);
+  req.session.user = result;
   res.send(result)
 })
 
