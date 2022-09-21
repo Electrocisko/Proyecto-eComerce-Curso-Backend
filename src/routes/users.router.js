@@ -35,6 +35,9 @@ router.put('/:userId',async (req,res) => {
   res.send(result);
 })
 
-
+router.post('/login',async (req,res) => {
+  let result = await services.usersService.getByMail(req.body.email);
+  res.send(result)
+})
 
 export default router;

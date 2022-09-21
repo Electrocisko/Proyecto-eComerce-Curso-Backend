@@ -5,12 +5,21 @@ import cartsRouter from "./routes/carts.router.js";
 import usersRouter from './routes/users.router.js';
 import viewsRouter from './routes/views.router.js';
 import handlebars from "express-handlebars";
+import MongoStore from "connect-mongo";
+import session from 'express-session';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(session({
+  secret:'clave',
+  resave:true,
+  saveUninitialized:true
+}))
+
 app.use("/", express.static(__dirname + "/public"));
 app.use("/api/carts", cartsRouter);
 app.use("/api/products", productsRouter);
