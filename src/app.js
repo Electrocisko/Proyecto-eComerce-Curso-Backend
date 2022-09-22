@@ -8,13 +8,14 @@ import sessionsRouter from './routes/sessions.router.js';
 import handlebars from "express-handlebars";
 import MongoStore from "connect-mongo";
 import session from 'express-session';
+import initializePassport from "./config/passport.config.js";
+import passport from "passport";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(session({
   store:MongoStore.create({
     mongoUrl:'mongodb+srv://zuchi:xkT3ZDTSXyDv4hB@cluster0.rvl2uyz.mongodb.net/ecommerce?retryWrites=true&w=majority',
@@ -25,12 +26,14 @@ app.use(session({
   saveUninitialized:false
 }))
 
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 app.use("/", express.static(__dirname + "/public"));
 app.use("/api/carts", cartsRouter);
 app.use("/api/products", productsRouter);
 app.use('/api/users', usersRouter );
 app.use('/api/sessions', sessionsRouter);
-
 
 // Template config engine
 app.engine('handlebars', handlebars.engine());
@@ -45,10 +48,6 @@ app.use(function (req, res, next) {
     message: "Error route not implemented",
   });
 });
-
-
-
-
 
 
 const server = app.listen(PORT, () => {

@@ -1,7 +1,7 @@
 let form = document.getElementById("registerForm");
 
 const succes = (data) => {
-  console.log('session router linea 4',data);
+  console.log('register.js linea 4',data);
   // if (data.status === "error") {
   //   window.location.assign("http://localhost:8080/errorregister");
   // } else {
