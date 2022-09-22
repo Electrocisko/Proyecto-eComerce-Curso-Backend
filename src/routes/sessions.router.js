@@ -1,6 +1,6 @@
 import { Router } from "express";
 import services from "../dao/index.js";
-import {createHash} from '../utils.js';
+import {createHash, isValidPassword} from '../utils.js';
 
 const router = new Router();
 
@@ -23,9 +23,13 @@ router.post("/register", async (req, res) => {
   });
   
   router.post('/login',async (req,res) => {
-    let result = await services.usersService.getByMail(req.body.email);
-    req.session.user = result;
-    res.send(result)
+    const {email , password} = req.body;
+    if (!email || !password) return res.status(400).send({message: 'Error Incomplete values'});
+    let user = await services.usersService.getByMail(email);
+    if (!user) return res.status(400).send({status: 'Error', error: 'Incorrect Credentials'});
+    if(!isValidPassword) return res.status(401).send({status:'Error', error: 'Incorrect password o mail'});
+    req.session.user = user;
+    res.send(user)
   });
 
   export default router;
