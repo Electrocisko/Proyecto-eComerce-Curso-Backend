@@ -4,6 +4,7 @@ import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
 import usersRouter from './routes/users.router.js';
 import viewsRouter from './routes/views.router.js';
+import sessionsRouter from './routes/sessions.router.js';
 import handlebars from "express-handlebars";
 import MongoStore from "connect-mongo";
 import session from 'express-session';
@@ -28,6 +29,7 @@ app.use("/", express.static(__dirname + "/public"));
 app.use("/api/carts", cartsRouter);
 app.use("/api/products", productsRouter);
 app.use('/api/users', usersRouter );
+app.use('/api/sessions', sessionsRouter);
 
 
 // Template config engine

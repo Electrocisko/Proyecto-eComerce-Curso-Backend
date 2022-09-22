@@ -12,21 +12,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-  router.post("/register", async (req, res) => {
-    const { name, email, password, address, age, phoneNumber, imageUrl } = req.body;
-    let newUser = {
-      name,
-      email,
-      password,
-      address,
-      age,
-      phoneNumber,
-      imageUrl,
-    };
-    let result = await services.usersService.save(newUser);
-    res.send(result);
-  });
-
 
 router.put('/:userId',async (req,res) => {
   let id = req.paramas.userId;
@@ -35,11 +20,6 @@ router.put('/:userId',async (req,res) => {
   res.send(result);
 })
 
-router.post('/login',async (req,res) => {
-  let result = await services.usersService.getByMail(req.body.email);
-  console.log('users.router linea 40',result);
-  req.session.user = result;
-  res.send(result)
-})
+
 
 export default router;
