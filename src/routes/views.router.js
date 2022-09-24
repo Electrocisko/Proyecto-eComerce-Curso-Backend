@@ -12,6 +12,11 @@ router.get('/login', async (req,res) => {
 
 router.get('/',async (req,res) => {
     res.render('index')
+});
+
+router.get('/menu',(req,res) => {
+    if (!req.session.user) res.render('login');
+    res.render('menu',{user: req.session.user});
 })
 
 export default router;

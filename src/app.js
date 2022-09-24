@@ -6,6 +6,7 @@ import usersRouter from './routes/users.router.js';
 import viewsRouter from './routes/views.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 import handlebars from "express-handlebars";
+import mongoose from "mongoose";
 import MongoStore from "connect-mongo";
 import session from 'express-session';
 import initializePassport from "./config/passport.config.js";
@@ -13,6 +14,7 @@ import passport from "passport";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+const connection = mongoose.connect('mongodb+srv://zuchi:xkT3ZDTSXyDv4hB@cluster0.rvl2uyz.mongodb.net/ecommerce?retryWrites=true&w=majority')
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
