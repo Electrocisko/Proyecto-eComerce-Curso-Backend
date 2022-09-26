@@ -1,15 +1,17 @@
 import { Router } from "express";
 import passport from "passport";
+import {upLoader} from '../utils.js';
 
 const router = new Router();
 
 router.post(
   "/register",
+  upLoader.single("imageUrl"),
   passport.authenticate("register", {
     failureRedirect: "/api/sessions/registerfail",
   }),
   async (req, res) => {
-    res.send({ status: "succes", payload: req.user });
+      res.send({ status: "succes", payload: req.user });
   }
 );
 

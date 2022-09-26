@@ -9,7 +9,6 @@ const initializePassport = () => {
 
     passport.use('register',new  LocalStrategy({passReqToCallback:true,usernameField:'email'},async (req, email, password, done) => {
         const { name, address, age, phoneNumber, imageUrl } = req.body;
-        if (!name || !email || !password || !address || !age || !phoneNumber || !imageUrl) return done(null,false);
         const exist = await services.usersService.getByMail(email);
         if (!exist) return done(null,false);
         let newUser = {
@@ -19,7 +18,7 @@ const initializePassport = () => {
           address,
           age,
           phoneNumber,
-          imageUrl,
+          imageUrl: req.file.filename
         };
         let result = await services.usersService.save(newUser); 
         return done(null,result)
