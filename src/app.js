@@ -11,16 +11,19 @@ import MongoStore from "connect-mongo";
 import session from 'express-session';
 import initializePassport from "./config/passport.config.js";
 import passport from "passport";
+import dotenvConfig from "./config/dotenv.config.js";
+
 
 const app = express();
-const PORT = process.env.PORT || 8080;
-const connection = mongoose.connect('mongodb+srv://zuchi:xkT3ZDTSXyDv4hB@cluster0.rvl2uyz.mongodb.net/ecommerce?retryWrites=true&w=majority')
+const PORT = dotenvConfig.app.PORT || 8080;
+const MONGO_URL = dotenvConfig.mongo.MONGO_URL;
+//const connection = mongoose.connect('mongodb+srv://zuchi:xkT3ZDTSXyDv4hB@cluster0.rvl2uyz.mongodb.net/ecommerce?retryWrites=true&w=majority')
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
   store:MongoStore.create({
-    mongoUrl:'mongodb+srv://zuchi:xkT3ZDTSXyDv4hB@cluster0.rvl2uyz.mongodb.net/ecommerce?retryWrites=true&w=majority',
+    mongoUrl:MONGO_URL,
     ttl:600
   }),
   secret:'clave',

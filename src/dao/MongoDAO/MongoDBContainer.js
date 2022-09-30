@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
+import dotenvConfig from "../../config/dotenv.config.js";
+
+const MONGO_URL = dotenvConfig.mongo.MONGO_URL;
 
 export default class MongoDBContainer {
   constructor(collection, schema) {
-    mongoose.connect(
-      "mongodb+srv://zuchi:xkT3ZDTSXyDv4hB@cluster0.rvl2uyz.mongodb.net/ecommerce?retryWrites=true&w=majority"
-    );
+    mongoose.connect(MONGO_URL);
     this.model = mongoose.model(collection, schema);
   }
 
