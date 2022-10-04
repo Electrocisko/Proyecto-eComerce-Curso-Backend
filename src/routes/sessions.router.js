@@ -8,7 +8,7 @@ router.post(
   "/register",
   upLoader.single("imageUrl"),
   passport.authenticate("register", {
-    failureRedirect: "/api/sessions/registerfail",
+    failureRedirect: "/api/sessions/registerfail", passReqToCallback: true
   }),
   async (req, res) => {
       res.send({ status: "succes", payload: req.user });
@@ -30,6 +30,13 @@ router.post("/login", passport.authenticate('login',{failureRedirect:'/api/sessi
 
 router.get("/loginfail", (req, res) => {
   res.status(400).send({ status: "error", message: 'user registration error' });
+});
+
+router.get('/logout',async(req,res) => {
+  req.session.destroy( err => {
+      if(!err)  res.redirect('/login');
+      else res.send({status: 'Logout Error', body: err})
+  });
 });
 
 export default router;
