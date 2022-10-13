@@ -1,5 +1,7 @@
 import { Router } from "express";
+import logger from "../config/winston.config.js";
 import services from "../dao/index.js";
+
 
 const router = new Router();
 
@@ -8,10 +10,9 @@ router.get("/", async (req, res) => {
     let result = await services.usersService.getAll();
     res.send(result);
   } catch (error) {
-    console.log("Error route appi users", error);
+    logger.log('error', `Error route api users ${error}`);
   }
 });
-
 
 router.put('/:userId',async (req,res) => {
   let id = req.paramas.userId;
@@ -19,7 +20,5 @@ router.put('/:userId',async (req,res) => {
   let result = await services.usersService.update(id,modifiedUser)
   res.send(result);
 })
-
-
 
 export default router;

@@ -1,6 +1,7 @@
 import fs from "fs";
 import __dirname from "../utils.js";
 import { nanoid } from "nanoid"; // nanoid to generate random Ids
+import logger from "../config/winston.config.js";
 
 let path = __dirname + "/files/products.txt";
 
@@ -15,7 +16,7 @@ class ProductsManager {
         return data;
       }
     } catch (error) {
-      console.log("No se pudo acceder", error);
+      logger.log('error', `could not access ${error}`);
     }
   };
 
@@ -43,14 +44,14 @@ class ProductsManager {
 
       return newProduct.id;
     } catch (error) {
-      console.log("no se pudo grabar", error);
+      logger.log('error', `could not save ${error}`);
     }
   };
 
   deleteById = async (id) => {
     let productToDelete = await this.getById(id);
     if (productToDelete === null) {
-      console.log("El producto no esta en la lista");
+      logger.log('info', `The product is not in the list`);
     } else {
       let productsList = await this.getAll();
       let indice = await productsList.findIndex((item) => item.id === id);

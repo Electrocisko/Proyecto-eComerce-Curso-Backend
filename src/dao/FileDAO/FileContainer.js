@@ -1,6 +1,6 @@
 import fs from "fs";
 import __dirname from "../../utils.js";
-
+import logger from "../../config/winston.config.js";
 
 export default class FileContainer {
   constructor (path) {
@@ -17,7 +17,7 @@ export default class FileContainer {
         return data;
       }
     } catch (error) {
-      console.log("No se pudo acceder", error);
+      logger.log('error', `could not read the file ${error}`);
     }
   };
 
@@ -31,7 +31,7 @@ export default class FileContainer {
       );
       return item.id;
     } catch (error) {
-      console.log("no se pudo grabar", error);
+      logger.log('error', `could not save the file ${error}`);
     }
   };
 
@@ -61,9 +61,6 @@ export default class FileContainer {
       return (deleteItem = true);
     }
   };
-
-
-
 
   update = async (id, modifiedItem) => {
     let modified = false;

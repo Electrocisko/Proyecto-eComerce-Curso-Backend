@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import __dirname from "../utils.js";
 import fs from "fs";
+import logger from "../config/winston.config.js";
 
 let path = __dirname + "/files/carts.txt";
 
@@ -15,7 +16,7 @@ class CartManager {
         return data;
       }
     } catch (error) {
-      console.log("could not access", error);
+      logger.log('error', `could not access ${error}`);
     }
   };
 
@@ -27,7 +28,7 @@ class CartManager {
       await fs.promises.writeFile(path, JSON.stringify(cartsList, null, "\t"));
       return newCart.id;
     } catch (error) {
-      console.log("could not record", error);
+      logger.log('error', `could not record ${error}`);
     }
   };
 
@@ -45,7 +46,7 @@ class CartManager {
   deleteById = async (id) => {
     let cartToDelete = await this.getById(id); // I look for the cart by id
     if (cartToDelete === null) {
-      console.log("The product is not in the list");
+      logger.log('info', `The product is not in the list`);
     } else {
       let cartsList = await this.getAll(); // I recover the data
       let indice = await cartsList.findIndex((item) => item.id === id); //I look for the index of the object by id

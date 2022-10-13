@@ -11,6 +11,7 @@ import session from 'express-session';
 import initializePassport from "./config/passport.config.js";
 import passport from "passport";
 import dotenvConfig from "./config/dotenv.config.js";
+import logger from "./config/winston.config.js";
 
 // initializations
 const app = express();
@@ -39,7 +40,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use("/", express.static(__dirname + "/public"));
 
-
 // routes
 app.use("/api/carts", cartsRouter);
 app.use("/api/products", productsRouter);
@@ -52,12 +52,11 @@ app.use(function (req, res, next) { // Midelware to return error 404 to routes t
   });
 }); 
 
-
 // Starting the server
 const server = app.listen(PORT, () => {
-  console.log(`server listening on http://localhost:${server.address().port}`);
+  logger.log('info', `server listening on http://localhost:${server.address().port}`);
 });
 
 server.on("Error", (error) => {
-  console.log("server error", error);
+  logger.log('error', error);
 });

@@ -1,6 +1,5 @@
 import { nanoid } from "nanoid"; // nanoid to generate random Ids
 
-
 export default class MemoryContainer {
   constructor() {
     this.data = [];
