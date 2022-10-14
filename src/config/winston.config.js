@@ -1,16 +1,21 @@
-import winston, { format } from 'winston';
+import winston, { format } from 'winston';  
+import dotenvConfig from './dotenv.config.js';
+const { combine, simple, timestamp, printf } = format;
 
-let logLevel = process.env.LOGS;
+let logLevel = dotenvConfig.app.LOGS
+
+console.log('LEVEL',logLevel)
 
 const logger = winston.createLogger({
-    format: format.combine(format.simple()),
+    format: combine(
+        simple(),
+        timestamp(),
+        printf( info => `[${info.timestamp}] ${info.level} ${info.message}`)
+        ),
     transports:[
-        new winston.transports.Console({
-            level:logLevel
-        }),
-        new winston.transports.File({
-            level:logLevel,
-            filename:'error_logs'})
+        new winston.transports.Console({level:logLevel}),
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'warn.log', level: 'warn' }),
     ]
 });
 
