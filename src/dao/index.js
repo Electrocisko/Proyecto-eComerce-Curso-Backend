@@ -1,4 +1,7 @@
+import logger from "../config/winston.config.js";
+
 const persistence = "localfile";
+logger.log('info',`Persistence: ${persistence}`)
 let productsService;
 let cartsService;
 let usersService;

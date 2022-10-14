@@ -4,8 +4,6 @@ const { combine, simple, timestamp, printf } = format;
 
 let logLevel = dotenvConfig.app.LOGS
 
-console.log('LEVEL',logLevel)
-
 const logger = winston.createLogger({
     format: combine(
         simple(),
