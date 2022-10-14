@@ -1,6 +1,8 @@
 import fs from "fs";
 import __dirname from "../../utils.js";
 import logger from "../../config/winston.config.js";
+import { nanoid } from "nanoid";
+
 
 export default class FileContainer {
   constructor (path) {
@@ -23,13 +25,14 @@ export default class FileContainer {
 
   save = async (item) => {
     try {
+      item._id = nanoid(10);
       let list = await this.getAll();
       list.push(item);
       await fs.promises.writeFile(
         __dirname + this.path,
         JSON.stringify(list, null, "\t")
       );
-      return item.id;
+      return item;
     } catch (error) {
       logger.log('error', `could not save the file ${error}`);
     }

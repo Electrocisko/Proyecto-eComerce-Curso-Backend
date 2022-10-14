@@ -1,0 +1,13 @@
+[
+
+	{
+		"name": "diego",
+		"email": "diego@correo.com",
+		"password": "$2b$10$oXTBEHHxhtC2SNeoF/aaZOFcrCbWVUvrNETzFhZq6Z5rW0ytZWXaa",
+		"address": "123",
+		"age": "123",
+		"phoneNumber": "123",
+		"imageUrl": "1665776457935-2022-10-03 (7).png",
+		"_id": "p-nlXRIDRe"
+	}
+]

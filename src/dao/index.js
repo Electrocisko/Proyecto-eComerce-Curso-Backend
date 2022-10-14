@@ -15,6 +15,8 @@ switch (persistence) {
     productsService = new FileProduct();
     const { default: FileCarts } = await import("./FileDAO/FileCarts.js");
     cartsService = new FileCarts();
+    const { default: FileUser } = await import("./FileDAO/FileUsers.js");
+    usersService = new FileUser();
     break;
   case "mongodb":
     const { default: MongoProduct } = await import("./MongoDAO/MongoProducts.js");
