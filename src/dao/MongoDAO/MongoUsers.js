@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
+import logger from "../../config/winston.config.js";
 import MongoDBContainer from "./MongoDBContainer.js";
+
 
 const collection = 'users';
 
@@ -19,7 +21,7 @@ export default class MongoUsers extends MongoDBContainer{
     }
 
     getByMail = async (mail) => {
-        let result = await this.model.find({ email: mail });
+        let result = await this.model.findOne({ email: mail });
         return result;
       };
 

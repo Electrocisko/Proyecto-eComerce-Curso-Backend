@@ -1,13 +1,23 @@
 [
 
 	{
-		"name": "diego",
-		"email": "diego@correo.com",
-		"password": "$2b$10$oXTBEHHxhtC2SNeoF/aaZOFcrCbWVUvrNETzFhZq6Z5rW0ytZWXaa",
-		"address": "123",
-		"age": "123",
-		"phoneNumber": "123",
-		"imageUrl": "1665776457935-2022-10-03 (7).png",
-		"_id": "p-nlXRIDRe"
+		"name": "Juan Perez",
+		"email": "juanperez@correo.com",
+		"password": "$2b$10$vzPhgkxBkseQXA1/lt9eP.QeLsoaWa8pBBgZ0NQv582E5xDTFLThy",
+		"address": "Av Espana 2022",
+		"age": "44",
+		"phoneNumber": "2322222",
+		"imageUrl": "1666005641071-2022-10-03.png",
+		"_id": "284Qje-baW"
+	},
+	{
+		"name": "Andre van Duin",
+		"email": "andrevanduin@correo.com",
+		"password": "$2b$10$7AsuDHTeqfDJ.ftcEF/br.s3YMICOoB0Y4k.wwEsyRuQChVTcZLoi",
+		"address": "Hilversum ",
+		"age": "77",
+		"phoneNumber": "2322222",
+		"imageUrl": "1666007521184-2022-10-03 (9).png",
+		"_id": "oMjU2EDvce"
 	}
 ]

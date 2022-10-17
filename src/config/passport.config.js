@@ -13,9 +13,8 @@ const initializePassport = () => {
       { passReqToCallback: true, usernameField: "email" },
       async (req, email, password, done) => {
         const { name, address, age, phoneNumber, imageUrl } = req.body;
-        logger.log("debug", `mail: ${email} `);
         const exist = await services.usersService.getByMail(email);
-        if (!exist) return done(null, false);
+        if (exist!==null) return done(null, false);
         let newUser = {
           name,
           email,
@@ -26,10 +25,6 @@ const initializePassport = () => {
           imageUrl: req.file.filename,
         };
         let result = await services.usersService.save(newUser);
-        logger.log(
-          "debug",
-          `passport.config.js usersService return: ${result}`
-        );
         return done(null, result);
       }
     )
@@ -40,12 +35,8 @@ const initializePassport = () => {
     new LocalStrategy(
       { usernameField: "email" },
       async (email, password, done) => {
-        let user;
         if (!email || !password) return done(null, false);
-        let result = await services.usersService.getByMail(email);
-        services.persistence == "mongodb"
-          ? (user = result[0])
-          : (user = result);
+        let user = await services.usersService.getByMail(email);
         if (!user) return done(null, false);
         if (!isValidPassword(user, password)) return done(null, false);
         return done(null, user);
