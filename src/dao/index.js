@@ -1,7 +1,6 @@
-import logger from "../config/winston.config.js";
 
-const persistence = "localfile";
-logger.log('info',`Persistence: ${persistence}`)
+
+const persistence = "mongodb";
 let productsService;
 let cartsService;
 let usersService;

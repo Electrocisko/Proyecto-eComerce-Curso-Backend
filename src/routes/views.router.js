@@ -16,7 +16,10 @@ router.get('/',async (req,res) => {
 
 router.get('/menu',(req,res) => {
     if (!req.session.user) res.render('login');
-    res.render('menu',{user: req.session.user});
+    else {
+        res.render('menu',{user: req.session.user});
+    }
+   
 });
 
 router.get('/errorlogin',(req,res) => {

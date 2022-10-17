@@ -1,5 +1,4 @@
 [
-
 	{
 		"name": "Juan Perez",
 		"email": "juanperez@correo.com",
@@ -19,5 +18,15 @@
 		"phoneNumber": "2322222",
 		"imageUrl": "1666007521184-2022-10-03 (9).png",
 		"_id": "oMjU2EDvce"
+	},
+	{
+		"name": "Max Verstappen",
+		"email": "max@correo.com",
+		"password": "$2b$10$AcE1C2D8l2qUAvT1DMgz8eTGJWOZQ6BNW9rD3hRkqer6.0X6kRpBy",
+		"address": "Loosduinen",
+		"age": "28",
+		"phoneNumber": "2345-3455",
+		"imageUrl": "1666010493204-2022-10-03 (1).png",
+		"_id": "L1Il_6cWpJ"
 	}
 ]

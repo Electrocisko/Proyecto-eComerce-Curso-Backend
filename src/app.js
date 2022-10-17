@@ -12,11 +12,18 @@ import initializePassport from "./config/passport.config.js";
 import passport from "passport";
 import dotenvConfig from "./config/dotenv.config.js";
 import logger from "./config/winston.config.js";
+import services from './dao/index.js';
+import cluster from 'cluster';
+import os from 'os';
 
 // initializations
 const app = express();
-const PORT = dotenvConfig.app.PORT || 8080;
+//const PORT = dotenvConfig.app.PORT || 8080;
+const PORT = parseInt(process.argv[2]) || 8080;
+const modoCluster = process.argv[3] == 'CLUSTER'
 const MONGO_URL = dotenvConfig.mongo.MONGO_URL;
+const numCPUs = os.cpus().length;
+
 
 // settings
 app.engine('handlebars', handlebars.engine());
@@ -53,10 +60,24 @@ app.use(function (req, res, next) { // Midelware to return error 404 to routes t
 }); 
 
 // Starting the server
-const server = app.listen(PORT, () => {
-  logger.log('info', `server listening on http://localhost:${server.address().port}`);
-});
+if(modoCluster && cluster.isPrimary) {
+  logger.log('info', `Master ${process.pid} process is running`)
 
-server.on("Error", (error) => {
-  logger.log('error', error);
-});
+  for (let i=0; i<numCPUs;i++){
+    cluster.fork();
+  };
+
+  cluster.on('exit', worker => {
+    logger.log('info', `Worker ${worker.process.pid} died ${new Date().toLocaleString()}`);
+    cluster.fork();
+  })
+
+} else {
+  app.listen(PORT, () => {
+    logger.log('info', `server listening on http://localhost:${PORT} process: ${process.pid}`);
+    logger.log('info',`Persistence: ${services.persistence}`)
+  });
+}
+
+
+
