@@ -5,7 +5,7 @@ import cartsRouter from "./routes/carts.router.js";
 import usersRouter from './routes/users.router.js';
 import viewsRouter from './routes/views.router.js';
 import sessionsRouter from './routes/sessions.router.js';
-import handlebars from "express-handlebars";
+import {engine} from "express-handlebars";
 import MongoStore from "connect-mongo";
 import session from 'express-session';
 import initializePassport from "./config/passport.config.js";
@@ -15,20 +15,19 @@ import logger from "./config/winston.config.js";
 import services from './dao/index.js';
 import cluster from 'cluster';
 import os from 'os';
+import path from "path";
 
 // initializations
 const app = express();
-//const PORT = dotenvConfig.app.PORT || 8080;
-const PORT = parseInt(process.argv[2]) || 8080;
-const modoCluster = process.argv[3] == 'CLUSTER'
+const PORT = dotenvConfig.app.PORT || 8080;
+const modoCluster = process.argv[2] == 'CLUSTER'
 const MONGO_URL = dotenvConfig.mongo.MONGO_URL;
 const numCPUs = os.cpus().length;
 
-
 // settings
-app.engine('handlebars', handlebars.engine());
-app.set('views',__dirname+'/views');
+app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
+app.set('views',__dirname+'/views');
 
 // middlewares
 app.use(express.json());
@@ -53,7 +52,7 @@ app.use("/api/products", productsRouter);
 app.use('/api/users', usersRouter );
 app.use('/api/sessions', sessionsRouter);
 app.use('/',viewsRouter);
-app.use(function (req, res, next) { // Midelware to return error 404 to routes that do not exist
+app.use(function (req, res, next) {
   res.status(404).send({
     message: "Error route not implemented",
   });
