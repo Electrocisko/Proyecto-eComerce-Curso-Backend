@@ -1,13 +1,19 @@
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 import dotenvConfig from "../../config/dotenv.config.js";
+import logger from "../../config/winston.config.js";
 
 const MONGO_URL = dotenvConfig.mongo.MONGO_URL;
 
 export default class MongoDBContainer {
   constructor(collection, schema) {
-    mongoose.connect(MONGO_URL);
-    this.model = mongoose.model(collection, schema);
+    mongoose.connect(MONGO_URL)
+    .then( () => {
+      this.model = mongoose.model(collection, schema);
+    })
+    .catch((error) => {
+      logger.log('error',`Error in mongoose connect error: ${error}`)
+    })
   }
 
   getAll = async () => {

@@ -16,6 +16,7 @@ import services from './dao/index.js';
 import cluster from 'cluster';
 import os from 'os';
 
+
 // initializations
 const app = express();
 const PORT = dotenvConfig.app.PORT || 8080;
@@ -27,6 +28,7 @@ const numCPUs = os.cpus().length;
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views',__dirname+'/views');
+
 
 // middlewares
 app.use(express.json());
@@ -55,7 +57,8 @@ app.use(function (req, res, next) {
   res.status(404).send({
     message: "Error route not implemented",
   });
-}); 
+});
+
 
 // Starting the server
 if(modoCluster && cluster.isPrimary) {

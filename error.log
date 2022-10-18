@@ -1,2 +1,12 @@
 
 [2022-10-14T19:13:50.748Z] error could not save the file ReferenceError: id is not defined
+[2022-10-18T17:56:09.945Z] error Error in mongoose connect error: Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.rvl2uyz.mongodb.net
+[2022-10-18T18:09:26.430Z] error Error in mongoose connect error: Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.rvl2uyz.mongodb.net
+[2022-10-18T18:09:26.441Z] error Error in mongoose connect error: Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.rvl2uyz.mongodb.net
+[2022-10-18T18:09:26.460Z] error Error in mongoose connect error: Error: querySrv EDESTRUCTION _mongodb._tcp.cluster0.rvl2uyz.mongodb.net
+[2022-10-18T18:10:08.123Z] error Error in mongoose connect error: Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.rvl2uyz.mongodb.net
+[2022-10-18T18:10:08.136Z] error Error in mongoose connect error: Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.rvl2uyz.mongodb.net
+[2022-10-18T18:10:08.223Z] error Error in mongoose connect error: Error: querySrv EDESTRUCTION _mongodb._tcp.cluster0.rvl2uyz.mongodb.net
+[2022-10-18T18:10:22.004Z] error Error in mongoose connect error: Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.rvl2uyz.mongodb.net
+[2022-10-18T18:10:22.016Z] error Error in mongoose connect error: Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.rvl2uyz.mongodb.net
+[2022-10-18T18:10:22.046Z] error Error in mongoose connect error: Error: querySrv EDESTRUCTION _mongodb._tcp.cluster0.rvl2uyz.mongodb.net
