@@ -14,6 +14,6 @@ export default {
         LOGS: process.env.LOGS || 'silly'
     },
     mongo:{
-        MONGO_URL:process.env.MONGO_URL
+        MONGO_URL:process.env.MONGO_URL 
     }
 }
