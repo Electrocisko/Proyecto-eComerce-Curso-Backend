@@ -15,7 +15,6 @@ import logger from "./config/winston.config.js";
 import services from './dao/index.js';
 import cluster from 'cluster';
 import os from 'os';
-import path from "path";
 
 // initializations
 const app = express();

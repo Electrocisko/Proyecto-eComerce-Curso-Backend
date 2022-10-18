@@ -6,6 +6,7 @@ import logger from "../config/winston.config.js";
 let path = __dirname + "/files/products.txt";
 
 class ProductsManager {
+  
   getAll = async () => {
     try {
       if (fs.existsSync(path)) {
@@ -21,12 +22,16 @@ class ProductsManager {
   };
 
   getById = async (id) => {
-    let productsList = await this.getAll();
-    const foundProduct = productsList.find((element) => element.id === id);
-    if (foundProduct !== undefined) {
-      return foundProduct;
-    } else {
-      return null;
+    try {
+      let productsList = await this.getAll();
+      const foundProduct = productsList.find((element) => element.id === id);
+      if (foundProduct !== undefined) {
+        return foundProduct;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      logger.log('error', `error getById ${error}`);
     }
   };
 
@@ -49,17 +54,21 @@ class ProductsManager {
   };
 
   deleteById = async (id) => {
-    let productToDelete = await this.getById(id);
-    if (productToDelete === null) {
-      logger.log('info', `The product is not in the list`);
-    } else {
-      let productsList = await this.getAll();
-      let indice = await productsList.findIndex((item) => item.id === id);
-      productsList.splice(indice, 1);
-      await fs.promises.writeFile(
-        path,
-        JSON.stringify(productsList, null, "\t")
-      );
+    try {
+      let productToDelete = await this.getById(id);
+      if (productToDelete === null) {
+        logger.log('info', `The product is not in the list`);
+      } else {
+        let productsList = await this.getAll();
+        let indice = await productsList.findIndex((item) => item.id === id);
+        productsList.splice(indice, 1);
+        await fs.promises.writeFile(
+          path,
+          JSON.stringify(productsList, null, "\t")
+        );
+      }
+    } catch (error) {
+      logger.log('error', `could not delete ${error}`);
     }
   };
 }

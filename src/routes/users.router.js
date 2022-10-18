@@ -15,10 +15,14 @@ router.get("/", async (req, res) => {
 });
 
 router.put('/:userId',async (req,res) => {
-  let id = req.paramas.userId;
-  let modifiedUser = req.body;
-  let result = await services.usersService.update(id,modifiedUser)
-  res.send(result);
+  try {
+    let id = req.paramas.userId;
+    let modifiedUser = req.body;
+    let result = await services.usersService.update(id,modifiedUser)
+    res.send(result);
+  } catch (error) {
+    logger.log('error', `Error route api userId ${error}`);
+  }
 })
 
 export default router;

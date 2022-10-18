@@ -19,7 +19,6 @@ router.get('/menu',(req,res) => {
     else {
         res.render('menu',{user: req.session.user});
     }
-   
 });
 
 router.get('/errorlogin',(req,res) => {

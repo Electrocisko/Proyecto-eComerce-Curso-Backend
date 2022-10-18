@@ -16,7 +16,7 @@ class CartManager {
         return data;
       }
     } catch (error) {
-      logger.log('error', `could not access ${error}`);
+      logger.log("error", `could not access ${error}`);
     }
   };
 
@@ -28,30 +28,41 @@ class CartManager {
       await fs.promises.writeFile(path, JSON.stringify(cartsList, null, "\t"));
       return newCart.id;
     } catch (error) {
-      logger.log('error', `could not record ${error}`);
+      logger.log("error", `could not record ${error}`);
     }
   };
 
   // Method that returns the cart by id or null if there is no match.
   getById = async (id) => {
-    let cartsList = await this.getAll();
-    let cart = cartsList.find((item) => item.id === id);
-    if (cart !== undefined) {
-      return cart;
-    } else {
-      return null;
+    try {
+      let cartsList = await this.getAll();
+      let cart = cartsList.find((item) => item.id === id);
+      if (cart !== undefined) {
+        return cart;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      logger.log("error", `error in getById ${error}`);
     }
   };
 
   deleteById = async (id) => {
-    let cartToDelete = await this.getById(id); // I look for the cart by id
-    if (cartToDelete === null) {
-      logger.log('info', `The product is not in the list`);
-    } else {
-      let cartsList = await this.getAll(); // I recover the data
-      let indice = await cartsList.findIndex((item) => item.id === id); //I look for the index of the object by id
-      cartsList.splice(indice, 1); // I remove the object from the array and update the file
-      await fs.promises.writeFile(path, JSON.stringify(cartsList, null, "\t"));
+    try {
+      let cartToDelete = await this.getById(id); // I look for the cart by id
+      if (cartToDelete === null) {
+        logger.log("info", `The product is not in the list`);
+      } else {
+        let cartsList = await this.getAll(); // I recover the data
+        let indice = await cartsList.findIndex((item) => item.id === id); //I look for the index of the object by id
+        cartsList.splice(indice, 1); // I remove the object from the array and update the file
+        await fs.promises.writeFile(
+          path,
+          JSON.stringify(cartsList, null, "\t")
+        );
+      }
+    } catch (error) {
+      logger.log("error", `error deleteById ${error}`);
     }
   };
 }

@@ -116,7 +116,9 @@ router.post("/:cid/products", async (req, res) => {
     if (cart === null) {
       return res.status(400).send('{ "error" : "non-existent cart"}');
     }
-    let existProduct = await services.productsService.getById(addProduct.product);
+    let existProduct = await services.productsService.getById(
+      addProduct.product
+    );
     if (existProduct === null) {
       return res.status(400).send('{"error": "non-existent product');
     }
@@ -149,7 +151,7 @@ router.post("/:cid/products", async (req, res) => {
       newData = {
         products: productsInCart,
       };
-      let updateCart = await services.cartsService.update(cartID,newData);
+      let updateCart = await services.cartsService.update(cartID, newData);
     } else {
       newData = productsInCart;
       await services.cartsService.deleteById(cartID);
@@ -169,46 +171,49 @@ router.post("/:cid/products", async (req, res) => {
 ////////////////To delete products from the cart////////////
 
 router.delete("/:cid/products/:pid", async (req, res) => {
-  let productsInCart;
-  let productID = req.params.pid;
-  let cartID = req.params.cid;
-  let cart = await services.cartsService.getById(cartID);
-  if (cart === null) {
-    return res.status(400).send({
-      message: "No existe el carrito con ese id",
-    });
-  }
-  //MONGODB//
-  if (typeOfPersistence === "mongodb") {
-    productsInCart = cart[0].products; // the array from products in cart
-    //REST//
-  } else {
-    productsInCart = cart.products;
-  }
-  let prodIndex = productsInCart.findIndex(
-    (item) => item.product === productID
-  );
-  if (prodIndex === -1) {
-    return res.status(400).send({
-      message: "Error no existe el producto en carrito",
-    });
-  }
-  productsInCart.splice(prodIndex, 1); // remove the product from the array
-  let newData = {
-    products: productsInCart,
-  };
-  if (typeOfPersistence === "mongodb") {
-    let updateCart = await services.cartsService.update(
-      cartID,
-      newData
+  try {
+    let productsInCart;
+    let productID = req.params.pid;
+    let cartID = req.params.cid;
+    let cart = await services.cartsService.getById(cartID);
+    if (cart === null) {
+      return res.status(400).send({
+        message: "The cart with that id does not exist",
+      });
+    }
+    //MONGODB//
+    if (typeOfPersistence === "mongodb") {
+      productsInCart = cart[0].products; // the array from products in cart
+      //REST//
+    } else {
+      productsInCart = cart.products;
+    }
+    let prodIndex = productsInCart.findIndex(
+      (item) => item.product === productID
     );
-  } else {
-    await services.cartsService.deleteById(cartID);
-    await services.cartsService.save(cart);
+    if (prodIndex === -1) {
+      return res.status(400).send({
+        message: "Error the product does not exist in the cart",
+      });
+    }
+    productsInCart.splice(prodIndex, 1); // remove the product from the array
+    let newData = {
+      products: productsInCart,
+    };
+    if (typeOfPersistence === "mongodb") {
+      let updateCart = await services.cartsService.update(cartID, newData);
+    } else {
+      await services.cartsService.deleteById(cartID);
+      await services.cartsService.save(cart);
+    }
+    res.status(202).send({
+      cartId: cartID,
+      message: "deleted product",
+    });
+  } catch (error) {
+    res.send({
+      Error: error,
+    });
   }
-  res.status(202).send({
-    cartId: cartID,
-    message: "deleted product",
-  });
 });
 export default router;

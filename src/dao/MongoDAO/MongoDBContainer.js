@@ -11,45 +11,65 @@ export default class MongoDBContainer {
   }
 
   getAll = async () => {
-    let result = await this.model.find();
-    return result;
+    try {
+      let result = await this.model.find();
+      return result;
+    } catch (error) {
+      logger.log("error", `Error mongodb getAll  ${error}`);
+    }
   };
 
   save = async (document) => {
-    let result = await this.model.create(document);
-    return result;
+    try {
+      let result = await this.model.create(document);
+      return result;
+    } catch (error) {
+      logger.log("error", `Error mongodb save  ${error}`);
+    }
   };
 
   getById = async (id) => {
-    if (!ObjectId.isValid(id)) {
-      return null;
+    try {
+      if (!ObjectId.isValid(id)) {
+        return null;
+      }
+      let result = await this.model.find({ _id: id });
+      if (Object.keys(result).length === 0) {
+        return null;
+      }
+      return result;
+    } catch (error) {
+      logger.log("error", `Error mongodb getById  ${error}`);
     }
-    let result = await this.model.find({ _id: id });
-    if(Object.keys(result).length === 0){ 
-      return null
-    }
-    return result;
   };
 
   deleteById = async (id) => {
-    let result = false;
-    if (!ObjectId.isValid(id)) {
+    try {
+      let result = false;
+      if (!ObjectId.isValid(id)) {
+        return result;
+      }
+      let deleted = await this.model.deleteOne({ _id: id });
+      deleted.deletedCount === 0 ? (result = false) : (result = true);
       return result;
+    } catch (error) {
+      logger.log("error", `Error mongodb deleteById  ${error}`);
     }
-    let deleted = await this.model.deleteOne({ _id: id });
-    deleted.deletedCount === 0 ? (result = false) : (result = true);
-    return result;
   };
 
-  update = async (id,modifiedProduct) => {
+  update = async (id, modifiedProduct) => {
+    try {
     let result = false;
     if (!ObjectId.isValid(id)) {
       return result;
     }
-   let modi = await this.model.updateOne(
+    let modi = await this.model.updateOne(
       { _id: id },
       { $set: modifiedProduct }
     );
     return modi;
+    } catch (error) {
+      logger.log("error", `Error mongodb update ${error}`);
+    }
   };
 }

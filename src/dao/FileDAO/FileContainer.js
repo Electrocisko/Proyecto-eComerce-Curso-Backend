@@ -39,49 +39,61 @@ export default class FileContainer {
   };
 
   getById = async (id) => {
-    let list = await this.getAll();
-    const foundItem = list.find((element) => element.id === id);
-    if (foundItem !== undefined) {
-      return foundItem;
-    } else {
-      return null;
+    try {
+      let list = await this.getAll();
+      const foundItem = list.find((element) => element.id === id);
+      if (foundItem !== undefined) {
+        return foundItem;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      logger.log('error', `Error get by id ${error}`);
     }
   };
 
   deleteById = async (id) => {
-    let deleteItem;
-    let toDelete = await this.getById(id);
-    if (toDelete === null) {
-      return (deleteItem = false);
-    } else {
-      let list = await this.getAll();
-      let index = await list.findIndex((item) => item.id === id);
-      list.splice(index, 1);
-      await fs.promises.writeFile(
-        __dirname + this.path,
-        JSON.stringify(list, null, "\t")
-      );
-      return (deleteItem = true);
+    try {
+      let deleteItem;
+      let toDelete = await this.getById(id);
+      if (toDelete === null) {
+        return (deleteItem = false);
+      } else {
+        let list = await this.getAll();
+        let index = await list.findIndex((item) => item.id === id);
+        list.splice(index, 1);
+        await fs.promises.writeFile(
+          __dirname + this.path,
+          JSON.stringify(list, null, "\t")
+        );
+        return (deleteItem = true);
+      }
+    } catch (error) {
+      logger.log('error', `Error deleted by id ${error}`);
     }
   };
 
   update = async (id, modifiedItem) => {
-    let modified = false;
-    let product = await this.getById(id);
-    if (product === null) {
-      return modified;
-    } else {
-      modified = true;
-      for (const key in product) {
-        for (const item in modifiedItem) {
-          if (key === item) {
-            product[key] = modifiedItem[item];
+    try {
+      let modified = false;
+      let product = await this.getById(id);
+      if (product === null) {
+        return modified;
+      } else {
+        modified = true;
+        for (const key in product) {
+          for (const item in modifiedItem) {
+            if (key === item) {
+              product[key] = modifiedItem[item];
+            }
           }
         }
+        let checkDelete = await this.deleteById(id);
+        let saveFile = await this.save(product);
+        return checkDelete;
       }
-      let checkDelete = await this.deleteById(id);
-      let saveFile = await this.save(product)
-      return checkDelete;
+    } catch (error) {
+      logger.log('error', `Error update  ${error}`);
     }
   };
 }
