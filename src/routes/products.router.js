@@ -2,6 +2,7 @@ import { Router } from "express";
 import { upLoader } from "../utils.js";
 import services from "../dao/index.js";
 import { nanoid } from "nanoid";
+import logger from "../config/winston.config.js";
 
 const router = Router();
 let admin = true; // validate the user
@@ -18,6 +19,10 @@ function checkAdmin(req, res, next) {
 }
 
 router.get("/", async (req, res) => {
+  logger.log(
+    "info",
+    `request type ${req.method} en route ${req.baseUrl} ${new Date()}`
+  );
   try {
     let allProducts = await services.productsService.getAll();
     res.status(200).send(allProducts);
@@ -29,6 +34,10 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:pid", checkAdmin, async (req, res) => {
+  logger.log(
+    "info",
+    `request type ${req.method} en route ${req.baseUrl} ${new Date()}`
+  );
   try {
     let productId = req.params.pid;
     let product = await services.productsService.getById(productId);
@@ -43,6 +52,10 @@ router.get("/:pid", checkAdmin, async (req, res) => {
 });
 
 router.post("/", checkAdmin, upLoader.single("thumbnail"), async (req, res) => {
+  logger.log(
+    "info",
+    `request type ${req.method} en route ${req.baseUrl} ${new Date()}`
+  );
   try {
     let newProduct = req.body;
     newProduct.thumbnail = req.file.filename;
@@ -62,6 +75,10 @@ router.post("/", checkAdmin, upLoader.single("thumbnail"), async (req, res) => {
 });
 
 router.delete("/:pid", checkAdmin, async (req, res) => {
+  logger.log(
+    "info",
+    `request type ${req.method} en route ${req.baseUrl} ${new Date()}`
+  );
   try {
     let productID = req.params.pid;
     let productDeleted = await services.productsService.deleteById(productID);
@@ -75,7 +92,15 @@ router.delete("/:pid", checkAdmin, async (req, res) => {
   }
 });
 
-router.put("/:pid",checkAdmin,upLoader.single("thumbnail"),async (req, res) => {
+router.put(
+  "/:pid",
+  checkAdmin,
+  upLoader.single("thumbnail"),
+  async (req, res) => {
+    logger.log(
+      "info",
+      `request type ${req.method} en route ${req.baseUrl} ${new Date()}`
+    );
     try {
       let productID = req.params.pid;
       let modifiedProduct = req.body;

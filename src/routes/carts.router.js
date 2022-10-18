@@ -1,6 +1,7 @@
 import { Router } from "express";
 import services from "../dao/index.js";
 import { nanoid } from "nanoid";
+import logger from "../config/winston.config.js";
 
 let typeOfPersistence = services.persistence;
 
@@ -9,6 +10,7 @@ const router = Router();
 router.get("/", async (req, res) => {
   try {
     let allCarts = JSON.stringify(await services.cartsService.getAll());
+    logger.log('info',`request type ${req.method} en route ${req.baseUrl} ${new Date()}`)
     res.end(allCarts);
   } catch (error) {
     res.send({
@@ -19,6 +21,7 @@ router.get("/", async (req, res) => {
 
 // Add a cart and return the id
 router.post("/", async (req, res) => {
+  logger.log('info',`request type ${req.method} en route ${req.baseUrl} ${new Date()}`)
   try {
     let newCart = {
       products: [],
@@ -39,6 +42,7 @@ router.post("/", async (req, res) => {
 
 ///////// to delete cart
 router.delete("/:cid", async (req, res) => {
+  logger.log('info',`request type ${req.method} en route ${req.baseUrl} ${new Date()}`)
   try {
     let cartID = req.params.cid;
     let cartDelete = await services.cartsService.deleteById(cartID);
@@ -55,6 +59,7 @@ router.delete("/:cid", async (req, res) => {
 ///////////To get products from the cart
 
 router.get("/:cid/products", async (req, res) => {
+  logger.log('info',`request type ${req.method} en route ${req.baseUrl} ${new Date()}`)
   try {
     let showList = [];
     let allProducts;
@@ -107,6 +112,7 @@ router.get("/:cid/products", async (req, res) => {
 
 // ////////////////// To add products to the cart by their product id
 router.post("/:cid/products", async (req, res) => {
+  logger.log('info',`request type ${req.method} en route ${req.baseUrl} ${new Date()}`)
   try {
     let productsInCart;
     let newData;
@@ -171,6 +177,7 @@ router.post("/:cid/products", async (req, res) => {
 ////////////////To delete products from the cart////////////
 
 router.delete("/:cid/products/:pid", async (req, res) => {
+  logger.log('info',`request type ${req.method} en route ${req.baseUrl} ${new Date()}`)
   try {
     let productsInCart;
     let productID = req.params.pid;

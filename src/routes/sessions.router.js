@@ -1,5 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
+import logger from "../config/winston.config.js";
 import {upLoader} from '../utils.js';
 
 const router = new Router();
