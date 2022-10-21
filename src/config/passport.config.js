@@ -45,7 +45,6 @@ const initializePassport = () => {
   );
 
   passport.serializeUser((user, done) => {
-    logger.log("debug", `passport.serializeUser: ${user}`);
     done(null, user._id);
   });
 

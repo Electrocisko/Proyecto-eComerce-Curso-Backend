@@ -4,9 +4,9 @@ const form = document.getElementById("loginForm");
 
 
  const succes = (data) => {
-    if (data.status === 'error') {window.location.assign("http://localhost:8080/errorlogin");}
+    if (data.status === 'error') {window.location.assign("/errorlogin");}
     else {
-    window.location.assign("http://localhost:8080/menu");
+    window.location.assign("/menu");
     }
  }
 
