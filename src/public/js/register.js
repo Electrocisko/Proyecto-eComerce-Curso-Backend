@@ -3,9 +3,9 @@ const form = document.getElementById("registerForm");
 
 const succes = (data) => {
   if (data.status === "error") {
-    window.location.assign("http://localhost:8080/errorregister");
+    window.location.assign("/errorregister");
   } else {
-    window.location.assign("http://localhost:8080/login");
+    window.location.assign("/login");
   }
 };
 
