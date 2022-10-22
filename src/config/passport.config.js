@@ -11,7 +11,7 @@ const initializePassport = () => {
     passport.use(
       "register",
       new LocalStrategy(
-        { passReqToCallback: true, usernameField: "email" },
+        { passReqToCallback: true, usernameField: "email", session:false },
         async (req, email, password, done) => {
           const { name, address, age, phoneNumber, imageUrl } = req.body;
           const exist = await services.usersService.getByMail(email);
@@ -34,7 +34,7 @@ const initializePassport = () => {
     passport.use(
       "login",
       new LocalStrategy(
-        { usernameField: "email" },
+        { usernameField: "email", session:false },
         async (email, password, done) => {
           if (!email || !password) return done(null, false);
           let user = await services.usersService.getByMail(email);

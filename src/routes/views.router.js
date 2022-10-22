@@ -1,5 +1,7 @@
 import { Router } from "express";
 import logger from "../config/winston.config.js";
+import dotenvConfig from "../config/dotenv.config.js";
+import jwt from 'jsonwebtoken';
 
 const router = new Router();
 
@@ -20,9 +22,13 @@ router.get('/',async (req,res) => {
 
 router.get('/menu',(req,res) => {
     logger.log('info',`request type ${req.method} en route ${req.path} ${new Date()}`)
-    if (!req.session.user) res.render('login');
-    else {
-        res.render('menu',{user: req.session.user});
+    try {
+        const token = req.cookies[dotenvConfig.jwt.COOKIE];
+        if(!token) res.render('login');
+        const user = jwt.verify(token,dotenvConfig.jwt.SECRET);
+        res.render('menu',{user: user});
+    } catch (error) {
+        logger.log('error', `Error en route menu ${error}`)
     }
 });
 

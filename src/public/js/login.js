@@ -4,6 +4,7 @@ const form = document.getElementById("loginForm");
 
 
  const succes = (data) => {
+  console.log('data',data)
     if (data.status === 'error') {window.location.assign("/errorlogin");}
     else {
     window.location.assign("/menu");

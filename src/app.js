@@ -6,8 +6,6 @@ import usersRouter from './routes/users.router.js';
 import viewsRouter from './routes/views.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 import {engine} from "express-handlebars";
-import MongoStore from "connect-mongo";
-import session from 'express-session';
 import initializePassport from "./config/passport.config.js";
 import passport from "passport";
 import dotenvConfig from "./config/dotenv.config.js";
@@ -15,6 +13,7 @@ import logger from "./config/winston.config.js";
 import services from './dao/index.js';
 import cluster from 'cluster';
 import os from 'os';
+import cookieParser from "cookie-parser";
 
 
 // initializations
@@ -29,23 +28,13 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views',__dirname+'/views');
 
-
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(session({
-  store:MongoStore.create({
-    mongoUrl:MONGO_URL,
-    ttl:600
-  }),
-  secret:'clave',
-  resave:false,
-  saveUninitialized:false
-}))
+app.use("/", express.static(__dirname + "/public"));
+app.use(cookieParser());
 initializePassport();
 app.use(passport.initialize());
-app.use(passport.session());
-app.use("/", express.static(__dirname + "/public"));
 
 // routes
 app.use("/api/carts", cartsRouter);

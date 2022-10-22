@@ -2,6 +2,8 @@ import { Router } from "express";
 import passport from "passport";
 import logger from "../config/winston.config.js";
 import {upLoader} from '../utils.js';
+import jwt from 'jsonwebtoken';
+import dotenvConfig from "../config/dotenv.config.js";
 
 const router = new Router();
 
@@ -9,6 +11,7 @@ router.post(
   "/register",
   upLoader.single("imageUrl"),
   passport.authenticate("register", {
+    session:false,
     failureRedirect: "/api/sessions/registerfail", passReqToCallback: true
   }),
   async (req, res) => {
@@ -20,13 +23,15 @@ router.get("/registerfail", (req, res) => {
   res.status(400).send({ status: "error", message: 'user registration error' });
 });
 
-router.post("/login", passport.authenticate('login',{failureRedirect:'/api/sessions/loginfail'}), async (req, res) => {
-  req.session.user = {
-    name: req.user.name,
-    email: req.user.email,
-    id: req.user._id
+router.post("/login", passport.authenticate('login',{session:false, failureRedirect:'/api/sessions/loginfail'}), async (req, res) => {
+  logger.log('debug',`what passport returned: ${req.user} sessions.router`);
+  const loginUser = {
+      name: req.user.name,
+      email: req.user.email,
+      id: req.user._id
   }
-  res.send({ status: "succes", payload: req.session.user });
+  const token = jwt.sign(loginUser, dotenvConfig.jwt.SECRET,{expiresIn: 600});
+  res.cookie(dotenvConfig.jwt.COOKIE,token,{maxAge:600000,httpOnly:true}).send({status:"logged in"})
 });
 
 router.get("/loginfail", (req, res) => {
@@ -34,10 +39,11 @@ router.get("/loginfail", (req, res) => {
 });
 
 router.get('/logout',async(req,res) => {
-  req.session.destroy( err => {
-      if(!err)  res.redirect('/login');
-      else res.send({status: 'Logout Error', body: err})
-  });
+  try {
+    res.clearCookie(dotenvConfig.jwt.COOKIE).redirect('/login')
+  } catch (error) {
+    logger.log('error',`logout error: ${error}`)
+  }
 });
 
 export default router;
