@@ -1,8 +1,18 @@
-<form class="row g-3">
-  <div class="col-auto">
-    <h3>Welcome {{user.name}} <a href="/api/sessions/logout">
-        <input type=" button" class="btn btn-secondary btn-sm" value="Cerrar Sesión">
-      </a>
-    </h3>
-  </div>
-</form>
+<main>
+  <form class="row g-3">
+    <div class="col-auto">
+      <h3>Welcome {{user.name}} <a href="/api/sessions/logout">
+          <input type=" button" class="btn btn-secondary btn-sm" value="Cerrar Sesión">
+        </a>
+      </h3>
+    </div>
+  </form>
+
+  <h4>Productos disponibles</h4>
+  <hr>
+  <ul id="productlist">
+
+  </ul>
+</main>
+
+<script src="/js/menu.js"></script>
