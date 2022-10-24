@@ -12,6 +12,10 @@ const usersSchema = mongoose.Schema({
   age: { type: Number, required: true },
   phoneNumber: { type: String, required: true },
   imageUrl: { type: String },
+  admin:{
+    type:Boolean,
+    default:false
+},
 });
 
 export default class MongoUsers extends MongoDBContainer {

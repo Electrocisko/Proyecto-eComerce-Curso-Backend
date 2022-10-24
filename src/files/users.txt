@@ -28,5 +28,25 @@
 		"phoneNumber": "2345-3455",
 		"imageUrl": "1666010493204-2022-10-03 (1).png",
 		"_id": "L1Il_6cWpJ"
+	},
+	{
+		"name": "Indio",
+		"email": "indio@correo.com",
+		"password": "$2b$10$hVEoatmGC4Ug3eeOw9nW1OJF8dejMiVJ/JjaM5X9.LER9X3FhBpga",
+		"address": "Miami",
+		"age": "77",
+		"phoneNumber": "1",
+		"imageUrl": "1666609542922-2022-10-03 (9).png",
+		"_id": "_Id4-q6Rgr"
+	},
+	{
+		"name": "Alonso",
+		"email": "alonso@correo.com",
+		"password": "$2b$10$1FOq/.EEOe3.2.Uy9DHN7.fwDwYZTe2596yVmgQq4.ymWLLKyAo3a",
+		"address": "Av España 1233",
+		"age": "34",
+		"phoneNumber": "1",
+		"imageUrl": "1666609684894-2022-10-03 (7).png",
+		"_id": "imV_xkCHHi"
 	}
 ]

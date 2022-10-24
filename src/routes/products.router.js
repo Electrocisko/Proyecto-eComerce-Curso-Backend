@@ -6,7 +6,6 @@ import logger from "../config/winston.config.js";
 
 const router = Router();
 let admin = true; // validate the user
-// let nameFile = "/files/products.txt";
 
 function checkAdmin(req, res, next) {
   if (admin === true) {

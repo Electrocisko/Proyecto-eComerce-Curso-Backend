@@ -20,7 +20,6 @@ import cookieParser from "cookie-parser";
 const app = express();
 const PORT = dotenvConfig.app.PORT || 8080;
 const modoCluster = process.argv[2] == 'CLUSTER'
-const MONGO_URL = dotenvConfig.mongo.MONGO_URL;
 const numCPUs = os.cpus().length;
 
 // settings

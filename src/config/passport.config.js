@@ -1,7 +1,7 @@
 import passport from "passport";
 import local from "passport-local";
 import services from "../dao/index.js";
-import { createHash, isValidPassword } from "../utils.js";
+import { createHash, isValidPassword} from "../utils.js";
 import logger from "./winston.config.js";
 
 const LocalStrategy = local.Strategy;
@@ -13,8 +13,9 @@ const initializePassport = () => {
       new LocalStrategy(
         { passReqToCallback: true, usernameField: "email", session:false },
         async (req, email, password, done) => {
-          const { name, address, age, phoneNumber, imageUrl } = req.body;
+          const { name, address, age, phoneNumber, imageUrl, passwordCheck} = req.body;
           const exist = await services.usersService.getByMail(email);
+          if( password !== passwordCheck) return done(null, false)
           if (exist!==null) return done(null, false);
           let newUser = {
             name,
