@@ -1,2 +1,7 @@
 
 [2022-10-24T10:24:50.191Z] error Error en route menu JsonWebTokenError: jwt must be provided
+[2022-10-24T16:26:51.005Z] error Error en route menu JsonWebTokenError: jwt must be provided
+[2022-10-24T16:26:52.894Z] error Error en route menu JsonWebTokenError: jwt must be provided
+[2022-10-24T16:40:17.802Z] error could not save the file ReferenceError: nanoid is not defined
+[2022-10-24T16:42:39.513Z] error could not save the file ReferenceError: fs is not defined
+[2022-10-24T16:44:40.704Z] error Error en route menu JsonWebTokenError: jwt must be provided

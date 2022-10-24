@@ -24,12 +24,13 @@ router.get("/registerfail", (req, res) => {
 });
 
 router.post("/login", passport.authenticate('login',{session:false, failureRedirect:'/api/sessions/loginfail'}), async (req, res) => {
-  logger.log('debug',`what passport returned: ${req.user} sessions.router`);
   const loginUser = {
       name: req.user.name,
       email: req.user.email,
-      id: req.user._id
+      id: req.user._id,
+      admin: req.user.admin
   }
+  logger.log('debug',`loginuser: ${JSON.stringify(loginUser)} sessions.router`);
   const token = jwt.sign(loginUser, dotenvConfig.jwt.SECRET,{expiresIn: 600});
   res.cookie(dotenvConfig.jwt.COOKIE,token,{maxAge:600000,httpOnly:true}).send({status:"logged in"})
 });
