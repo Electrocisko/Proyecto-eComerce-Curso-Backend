@@ -28,7 +28,8 @@ router.post("/login", passport.authenticate('login',{session:false, failureRedir
       name: req.user.name,
       email: req.user.email,
       id: req.user._id,
-      admin: req.user.admin
+      admin: req.user.admin,
+      imageUrl: req.user.imageUrl
   }
   logger.log('debug',`loginuser: ${JSON.stringify(loginUser)} sessions.router`);
   const token = jwt.sign(loginUser, dotenvConfig.jwt.SECRET,{expiresIn: 600});
