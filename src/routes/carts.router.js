@@ -22,6 +22,8 @@ router.get("/", async (req, res) => {
 // Add a cart and return the id
 router.post("/", async (req, res) => {
   logger.log('info',`request type ${req.method} en route ${req.baseUrl} ${new Date()}`)
+
+
   try {
     let newCart = {
       products: [],
@@ -31,7 +33,7 @@ router.post("/", async (req, res) => {
     let cart = await services.cartsService.save(newCart);
     res.status(201).send({
       message: "Carrito agregado",
-      Cart: cart,
+      cart: cart,
     });
   } catch (error) {
     res.send({
@@ -170,6 +172,7 @@ router.post("/:cid/products", async (req, res) => {
   } catch (error) {
     res.send({
       Error: error,
+      Message: 'Error in Post cart'
     });
   }
 });

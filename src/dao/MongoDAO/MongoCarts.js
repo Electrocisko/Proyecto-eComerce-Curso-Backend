@@ -4,6 +4,7 @@ import MongoDBContainer from "./MongoDBContainer.js";
 const collection = 'carts';
 const cartsSchema = mongoose.Schema({
     products:Array,
+    userId: String,
     timestamp:Number
 })
 

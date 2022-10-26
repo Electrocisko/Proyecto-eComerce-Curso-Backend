@@ -5,21 +5,32 @@ const templateCard = document.getElementById("template-card").content;
 const templateFooter = document.getElementById('template-footer').content;
 const templateCarrito = document.getElementById('template-carrito').content;
 const fragment = document.createDocumentFragment();
+const userid = document.getElementById('idUser').textContent
 
-
+console.log('userid:',userid)
 ////////////////////////////////////////////////////////////
 //Necesito generar un carrito
 
+let cartId;
+let existCard;
 
+const getCartId = (data) =>{
+  cartId = data.cart._id;
+  existCard = true;
+  console.log('cartId:' ,cartId);
+  return cartId
+}
 
-
-
-
-
-
-
-
-
+let createCard = () => {
+  fetch('/api/carts', { 
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json; charset-UTF-8'
+    }
+  })
+  .then( resp => resp.json())
+  .then( data =>getCartId(data));
+}
 
 
 //////////////////////////////////////////////////////////////////
@@ -27,6 +38,8 @@ let carrito = [];
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchData();
+  //Este carrito lo creo yo
+  //createCard();
 });
 
 cards.addEventListener('click', e => {
@@ -68,13 +81,35 @@ const addCarrito = e => {
 }
 
 const setCarrito = objeto => {
-    const producto = {
-        _id: objeto.querySelector('.btn-dark').dataset._id,
-        name: objeto.querySelector('h5').textContent,
-        price: objeto.querySelector('p').textContent,
-        cantidad: 1
+    // const producto = {
+    //     _id: objeto.querySelector('.btn-dark').dataset._id,
+    //     name: objeto.querySelector('h5').textContent,
+    //     price: objeto.querySelector('p').textContent,
+    //     cantidad: 1
+    // }
+   //carrito[0] = producto
+  let _id = objeto.querySelector('.btn-dark').dataset._id
+   console.log('id del producto:',_id)
+  if(!existCard) {
+    createCard()
+  }
+  else {
+    //ACA TENGO QUE HACER EL POST post("/:cid/products"
+    let url = `/api/carts/${cartId}/products`
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({
+        "product": "630f46ccc684f1697721c781"
     }
-   carrito[0] = producto
+   ),
+      headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+      },
+      })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+  }
+
    pintarCarrito();
 }
 

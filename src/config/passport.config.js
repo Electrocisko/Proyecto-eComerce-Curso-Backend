@@ -6,6 +6,7 @@ import logger from "./winston.config.js";
 
 const LocalStrategy = local.Strategy;
 
+
 const initializePassport = () => {
   try {
     passport.use(
