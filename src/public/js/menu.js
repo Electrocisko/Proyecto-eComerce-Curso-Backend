@@ -38,8 +38,8 @@ let carrito = [];
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchData();
-  //Este carrito lo creo yo
-  //createCard();
+ 
+  createCard();
 });
 
 cards.addEventListener('click', e => {
@@ -89,17 +89,16 @@ const setCarrito = objeto => {
     // }
    //carrito[0] = producto
   let _id = objeto.querySelector('.btn-dark').dataset._id
-   console.log('id del producto:',_id)
   if(!existCard) {
     createCard()
   }
   else {
-    //ACA TENGO QUE HACER EL POST post("/:cid/products"
+    //Aca va el post("/:cid/products"
     let url = `/api/carts/${cartId}/products`
     fetch(url, {
       method: 'POST',
       body: JSON.stringify({
-        "product": "630f46ccc684f1697721c781"
+        "product": _id
     }
    ),
       headers: {
@@ -110,19 +109,60 @@ const setCarrito = objeto => {
       .then((data) => console.log(data))
   }
 
-   pintarCarrito();
+
+
+  let productsInCart = {
+    "products": [
+      {
+          "product": "Azulejo Vermeer",
+          "productId": "630f46ccc684f1697721c781",
+          "price": 450,
+          "stock": 3,
+          "cuantity": 2
+      },
+      {
+          "product": "Jarra para crema",
+          "productId": "630f4773c684f1697721c785",
+          "price": 450,
+          "stock": 3,
+          "cuantity": 1
+      }
+  ]
 }
 
-const pintarCarrito = () => {
-  Object.values(carrito).forEach(producto => {
-    templateCarrito.querySelector('th').textContent = producto.name
-    templateCarrito.querySelectorAll('td')[0].textContent = producto.cantidad
-    templateCarrito.querySelector('.btn-info').dataset._id = producto._id
-    templateCarrito.querySelector('.btn-danger').dataset._id = producto._id
-    templateCarrito.querySelector('span').textContent = producto.cantidad * producto.price
+   pintarCarrito(productsInCart);
+}
 
-    const clone = templateCarrito.cloneNode(true)
+
+const pintarCarrito = (data) => {
+  console.log('pintarcarrito',data);
+  let lista = data.products
+  console.log(lista)
+ 
+  lista.forEach(element => {
+    templateCarrito.getElementById('idnum').textContent = element.productId
+    templateCarrito.getElementById('name').textContent = element.product
+    templateCarrito.getElementById('cuantity').textContent = element.cuantity
+    templateCarrito.getElementById('total-price').textContent = (element.cuantity * element.price)
+       const clone = templateCarrito.cloneNode(true)
     fragment.appendChild(clone)
-  })
+  });
   items.appendChild(fragment)
 }
+
+
+
+
+// const pintarCarrito = (data) => {
+//       data.forEach(producto => {
+//     templateCarrito.querySelector('th').textContent = producto.product
+//     templateCarrito.querySelectorAll('td')[0].textContent = producto.quantity
+//     templateCarrito.querySelector('.btn-info').dataset._id = producto._id
+//     templateCarrito.querySelector('.btn-danger').dataset._id = producto._id
+//     templateCarrito.querySelector('span').textContent = producto.cantidad * producto.price
+
+//     const clone = templateCarrito.cloneNode(true)
+//     fragment.appendChild(clone)
+//   })
+//   items.appendChild(fragment)
+// }

@@ -78,6 +78,7 @@ router.get("/:cid/products", async (req, res) => {
           if (element.product === item._id.toString()) {
             showList.push({
               product: item.name,
+              productId: item.id.toString(),
               price: item.price,
               stock: item.stock,
               cuantity: element.quantity,
