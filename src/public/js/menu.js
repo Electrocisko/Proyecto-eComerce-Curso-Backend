@@ -10,7 +10,6 @@ const userid = document.getElementById('idUser').textContent
 console.log('userid:',userid)
 ////////////////////////////////////////////////////////////
 //Necesito generar un carrito
-
 let cartId;
 let existCard;
 
@@ -32,13 +31,11 @@ let createCard = () => {
   .then( data =>getCartId(data));
 }
 
-
 //////////////////////////////////////////////////////////////////
 let carrito = [];
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchData();
- 
   createCard();
 });
 
@@ -55,8 +52,6 @@ const fetchData = async () => {
     console.log(error)
   }
 };
-
-let imgUrl;
 
 const pintarCards = (data) => {
     data.forEach(producto => {
@@ -81,19 +76,13 @@ const addCarrito = e => {
 }
 
 const setCarrito = objeto => {
-    // const producto = {
-    //     _id: objeto.querySelector('.btn-dark').dataset._id,
-    //     name: objeto.querySelector('h5').textContent,
-    //     price: objeto.querySelector('p').textContent,
-    //     cantidad: 1
-    // }
-   //carrito[0] = producto
+
   let _id = objeto.querySelector('.btn-dark').dataset._id
   if(!existCard) {
     createCard()
   }
   else {
-    //Aca va el post("/:cid/products"
+    //Aca agrego el producto al carrito
     let url = `/api/carts/${cartId}/products`
     fetch(url, {
       method: 'POST',
@@ -106,63 +95,27 @@ const setCarrito = objeto => {
       },
       })
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+          let cartid = `635a75f5bfc09082a9308608`
+          let urlProducts = `/api/carts/${data.cartId}/products`
+          fetch(urlProducts)
+            .then((response) => response.json())
+            .then( (aux) => {
+              pintarCarrito(aux)
+            })
+        
+      })
   }
-
-
-
-  let productsInCart = {
-    "products": [
-      {
-          "product": "Azulejo Vermeer",
-          "productId": "630f46ccc684f1697721c781",
-          "price": 450,
-          "stock": 3,
-          "cuantity": 2
-      },
-      {
-          "product": "Jarra para crema",
-          "productId": "630f4773c684f1697721c785",
-          "price": 450,
-          "stock": 3,
-          "cuantity": 1
-      }
-  ]
 }
-
-   pintarCarrito(productsInCart);
-}
-
 
 const pintarCarrito = (data) => {
-  console.log('pintarcarrito',data);
-  let lista = data.products
-  console.log(lista)
- 
-  lista.forEach(element => {
-    templateCarrito.getElementById('idnum').textContent = element.productId
-    templateCarrito.getElementById('name').textContent = element.product
-    templateCarrito.getElementById('cuantity').textContent = element.cuantity
-    templateCarrito.getElementById('total-price').textContent = (element.cuantity * element.price)
-       const clone = templateCarrito.cloneNode(true)
-    fragment.appendChild(clone)
-  });
-  items.appendChild(fragment)
+  data.products.forEach(element => {
+        templateCarrito.getElementById('idnum').textContent = element.productId
+        templateCarrito.getElementById('name').textContent = element.product
+        templateCarrito.getElementById('cuantity').textContent = element.cuantity
+        templateCarrito.getElementById('total-price').textContent = (element.cuantity * element.price)
+        const clone = templateCarrito.cloneNode(true)
+       fragment.appendChild(clone)
+      });
+       items.appendChild(fragment)
 }
-
-
-
-
-// const pintarCarrito = (data) => {
-//       data.forEach(producto => {
-//     templateCarrito.querySelector('th').textContent = producto.product
-//     templateCarrito.querySelectorAll('td')[0].textContent = producto.quantity
-//     templateCarrito.querySelector('.btn-info').dataset._id = producto._id
-//     templateCarrito.querySelector('.btn-danger').dataset._id = producto._id
-//     templateCarrito.querySelector('span').textContent = producto.cantidad * producto.price
-
-//     const clone = templateCarrito.cloneNode(true)
-//     fragment.appendChild(clone)
-//   })
-//   items.appendChild(fragment)
-// }
