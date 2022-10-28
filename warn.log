@@ -1,1 +1,15 @@
 
+[2022-10-28T15:59:22.233Z] error Error mongodb getById  CastError: Cast to ObjectId failed for value "id de carrito: 635bfc584b6c7e1f102d4cfd " (type string) at path "_id" for model "carts"
+[2022-10-28T15:59:22.302Z] error Error mongodb getById  CastError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "carts"
+[2022-10-28T16:01:48.612Z] error Error mongodb getById  CastError: Cast to ObjectId failed for value "id de carrito: 635bfcea55c50b628644e9c4 " (type string) at path "_id" for model "carts"
+[2022-10-28T16:01:48.721Z] error Error mongodb getById  CastError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "carts"
+[2022-10-28T16:12:17.444Z] error Error mongodb getById  CastError: Cast to ObjectId failed for value "635bff5f98c4199ca8b8ae70 " (type string) at path "_id" for model "carts"
+[2022-10-28T16:12:17.502Z] error Error mongodb getById  CastError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "carts"
+[2022-10-28T16:22:40.619Z] error Error mongodb getById  CastError: Cast to ObjectId failed for value "635c01ce3081a998852420a4 " (type string) at path "_id" for model "carts"
+[2022-10-28T16:22:40.685Z] error Error mongodb getById  CastError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "carts"
+[2022-10-28T16:23:26.177Z] error Error mongodb getById  CastError: Cast to ObjectId failed for value "635c01fc0f81c9db41b8441f " (type string) at path "_id" for model "carts"
+[2022-10-28T16:23:26.235Z] error Error mongodb getById  CastError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "carts"
+[2022-10-28T16:24:59.944Z] error Error mongodb getById  CastError: Cast to ObjectId failed for value "635c025a0f81c9db41b84425 " (type string) at path "_id" for model "carts"
+[2022-10-28T16:25:00.034Z] error Error mongodb getById  CastError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "carts"
+[2022-10-28T16:28:46.303Z] error Error mongodb getById  BSONTypeError: Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer
+[2022-10-28T16:28:46.382Z] error Error mongodb getById  BSONTypeError: Argument passed in must be a string of 12 bytes or a string of 24 hex characters or an integer

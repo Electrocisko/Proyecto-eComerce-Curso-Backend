@@ -2,6 +2,7 @@ import { Router } from "express";
 import services from "../dao/index.js";
 import { nanoid } from "nanoid";
 import logger from "../config/winston.config.js";
+import { ObjectId } from "mongodb";
 
 let typeOfPersistence = services.persistence;
 
@@ -119,9 +120,11 @@ router.post("/:cid/products", async (req, res) => {
   try {
     let productsInCart;
     let newData;
-    let cartID = req.params.cid;
+    let cartID = req.params.cid; 
+    console.log('CARTID en cart router',cartID)
     let addProduct = req.body;
     let cart = await services.cartsService.getById(cartID);
+    console.log('CART en cart router',cart)
     if (cart === null) {
       return res.status(400).send('{ "error" : "non-existent cart"}');
     }

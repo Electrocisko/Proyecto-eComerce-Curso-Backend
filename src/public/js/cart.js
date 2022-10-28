@@ -1,1 +1,3 @@
-console.log('Aca cart')
+const data = document.getElementById('userCartId').innerText;
+
+console.log(data)

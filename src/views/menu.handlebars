@@ -12,7 +12,10 @@
       <h3>Welcome {{user.name}} <a href="/api/sessions/logout" alt="Avatar">
           <input type=" button" class="btn btn-secondary btn-sm" value="Cerrar Sesión">
         </a>
+        {{!-- I get user.id and user.cartId from the cookie and then i use it in menu.js --}}
+        {{!-- That's why I hide them, I don't want them to be seen in the render only i need te value--}}
         <p id="idUser" hidden>{{user.id}}</p>
+        <p id="idCart" hidden>{{user.cartId}}</p>
       </h3>
     </div>
   </form>
