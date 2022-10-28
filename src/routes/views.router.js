@@ -33,6 +33,20 @@ router.get('/menu',(req,res) => {
     }
 });
 
+router.get('/cart',(req,res) => {
+    logger.log('info',`request type ${req.method} en route ${req.path} ${new Date()}`)
+    try {
+        const token = req.cookies[dotenvConfig.jwt.COOKIE];
+        if(!token) res.render('login');
+        const user = jwt.verify(token,dotenvConfig.jwt.SECRET);
+        res.render('cart',{user: user});
+    } catch (error) {
+        logger.log('error', `Error en route menu ${error}`)
+    }
+});
+
+
+
 router.get('/errorlogin',(req,res) => {
     logger.log('info',`request type ${req.method} en route ${req.path} ${new Date()}`)
     res.render('errorLogin')

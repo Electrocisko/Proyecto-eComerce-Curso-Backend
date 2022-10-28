@@ -5,13 +5,13 @@ const templateCard = document.getElementById("template-card").content;
 const templateFooter = document.getElementById('template-footer').content;
 const templateCarrito = document.getElementById('template-carrito').content;
 const fragment = document.createDocumentFragment();
-const userid = document.getElementById('idUser').textContent
+const userid = document.getElementById('idUser').textContent;
+const pedido = document.getElementById('enviar-pedido');
 
-console.log('userid:',userid)
-////////////////////////////////////////////////////////////
-//Necesito generar un carrito
+
 let cartId;
 let existCard;
+let showProducts;
 
 const getCartId = (data) =>{
   cartId = data.cart._id;
@@ -20,23 +20,22 @@ const getCartId = (data) =>{
   return cartId
 }
 
-let createCard = () => {
+let createCart = () => {
+  let data = {userId: userid}
   fetch('/api/carts', { 
     method: 'POST',
+    body: JSON.stringify(data),
     headers: {
-      'Content-type': 'application/json; charset-UTF-8'
-    }
+      'Content-Type': 'application/json;charset=utf-8'
+    },
   })
   .then( resp => resp.json())
   .then( data =>getCartId(data));
 }
 
-//////////////////////////////////////////////////////////////////
-let carrito = [];
-
 document.addEventListener("DOMContentLoaded", () => {
-  fetchData();
-  createCard();
+  fetchData(); // llama los productos de la base de datos
+  createCart(); // cuando se carga la pagina crea un carrito por defecto
 });
 
 cards.addEventListener('click', e => {
@@ -60,7 +59,6 @@ const pintarCards = (data) => {
         templateCard.querySelector('p').textContent = producto.price;
         //templateCard.querySelector('img').setAttribute('src',imgUrl);
         templateCard.querySelector('.btn-dark').dataset._id = producto._id
-
         const clone = templateCard.cloneNode(true)
         fragment.appendChild(clone)
     });
@@ -79,7 +77,7 @@ const setCarrito = objeto => {
 
   let _id = objeto.querySelector('.btn-dark').dataset._id
   if(!existCard) {
-    createCard()
+    createCart()
   }
   else {
     //Aca agrego el producto al carrito
@@ -96,16 +94,19 @@ const setCarrito = objeto => {
       })
       .then((response) => response.json())
       .then((data) => {
-          let cartid = `635a75f5bfc09082a9308608`
           let urlProducts = `/api/carts/${data.cartId}/products`
           fetch(urlProducts)
             .then((response) => response.json())
             .then( (aux) => {
-              pintarCarrito(aux)
+              persistProducts(aux)
             })
         
       })
   }
+}
+
+const persistProducts = (data) => {
+  showProducts = data;
 }
 
 const pintarCarrito = (data) => {
@@ -117,5 +118,11 @@ const pintarCarrito = (data) => {
         const clone = templateCarrito.cloneNode(true)
        fragment.appendChild(clone)
       });
-       items.appendChild(fragment)
+       //items.appendChild(fragment)
 }
+
+pedido.addEventListener('click', () => {
+console.log('Click en pedido')
+console.log(showProducts) // Aca Se dispara el pedido falta toda la logica
+location.href='/cart',{cart: showProducts}
+})

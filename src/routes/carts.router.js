@@ -22,11 +22,11 @@ router.get("/", async (req, res) => {
 // Add a cart and return the id
 router.post("/", async (req, res) => {
   logger.log('info',`request type ${req.method} en route ${req.baseUrl} ${new Date()}`)
-
-
+  logger.log('debug',`UserId from Post menu? ${JSON.stringify(req.body.userId)} `)  
   try {
     let newCart = {
       products: [],
+      userId: req.body.userId
     };
     newCart.timestamp = Date.now();
     newCart.id = nanoid(10);
