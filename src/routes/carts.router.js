@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
   try {
     let newCart = {
       products: [],
-      userId: req.body.userId
+      userId: req.body.userId // associate the cart with the user id
     };
     newCart.timestamp = Date.now();
     newCart.id = nanoid(10);

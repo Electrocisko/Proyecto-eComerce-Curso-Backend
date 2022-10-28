@@ -35,7 +35,7 @@ let createCart = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchData(); // llama los productos de la base de datos
-  createCart(); // cuando se carga la pagina crea un carrito por defecto
+ //createCart(); // cuando se carga la pagina crea un carrito por defecto
 });
 
 cards.addEventListener('click', e => {
@@ -124,5 +124,5 @@ const pintarCarrito = (data) => {
 pedido.addEventListener('click', () => {
 console.log('Click en pedido')
 console.log(showProducts) // Aca Se dispara el pedido falta toda la logica
-location.href='/cart',{cart: showProducts}
+location.href='/cart'
 })
