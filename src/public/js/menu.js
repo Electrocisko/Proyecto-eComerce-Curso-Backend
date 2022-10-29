@@ -6,6 +6,7 @@ const userid = document.getElementById("idUser").textContent;
 const cartId = document.getElementById("idCart").textContent;
 const pedido = document.getElementById("toCart");
 
+
 document.addEventListener("DOMContentLoaded", () => {
   fetchData(); // llama los productos de la base de datos
 });
@@ -66,6 +67,15 @@ const setCart = (objeto) => {
       fetch(urlProducts)
         .then((response) => response.json())
         .then((aux) => {
+
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Agregado',
+            showConfirmButton: false,
+            timer: 1000
+            })
+
           persistProducts(aux);
         });
     });

@@ -2,6 +2,7 @@ import express from "express";
 import __dirname from "./utils.js";
 import productsRouter from "./routes/products.router.js";
 import cartsRouter from "./routes/carts.router.js";
+import messagesRouter from './routes/messages.router.js';
 import usersRouter from './routes/users.router.js';
 import viewsRouter from './routes/views.router.js';
 import sessionsRouter from './routes/sessions.router.js';
@@ -37,6 +38,7 @@ app.use(passport.initialize());
 
 // routes
 app.use("/api/carts", cartsRouter);
+app.use('/api/messages',messagesRouter);
 app.use("/api/products", productsRouter);
 app.use('/api/users', usersRouter );
 app.use('/api/sessions', sessionsRouter);
