@@ -5,7 +5,10 @@ const fragment = document.createDocumentFragment();
 const userid = document.getElementById("idUser").textContent;
 const cartId = document.getElementById("idCart").textContent;
 const pedido = document.getElementById("toCart");
+const contador = document.getElementById('cont')
 
+let cont = 0;
+contador.innerHTML=`<h5>Productos en carrito: ${cont}</h5>`
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchData(); // llama los productos de la base de datos
@@ -67,15 +70,15 @@ const setCart = (objeto) => {
       fetch(urlProducts)
         .then((response) => response.json())
         .then((aux) => {
-
           Swal.fire({
-            position: 'top-end',
+            position: 'top',
             icon: 'success',
             title: 'Agregado',
             showConfirmButton: false,
-            timer: 1000
+            timer: 500
             })
-
+            cont = cont +1;
+            contador.innerHTML=`<h5>Productos en carrito: ${cont}</h5>`
           persistProducts(aux);
         });
     });
