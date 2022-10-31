@@ -9,3 +9,4 @@
 [2022-10-31T19:34:51.579Z] error Error mongodb getAll  TypeError: Cannot read properties of undefined (reading 'find')
 [2022-10-31T19:40:16.637Z] error Error en route menu JsonWebTokenError: jwt must be provided
 [2022-10-31T19:40:45.477Z] error Error en route menu JsonWebTokenError: jwt must be provided
+[2022-10-31T19:51:11.953Z] error Error en route menu JsonWebTokenError: jwt must be provided
