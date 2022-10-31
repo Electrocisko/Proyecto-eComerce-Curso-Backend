@@ -46,6 +46,22 @@ router.get('/cart',(req,res) => {
 });
 
 
+router.get('/enterproducts',(req,res) => {
+    logger.log('info',`request type ${req.method} en route ${req.path} ${new Date()}`)
+    try {
+        const token = req.cookies[dotenvConfig.jwt.COOKIE];
+        if(!token) res.render('login');
+        const user = jwt.verify(token,dotenvConfig.jwt.SECRET);
+        res.render('adminProducts');
+    } catch (error) {
+        logger.log('error', `Error en route menu ${error}`)
+    }
+});
+
+
+
+
+
 
 router.get('/errorlogin',(req,res) => {
     logger.log('info',`request type ${req.method} en route ${req.path} ${new Date()}`)

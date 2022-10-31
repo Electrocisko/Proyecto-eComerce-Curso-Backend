@@ -33,7 +33,7 @@ const renderCards = (data) => {
     imgUrl = "/img/" + product.thumbnail;
     templateCard.querySelector("h5").textContent = product.name;
     templateCard.querySelector("p").textContent = product.price;
-    //templateCard.querySelector('img').setAttribute('src',imgUrl);
+    templateCard.querySelector('img').setAttribute('src',imgUrl);
     templateCard.querySelector(".btn-dark").dataset._id = product._id;
     const clone = templateCard.cloneNode(true);
     fragment.appendChild(clone);
