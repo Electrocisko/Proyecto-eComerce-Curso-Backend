@@ -22,6 +22,7 @@ export default {
     },
     nodemail: {
         NM_EMAIL: process.env.NM_EMAIL,
-        NM_CODE: process.env.NM_CODE
+        NM_CODE: process.env.NM_CODE,
+        NM_ADDRESSEE: process.env.NM_ADDRESSEE
     }
 }
