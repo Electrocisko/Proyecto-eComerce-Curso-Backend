@@ -1,35 +1,40 @@
 import { Router } from 'express';
 import nodemailer from 'nodemailer';
+import dotenvConfig from '../config/dotenv.config.js';
 import logger from "../config/winston.config.js";
 
+
 const router = Router();
+let email = dotenvConfig.nodemail.NM_EMAIL;
+let code = dotenvConfig.nodemail.NM_CODE;
+
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     port: 587,
     auth: {
-        user: 'electrocisko@gmail.com',
-        pass: 'jahlizzjzcjqlnzh'
+        user: email,
+        pass: code
     }
 });
 
 router.post('/mail',async (req,res) => {    
     try {
-        console.log('req body en message router',req.body)
-        let data = JSON.stringify(req.body)
-        let result = await transporter.sendMail({
+        let data = JSON.stringify(req.body);
+        await transporter.sendMail({
             from: 'Francisco ZK',
             to: 'franciscojuanzk@gmail.com',
-            subject: 'Primer Mail',
+            subject: 'Pedido',
             html: data
             });
-            logger.log('info',result)
-            res.send({
-            message: 'Mail enviado'
-            });
+           res.send({
+            message: 'Mail succes'
+           })
+            
     } catch (error) {
-        logger('error',`Error en message ${error}`)
+        logger.log('error',`Error en message ${error}`)
     }
 });
+
 
 export  default router;

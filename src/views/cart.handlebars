@@ -1,8 +1,13 @@
 <h1> Productos en carrito</h1>
 
-<h2>{{user.name}}</h2>
-<p id="userCartId" hidden>{{user.cartId}}</p>
+<h2 id="userName" >{{user.name}}</h2>
+<p>Nro de carrito: <span id="userCartId">{{user.cartId}}</span> </p>
+<p>Nro de usuario: <span id ='userId'> {{user.id}}</span>  </p>
+<p>Mail del usuario: <span id="userEmail" >{{user.email}}</span> </p>
 
-<button id="sendMail">Enviar Pedido</button>
+<hr>
+<button  class="btn btn-primary btn-sm" id="sendMail">Enviar Pedido</button>
+<br>
 
 <script src="/js/cart.js"></script>
+

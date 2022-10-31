@@ -1,7 +1,2 @@
 
-[2022-10-28T19:23:01.465Z] error Error en route menu JsonWebTokenError: jwt must be provided
-[2022-10-28T19:29:21.029Z] error Error en route menu JsonWebTokenError: jwt must be provided
-[2022-10-29T14:28:34.461Z] error Error mongodb getById  TypeError: Cannot read properties of undefined (reading 'find')
-[2022-10-29T14:28:34.463Z] error Error mongodb getAll  TypeError: Cannot read properties of undefined (reading 'find')
-[2022-10-29T14:33:08.332Z] error Error en route menu JsonWebTokenError: jwt must be provided
-[2022-10-29T14:33:14.714Z] error Error en route menu JsonWebTokenError: jwt must be provided
+

@@ -19,5 +19,9 @@ export default {
     jwt: {
         SECRET: process.env.JWT_SECRET,
         COOKIE: process.env.JWT_COOKIE
+    },
+    nodemail: {
+        NM_EMAIL: process.env.NM_EMAIL,
+        NM_CODE: process.env.NM_CODE
     }
 }
