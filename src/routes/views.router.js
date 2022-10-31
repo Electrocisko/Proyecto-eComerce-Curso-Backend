@@ -52,7 +52,12 @@ router.get('/enterproducts',(req,res) => {
         const token = req.cookies[dotenvConfig.jwt.COOKIE];
         if(!token) res.render('login');
         const user = jwt.verify(token,dotenvConfig.jwt.SECRET);
-        res.render('adminProducts');
+        console.log(user.admin)
+        if(!user.admin) {res.render('errorAdmin')}
+        else {
+            res.render('adminProducts');
+        }
+       
     } catch (error) {
         logger.log('error', `Error en route menu ${error}`)
     }
