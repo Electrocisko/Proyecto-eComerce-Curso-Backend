@@ -57,7 +57,7 @@ const setCart = (objeto) => {
 let stock =  parseInt(objeto.querySelector('#stock').textContent);
 
 if (stock < 1) {
-  alert('Sin stock')
+  Swal.fire('Momentáneamente sin stock')
   return {
     message: 'Sin stock'
   }
