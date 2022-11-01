@@ -33,7 +33,7 @@ const renderCards = (data) => {
     imgUrl = "/img/" + product.thumbnail;
     templateCard.querySelector("h5").textContent = product.name;
     templateCard.querySelector("p").textContent = '$ '+product.price;
-    templateCard.querySelector('#stock').textContent = 'Stock: '+product.stock
+    templateCard.querySelector('#stock').textContent = product.stock
     templateCard.querySelector('img').setAttribute('src',imgUrl);
     templateCard.querySelector(".btn-primary").dataset._id = product._id;
     const clone = templateCard.cloneNode(true);
@@ -52,10 +52,23 @@ const addCarrito = (e) => {
 
 const setCart = (objeto) => {
   let _id = objeto.querySelector(".btn-primary").dataset._id;
+/////////////////////////////////////////
+// Aca tengo que controlar el stock
+let stock =  parseInt(objeto.querySelector('#stock').textContent);
 
+if (stock < 1) {
+  alert('Sin stock')
+  return {
+    message: 'Sin stock'
+  }
+} else {
+  stock = stock -1
+}
+////////////////////////////////////////////
   //here the product is added to the cart
   let url = `/api/carts/${cartId}/products`;
 
+  //this fetch  add product to cart post
   fetch(url, {
     method: "POST",
     body: JSON.stringify({
@@ -64,13 +77,12 @@ const setCart = (objeto) => {
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
-  })
+  }) //this fetch brings the products from the cart
     .then((response) => response.json())
-    .then((data) => {
-      let urlProducts = `/api/carts/${data.cartId}/products`;
-      fetch(urlProducts)
+    .then(() => {
+      fetch(url)
         .then((response) => response.json())
-        .then((aux) => {
+        .then(() => {
           Swal.fire({
             position: 'top',
             icon: 'success',
@@ -80,14 +92,15 @@ const setCart = (objeto) => {
             })
             cont = cont +1;
             contador.innerHTML=`<h5>Productos en carrito: ${cont}</h5>`
-          persistProducts(aux);
+
+            //////////////////////////////////////////////
+            // Actualizo el stock de mongo aca aca
+            //http://localhost:8080/api/products/630f46ccc684f1697721c781
+            fetch()
         });
     });
 };
 
-const persistProducts = (data) => {
-  showProducts = data;
-};
 
 pedido.addEventListener("click", () => {
   location.href = "/cart";

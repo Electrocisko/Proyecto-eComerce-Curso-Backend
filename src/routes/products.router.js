@@ -103,7 +103,9 @@ router.put(
     try {
       let productID = req.params.pid;
       let modifiedProduct = req.body;
-      modifiedProduct.thumbnail = req.file.filename;
+      if (req.file !== undefined) {
+        modifiedProduct.thumbnail = req.file.filename;
+      }
       let results = await services.productsService.update(
         productID,
         modifiedProduct
@@ -113,8 +115,9 @@ router.put(
         status: results,
       });
     } catch (error) {
+      logger.log('error', `Error in PUT products ${error}`)
       res.send({
-        message: error,
+        message: 'Error en PUT products',error,
       });
     }
   }

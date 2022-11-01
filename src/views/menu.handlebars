@@ -22,8 +22,6 @@
         </div>
 
 
-
-
         {{!-- I get user.id and user.cartId from the cookie and then i use it in menu.js --}}
         {{!-- That's why I hide them, I don't want them to be seen in the render only i need te value--}}
         <p id="idUser" hidden>{{user.id}}</p>
@@ -44,13 +42,13 @@
 </main>
 
 <template id="template-card">
-  <div class="col-12 mb-2 col-md-2">
+  <div class="col-12 mb-2 col-md-3">
     <div class="card">
       <img src="" alt=""class="img-fluid" >
       <div class="card-body">
         <h5>Titulo</h5>
         <p>precio</p>
-        <p id="stock" >stock</p>
+        <p>En stock:  <span id="stock" >stock</span></p>
         <button class="btn btn-primary">Comprar</button>
       </div>
     </div>
