@@ -57,13 +57,27 @@ router.get('/enterproducts',(req,res) => {
         else {
             res.render('adminProducts');
         }
-       
     } catch (error) {
         logger.log('error', `Error en route menu ${error}`)
     }
 });
 
 
+router.get('/modifproducts',(req,res) => {
+    logger.log('info',`request type ${req.method} en route ${req.path} ${new Date()}`)
+    try {
+        const token = req.cookies[dotenvConfig.jwt.COOKIE];
+        if(!token) res.render('login');
+        const user = jwt.verify(token,dotenvConfig.jwt.SECRET);
+        console.log(user.admin)
+        if(!user.admin) {res.render('errorAdmin')}
+        else {
+            res.render('modifProducts');
+        }
+    } catch (error) {
+        logger.log('error', `Error en route menu ${error}`)
+    }
+});
 
 
 

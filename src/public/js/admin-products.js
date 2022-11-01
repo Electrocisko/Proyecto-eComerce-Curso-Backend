@@ -1,5 +1,6 @@
 const productForm = document.getElementById("productForm");
 
+
 const handleSubmit = (evt, form, route) => {
   evt.preventDefault();
   let formData = new FormData(form);

@@ -32,9 +32,9 @@ const renderCards = (data) => {
   data.forEach((product) => {
     imgUrl = "/img/" + product.thumbnail;
     templateCard.querySelector("h5").textContent = product.name;
-    templateCard.querySelector("p").textContent = product.price;
+    templateCard.querySelector("p").textContent = '$ '+product.price;
     templateCard.querySelector('img').setAttribute('src',imgUrl);
-    templateCard.querySelector(".btn-dark").dataset._id = product._id;
+    templateCard.querySelector(".btn-primary").dataset._id = product._id;
     const clone = templateCard.cloneNode(true);
     fragment.appendChild(clone);
   });
@@ -42,7 +42,7 @@ const renderCards = (data) => {
 };
 
 const addCarrito = (e) => {
-  let clickTarget = e.target.classList.contains("btn-dark");
+  let clickTarget = e.target.classList.contains("btn-primary");
   if (clickTarget) {
     setCart(e.target.parentElement);
   }
@@ -50,7 +50,7 @@ const addCarrito = (e) => {
 };
 
 const setCart = (objeto) => {
-  let _id = objeto.querySelector(".btn-dark").dataset._id;
+  let _id = objeto.querySelector(".btn-primary").dataset._id;
 
   //here the product is added to the cart
   let url = `/api/carts/${cartId}/products`;

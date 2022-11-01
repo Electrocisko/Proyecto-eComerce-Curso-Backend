@@ -10,13 +10,13 @@
         <img src="/img/{{user.imageUrl}}" width="70">
       </div>
       <h3>Welcome {{user.name}} <a href="/api/sessions/logout" alt="Avatar">
-          <input type=" button" class="btn btn-secondary btn-sm" value="Cerrar Sesión">
+          <input type=" button" class="btn btn-primary btn-sm" value="Cerrar Sesión">
         </a>
 
         <div class="entry">
           {{#if user.admin}}
           <a href="/enterproducts" alt="Avatar">
-            <input type=" button" class="btn btn-secondary btn-sm" value="Adminsitrar Productos">
+            <input type=" button" class="btn btn-primary btn-sm" value="Ingresar Productos">
           </a>
           {{/if}}
         </div>
@@ -32,7 +32,7 @@
     </div>
   </form>
 
-  <button class="btn btn-dark" id="toCart">Ver Carrito</button>
+  <button class="btn btn-primary" id="toCart">Ver Carrito</button>
   <p id="cont"></p>
 
 
@@ -50,7 +50,7 @@
       <div class="card-body">
         <h5>Titulo</h5>
         <p>precio</p>
-        <button class="btn btn-dark">Comprar</button>
+        <button class="btn btn-primary">Comprar</button>
       </div>
     </div>
   </div>
