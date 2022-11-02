@@ -56,6 +56,7 @@ router.post(
               admin: req.user.admin,
               imageUrl: req.user.imageUrl,
             };
+            
             logger.log(
               "debug",
               `loginuser: ${JSON.stringify(loginUser)} sessions.router`
@@ -69,7 +70,8 @@ router.post(
                 httpOnly: true,
               })
               .send({ status: "logged in" });
-          });
+          }).catch( (error) => console.log(error))
+          
       } catch (error) {
         console.log("Error en el fetch de session router", error);
       }
