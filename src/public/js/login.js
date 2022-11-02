@@ -28,5 +28,5 @@ form.addEventListener("submit", (evt) => {
     .catch((error) => {
       console.log(`Error en peticion login.js fetch: ${error}`);
     });
-  form.reset();
+  //form.reset();
 });
