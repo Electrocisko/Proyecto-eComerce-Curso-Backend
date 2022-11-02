@@ -19,7 +19,7 @@ import cookieParser from "cookie-parser";
 
 // initializations
 const app = express();
-const PORT = dotenvConfig.app.PORT || 8080;
+const PORT = dotenvConfig.app.PORT 
 const modoCluster = process.argv[2] == 'CLUSTER'
 const numCPUs = os.cpus().length;
 

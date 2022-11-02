@@ -41,7 +41,7 @@ router.post(
     const createCart = (id) => {
       try {
         let data = { userId: id };
-        fetch("http://localhost:8080/api/carts", {
+        fetch("/api/carts", {
           method: "POST",
           body: JSON.stringify(data),
           headers: {
