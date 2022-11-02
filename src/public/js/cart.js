@@ -60,7 +60,7 @@ fetch(urlProducts)
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
-          inicio();
+           inicio();
         });
     });
   });

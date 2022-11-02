@@ -3,7 +3,6 @@ import nodemailer from 'nodemailer';
 import dotenvConfig from '../config/dotenv.config.js';
 import logger from "../config/winston.config.js";
 
-
 const router = Router();
 let email = dotenvConfig.nodemail.NM_EMAIL;
 let code = dotenvConfig.nodemail.NM_CODE;
@@ -52,6 +51,5 @@ router.post('/mail',async (req,res) => {
         logger.log('error',`Error en message ${error}`)
     }
 });
-
 
 export  default router;
