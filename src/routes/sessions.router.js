@@ -35,6 +35,9 @@ router.post(
     //I generate a cart associated to the user
     let userId = req.user._id;
 
+    console.log('entra aca????')
+
+
     const createCart = (id) => {
       try {
         let data = { userId: id };
