@@ -41,7 +41,7 @@ router.post(
     const createCart = (id) => {
       try {
         let data = { userId: id };
-        fetch("/api/cartso", {
+        fetch("https://proyecto-ecomerce-curso-backend-production.up.railway.app/api/carts", {
           method: "POST",
           body: JSON.stringify(data),
           headers: {
